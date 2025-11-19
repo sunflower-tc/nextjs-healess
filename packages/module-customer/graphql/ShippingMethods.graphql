@@ -1,0 +1,52 @@
+query ShippingMethodsQuery(
+  $addressId: String
+  $address: SellerShippingAddressInput
+  $cartId: String!
+) {
+  sellerShippingMethods(
+    addressId: $addressId
+    cartId: $cartId
+    address: $address
+  ) {
+    success
+    shippingMethods {
+      isSelected
+      title
+      code
+      method {
+        code
+        carrier_code
+        carrier_title
+        price
+        shipping_description
+        sellerShipping {
+          seller_id
+          products
+          qty
+          productId
+          itemid
+          storeName
+          storeContact
+          storeAddress
+          storeLink
+          pickupstoreid
+          flag
+          price
+          subTotal
+          methods {
+            cost
+            carrier_code
+            carrier_title
+            base_amount
+            isSelected
+            shipping_description
+            price
+            formattedBaseAmount
+            code
+          }
+        }
+      }
+    }
+    selectedShippingMethods
+  }
+}

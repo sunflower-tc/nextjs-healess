@@ -1,0 +1,365 @@
+@tailwind base;
+@tailwind utilities;
+@tailwind components;
+
+html,
+body {
+  scroll-behavior: smooth;
+  font-size: 16px !important;
+  -webkit-tap-highlight-color: transparent;
+  @apply antialiased !important;
+  /* background-color: black; */
+}
+* {
+  box-sizing: border-box;
+}
+p {
+  @apply my-0;
+}
+@font-face {
+  font-family: 'icomoon';
+  font-display: swap;
+  src: url('~/public/assets/fonts/icomoon.eot?5kiojs');
+  src: url('~/public/assets/fonts/icomoon.eot?5kiojs#iefix')
+      format('embedded-opentype'),
+    url('~/public/assets/fonts/icomoon.ttf?5kiojs') format('truetype'),
+    url('~/public/assets/fonts/icomoon.woff?5kiojs') format('woff'),
+    url('~/public/assets/fonts/icomoon.svg?5kiojs#icomoon') format('svg');
+  font-weight: normal;
+  font-style: normal;
+}
+*::-webkit-scrollbar-track {
+  -webkit-box-shadow: none;
+  @apply bg-slate-100 border-opacity-100;
+}
+
+*::-webkit-scrollbar {
+  @apply w-2 my-5 bg-slate-300;
+}
+
+*::-webkit-scrollbar-thumb {
+  @apply rounded-full bg-slate-300 my-5;
+}
+#main {
+  @apply pt-16;
+}
+.page-wrapper {
+  @apply flex min-h-screen flex-col justify-start;
+}
+.breads {
+  @apply pb-4;
+}
+a {
+  @apply text-[inherit] no-underline;
+}
+.text__center {
+  @apply text-center;
+}
+.text__right {
+  @apply text-right;
+}
+.text__color {
+  @apply text-darkGreyBackground;
+}
+.MuiList-root li[aria-selected='true'] {
+  @apply bg-transparent text-brand !important;
+}
+
+.block__label {
+  @apply text-[1.375rem] font-bold mb-2.5;
+}
+.text__font {
+  @apply text-sm;
+}
+
+.react-multiple-carousel__arrow {
+  @apply bg-black/80;
+}
+.mainWrap {
+  fill: #f9f9f9;
+  filter: drop-shadow(0px -16px 10px rgba(0, 0, 0, 0.05));
+}
+/* grid tabs customer section */
+
+.grid-tabs .MuiButtonBase-root-MuiTab-root {
+  @apply items-start my-1.5 rounded align-middle;
+}
+.grid-tabs .MuiTab-textColorPrimary {
+  @apply border border-solid  border-colorBorder;
+}
+.grid-tabs .Mui-selected {
+  @apply border border-brand -md:hidden -top-1;
+}
+/* animation for header hover */
+.cta {
+  @apply border-0 bg-none relative;
+}
+
+.hover-underline-animation {
+  @apply relative pb-0.5;
+}
+
+.hover-underline-animation:after {
+  @apply content-[""] absolute w-full h-0.5 bg-brand origin-bottom-right transition-transform duration-100 ease-out scale-x-0 left-0 bottom-0;
+}
+
+.cta:hover .hover-underline-animation:after {
+  @apply origin-bottom-left scale-x-100;
+}
+/* animation for links on home page hover */
+.btn {
+  @apply no-underline bg-transparent border-[none];
+}
+
+.btn::before {
+  @apply ml-auto;
+}
+
+.btn::after,
+.btn::before {
+  @apply content-[''] bg-brand w-[0%] h-0.5 block transition-[0.5s];
+}
+
+.btn:hover::after,
+.btn:hover::before {
+  @apply w-full;
+}
+.borderCustom,
+.MuiOutlinedInput-root {
+  @apply hover:border-brand hover:outline-none max-h-14 hover:border;
+}
+.image_Gallery .image-gallery-content {
+  @apply max-w-[92vw] max-w-[92dvw] truncate;
+}
+
+.image_Gallery .image-gallery-slides {
+  @apply w-[90%] md:w-[80%] mx-auto mb-10 !important;
+}
+.image-gallery-slide-wrapper {
+  @apply h-[30rem] border border-colorBorder bg-inherit w-full mb-8 overflow-hidden border-solid !important;
+}
+.image_Gallery .image-gallery-image {
+  @apply hover:scale-110 h-full duration-300 object-contain object-center max-h-full !important;
+}
+.image_Gallery .image-gallery-left-nav,
+.image-gallery-right-nav {
+  @apply absolute top-[37rem] !important;
+}
+.image_Gallery .image-gallery-right-nav {
+  @apply md:-right-5 !important;
+}
+.image_Gallery .image-gallery-left-nav {
+  @apply md:-left-5 !important;
+}
+
+.image_Gallery .image-gallery-right-nav {
+  @apply -right-3 !important;
+}
+.image_Gallery .image-gallery-thumbnails-container {
+  @apply h-60 flex justify-center space-x-5 items-center !important;
+}
+
+.image_Gallery .image-gallery-thumbnail {
+  @apply w-40  h-auto overflow-hidden !important;
+}
+.image_Gallery .image-gallery-thumbnail img {
+  @apply w-[96px] h-[119px] overflow-hidden !important;
+}
+.image_Gallery .image-gallery-thumbnail .image-gallery-thumbnail-image {
+  @apply w-full md:w-36 hover:scale-110 duration-300 ease-in-out h-36 object-contain object-center mb-5 !important;
+}
+.image_Gallery .image-gallery-thumbnail .active {
+  @apply border !important;
+}
+.image_Gallery .image-gallery-thumbnail {
+  @apply border border-colorBorder border-solid !important;
+}
+/*.image_Gallery * {
+  @apply border-brand outline-brand hover:text-brand !important;
+}*/
+
+/*sort by modal*/
+.sortBy .MuiNativeSelect-select {
+  @apply h-60 !important;
+}
+.CustomMenu .MuiTabs-flexContainer {
+  @apply flex flex-col justify-start w-full text-left items-start px-0 mx-0 !important;
+}
+.CustomMenu .MuiButtonBase-root-MuiTab-root {
+  @apply items-start text-left pl-0 py-0 !important;
+}
+.CustomMenu .MuiTabs-indicator {
+  @apply bg-transparent !important;
+}
+.CustomMenu Menu {
+  @apply !flex;
+}
+
+/*for line clamp*/
+.line-clamp-2 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+.line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+/*label custom*/
+.SearchLabel .MuiInputLabel-formControl {
+  @apply pl-10 py-2.5;
+}
+.SearchLabel .MuiFormLabel-root-MuiInputLabel-root {
+  @apply pt-3;
+}
+
+/* Custom add address modal */
+.AddAddress .MuiGrid-root,
+.mui-style-670zok-MuiGrid-root {
+  @apply pl-0 !important;
+}
+.AddAddress .MuiGrid-root {
+  @apply max-w-xs !important;
+}
+
+.Customized .Mui-error {
+  font-size: 11px;
+}
+.SearchLabel .MuiInputBase-root {
+  @apply pb-5 pt-7 pl-10;
+}
+.Line-clamp-1 {
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+}
+.SearchLabel .MuiInputBase-root {
+  @apply pb-5 pt-7 pl-10;
+}
+.nestedSide .mui-style-advny6-MuiPopper-root {
+  @apply mt-6 w-[99vw] w-[99dvw] -xl:-ml-1.5 xl:-ml-2 2xl:-ml-0.5 !important;
+  box-shadow: 0px 0px 24px 0px #00000021 !important;
+}
+
+.svg-logo {
+  mask-type: alpha;
+}
+.nestedSide .MuiPaper-root-MuiMenu-paper-MuiPopover-paper {
+  @apply mt-1.5 shadow-xl shadow-slate-300 py-2 !important;
+}
+.tag-wrap {
+  filter: drop-shadow(-1px 3px 3px rgba(50, 50, 0, 0.5));
+}
+/*checkout*/
+
+.checkoutLayout {
+  @apply -lg:border-l-0 -lg:pl-0 lg:pl-[1.4rem] !important;
+}
+.checkoutLayout .MuiStepConnector-line {
+  @apply -lg:hidden !important;
+}
+.Mui-disabled {
+  @apply text-gray-400 !important;
+}
+.checkoutLayout span {
+  @apply border-checkoutBorder !important;
+}
+.checkoutLayout.MuiStepContent-root {
+  @apply lg:border-black lg:border-2 !important;
+}
+
+.checkoutLayout .Mui-disabled {
+  @apply bg-secondary !important;
+}
+/*header icons rotation*/
+.fa-arrow-down {
+  transform: rotate(-180deg);
+  transition: transform 0.4s linear;
+}
+.fa-arrow-down-close {
+  transform: rotate(0deg);
+  transition: transform 0.4s linear;
+}
+
+/*craousel items center*/
+.explore-product .carousel-container {
+  @apply md:justify-center !important;
+}
+.image-gallery-slide-wrapper {
+  margin-bottom: 0px !important;
+  position: static !important;
+}
+.image_Gallery .image-gallery-content {
+  margin-top: 6% !important;
+  max-width: 100% !important;
+}
+/* carousel thumbnail */
+
+.dropdown_menu {
+  animation: growDown 400ms ease-in-out forwards;
+  transform-origin: top left;
+}
+@keyframes growDown {
+  0% {
+    opacity: 0;
+  }
+  70% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* @keyframes growDown {
+  0% {
+    opacity: 0;
+    transform: scaleY(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scaleY(1.1);
+  }
+  100% {
+    opacity: 1;
+    transform: scaleY(1);
+  }
+} */
+.hiddenScrollBar {
+  -ms-overflow-style: none; /* Internet Explorer 10+ */
+  scrollbar-width: none;
+}
+.hiddenScrollBar::-webkit-scrollbar {
+  display: none; /* Safari and Chrome */
+}
+
+.MuiFormHelperText-root {
+  @apply ml-0 !important;
+}
+
+.marketItems .items {
+  @apply -md:my-4 min-w-full !important;
+}
+.hiddenInputButtons {
+  @apply [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none;
+}
+
+.title {
+  @apply text-xl relative bg-colorBackground text-white;
+}
+.title:after {
+  @apply content-['_'] absolute block w-full md:shadow-[-0.5rem_0rem_0.625rem_rgb(0_0_0_/_5%)] bg-colorBackground h-full z-[-1] origin-top-left skew-x-[-30deg] skew-y-0 left-0 top-0;
+  -ms-transform: skew(-30deg, 0deg);
+  -webkit-transform: skew(-30deg, 0deg);
+}
+
+.MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select-MuiInputBase-input-MuiInput-input.MuiSelect-select-MuiInputBase-input-MuiInput-input {
+  @apply px-0 min-w-0;
+}
+
+.Mui-selected {
+  @apply bg-transparent !important;
+}

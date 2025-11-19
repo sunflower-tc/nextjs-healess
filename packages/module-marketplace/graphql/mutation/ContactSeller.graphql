@@ -1,0 +1,13 @@
+mutation ContactSellerBySellerId(
+  $subject: String!
+  $query: String!
+  $sellerId: Int!
+) {
+  contactSellerBySellerId(
+    subject: $subject
+    query: $query
+    sellerId: $sellerId
+  ) {
+    message
+  }
+}

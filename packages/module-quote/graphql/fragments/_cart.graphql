@@ -1,0 +1,139 @@
+#import "./_money.graphql"
+
+fragment cart on Cart {
+  id
+  email
+  total_quantity
+  is_virtual
+  available_payment_methods {
+    title
+    code
+  }
+  selected_payment_method {
+    code
+    purchase_order_number
+    title
+  }
+  applied_coupons {
+    code
+  }
+  items {
+    cartItemId: uid
+    quantity
+    product {
+      name
+      sku
+      description {
+        html
+      }
+      url_key
+      name
+      thumbnail {
+        id: url
+        url
+        label
+      }
+    }
+    ... on ConfigurableCartItem {
+      configurable_options {
+        option_label
+        value_label
+      }
+    }
+    prices {
+      price {
+        ...Money
+      }
+      row_total {
+        ...Money
+      }
+      row_total_including_tax {
+        ...Money
+      }
+      total_item_discount {
+        ...Money
+      }
+      discounts {
+        label
+        amount {
+          ...Money
+        }
+      }
+    }
+  }
+  billing_address {
+    city
+    company
+    country {
+      code
+      label
+    }
+    firstname
+    lastname
+    postcode
+    region {
+      code
+      label
+      region_id
+    }
+    street
+    telephone
+  }
+  shipping_addresses {
+    city
+    company
+    country {
+      code
+      label
+    }
+    firstname
+    lastname
+    postcode
+    region {
+      code
+      region_id
+      label
+    }
+    street
+    telephone
+    available_shipping_methods {
+      amount {
+        ...Money
+      }
+      available
+      carrier_code
+      carrier_title
+      error_message
+      method_code
+      method_title
+    }
+    selected_shipping_method {
+      amount {
+        ...Money
+      }
+      carrier_title
+      carrier_code
+      method_code
+    }
+  }
+  prices {
+    applied_taxes {
+      amount {
+        ...Money
+      }
+      label
+    }
+    discounts {
+      amount {
+        ...Money
+      }
+      label
+    }
+    grand_total {
+      ...Money
+    }
+    subtotal_excluding_tax {
+      ...Money
+    }
+  }
+}

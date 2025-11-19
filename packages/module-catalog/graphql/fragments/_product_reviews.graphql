@@ -1,0 +1,13 @@
+fragment reviews on ProductReviews {
+  items {
+    average_rating
+    nickname
+    ratings_breakdown {
+      name
+      value
+    }
+    created_at
+    summary
+    text
+  }
+}

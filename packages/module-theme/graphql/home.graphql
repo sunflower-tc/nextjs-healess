@@ -1,0 +1,200 @@
+query HomePageData {
+  getHomePageData {
+    mainBanner {
+      id
+      url
+      dominantColor
+      urlKey
+      bannerType
+      bannerTitle
+      bannerSubtitle
+      bannerDesc
+      buttonText
+    }
+    promotionBanner {
+      id
+      url
+      dominantColor
+      urlKey
+      bannerType
+      bannerTitle
+      bannerSubtitle
+      bannerDesc
+      buttonText
+    }
+    newCollectionBanner {
+      id
+      url
+      dominantColor
+      urlKey
+      bannerType
+      bannerTitle
+      bannerSubtitle
+      bannerDesc
+      buttonText
+    }
+    brandCollectionBanner {
+      title
+      description
+      items {
+        id
+        url
+        dominantColor
+        urlKey
+        bannerType
+        bannerTitle
+        bannerSubtitle
+        bannerDesc
+        buttonText
+      }
+    }
+    shoppingCollectionBanner {
+      title
+      description
+      items {
+        id
+        url
+        dominantColor
+        urlKey
+        bannerType
+        bannerTitle
+        bannerSubtitle
+        bannerDesc
+        buttonText
+        infoPosition
+      }
+    }
+    productCollectionBanner {
+      id
+      url
+      dominantColor
+      urlKey
+      bannerType
+      bannerTitle
+      bannerSubtitle
+      bannerDesc
+      buttonText
+    }
+    featuredProductCarousel {
+      title
+      description
+      productList {
+        url_key
+        sku
+        name
+        thumbnail {
+          url
+          label
+        }
+        price_range {
+          maximum_price {
+            final_price {
+              currency
+              value
+            }
+          }
+        }
+      }
+    }
+    exploreProductCarousel {
+      title
+      description
+      hotDealsProductList {
+        url_key
+        sku
+        name
+        thumbnail {
+          url
+          label
+        }
+        price_range {
+          maximum_price {
+            final_price {
+              currency
+              value
+            }
+          }
+        }
+      }
+      topRatedProductList {
+        url_key
+        sku
+        name
+        thumbnail {
+          url
+          label
+        }
+        price_range {
+          maximum_price {
+            final_price {
+              currency
+              value
+            }
+          }
+        }
+      }
+      topSellingProductList {
+        url_key
+        sku
+        name
+        thumbnail {
+          url
+          label
+        }
+        price_range {
+          maximum_price {
+            final_price {
+              currency
+              value
+            }
+          }
+        }
+      }
+    }
+
+    cornerOffers {
+      id
+      title
+      description
+      items {
+        id
+        layout
+        title
+        subtitle
+        description
+        backgroundColor
+        textColor
+      }
+    }
+    benefits {
+      title
+      subtitle
+      iconImgUrl
+    }
+    recentlyViewedProduct {
+      title
+      description
+      productList {
+        url_key
+        sku
+        name
+        thumbnail {
+          url
+          label
+        }
+        price_range {
+          maximum_price {
+            final_price {
+              currency
+              value
+            }
+          }
+        }
+      }
+    }
+    sortOrder {
+      sectionId
+      sortOrder
+    }
+  }
+}

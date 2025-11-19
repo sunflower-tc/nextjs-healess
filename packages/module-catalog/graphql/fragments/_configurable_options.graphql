@@ -1,0 +1,37 @@
+fragment configurable_options on ConfigurableProductOptions {
+  uid
+  label
+  position
+  attribute_code
+  values {
+    swatch_data {
+      value
+    }
+    label
+    uid
+  }
+}
+fragment variants on ConfigurableVariant {
+  product {
+    uid
+    name
+    sku
+    ... on PhysicalProductInterface {
+      weight
+    }
+    price_range {
+      minimum_price {
+        regular_price {
+          value
+          currency
+        }
+      }
+    }
+  }
+  attributes {
+    uid
+    label
+    code
+    value_index
+  }
+}

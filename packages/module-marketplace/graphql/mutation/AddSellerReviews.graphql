@@ -1,0 +1,6 @@
+mutation AddSellerReviews($feedback: FeedbackParams!, $sellerId: Int!) {
+  makeSellerReview(feedback: $feedback, sellerId: $sellerId) {
+    status
+    message
+  }
+}

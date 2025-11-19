@@ -1,0 +1,6 @@
+.CheckoutInput .MuiStepLabel-labelContainer {
+  @apply mt-4 !important;
+}
+.CheckoutInputError .MuiFormHelperText-root {
+  @apply -ml-6 !important;
+}

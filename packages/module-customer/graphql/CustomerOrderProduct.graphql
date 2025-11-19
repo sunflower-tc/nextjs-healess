@@ -1,0 +1,30 @@
+query OrdersQuery($currentPage: Int, $pageSize: Int) {
+  customer {
+    email
+    orders(currentPage: $currentPage, pageSize: $pageSize) {
+      total_count
+      items {
+        id
+        number
+        order_date
+        status
+
+        total {
+          base_grand_total {
+            value
+            currency
+          }
+          grand_total {
+            value
+            currency
+          }
+
+          subtotal {
+            value
+            currency
+          }
+        }
+      }
+    }
+  }
+}

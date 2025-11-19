@@ -1,0 +1,8 @@
+#import "../fragments/_cart.graphql"
+mutation ClearCustomerCart($cartId: String!) {
+  clearCustomerCart(cartId: $cartId) {
+    cart {
+      ...cart
+    }
+  }
+}

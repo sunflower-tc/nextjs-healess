@@ -1,0 +1,20 @@
+query SellerReview($sellerId: Int!, $pageSize: Int!, $currentPage: Int!) {
+  getSellerReview(
+    id: $sellerId
+    pageSize: $pageSize
+    currentPage: $currentPage
+  ) {
+    items {
+      feed_price
+      feed_value
+      feed_nickname
+      feed_quality
+      created_at
+      feed_summary
+      entity_id
+      feed_review
+      seller_id
+    }
+    total_count
+  }
+}

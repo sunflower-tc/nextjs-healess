@@ -1,0 +1,7 @@
+query SellersPath($filter: SellerFilters) {
+  sellersList(filter: $filter) {
+    items {
+      shop_url
+    }
+  }
+}

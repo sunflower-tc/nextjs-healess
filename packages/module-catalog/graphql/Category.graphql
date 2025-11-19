@@ -1,0 +1,21 @@
+query CategoryQuery($filters: CategoryFilterInput) {
+  categoryList(filters: $filters) {
+    uid
+    name
+    children_count
+    description
+    url_key
+    url_path
+    meta_description
+    meta_title
+    meta_keywords
+    product_count
+    url_suffix
+    breadcrumbs {
+      category_url_path
+      category_url_key
+      category_name
+      category_uid
+    }
+  }
+}

@@ -1,0 +1,58 @@
+query MarketplaceLandingPage {
+  marketplaceLandingPage {
+    aboutImage
+    banner {
+      content
+      image
+      label
+    }
+    headTitle
+    layoutOne {
+      bannerContent
+      bannerDisplay
+      icons {
+        image
+        label
+      }
+      bannerImage
+      iconsDisplay
+      marketplacelabel1
+      marketplacelabel2
+      marketplacelabel3
+      marketplacelabel4
+    }
+    layoutThree {
+      bannerContent
+      bannerDisplay
+      icons {
+        image
+        label
+      }
+      bannerImage
+      iconsDisplay
+      marketplacebutton
+      marketplacelabel1
+      marketplacelabel2
+      marketplacelabel3
+    }
+    layoutTwo {
+      bannerContent
+      bannerDisplay
+      bannerImage
+      marketplacebutton
+    }
+    pageLayout
+    sellers {
+      products {
+        id
+        name
+        thumbnail
+        type
+      }
+      profileurl
+      sellerIcon
+      sellerProductCount
+      shopTitle
+    }
+  }
+}

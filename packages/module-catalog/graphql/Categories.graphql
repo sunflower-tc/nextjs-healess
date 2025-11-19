@@ -1,0 +1,6 @@
+query CategoriesQuery($filters: CategoryFilterInput) {
+  categoryList(filters: $filters) {
+    uid
+    url_key
+  }
+}

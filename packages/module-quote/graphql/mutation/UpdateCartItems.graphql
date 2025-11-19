@@ -1,0 +1,11 @@
+#import "../fragments/_cart.graphql"
+mutation UpdateCartItems(
+  $cartId: String!
+  $cartItems: [CartItemUpdateInput!]!
+) {
+  updateCartItems(input: { cart_id: $cartId, cart_items: $cartItems }) {
+    cart {
+      ...cart
+    }
+  }
+}

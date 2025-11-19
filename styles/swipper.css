@@ -1,0 +1,75 @@
+.product_swipper .swiper-slide {
+  @apply text-center justify-center items-center flex;
+}
+
+.product_swipper .swiper-slide img {
+  @apply block w-full h-full object-cover;
+}
+
+.product_swipper .swiper {
+  @apply w-full mx-auto;
+}
+.product_slider .mySwiper .swiper-wrapper {
+  @apply gap-8 flex justify-center !important;
+}
+
+.product_card .mySwiper .swiper-wrapper {
+  @apply mx-auto gap-7 flex justify-start xl:max-w-fit !important;
+}
+.product_card .mySwiper .swiper-slide {
+  @apply max-w-fit mr-0.5 !important;
+}
+.product_swipper .swiper-slide {
+  @apply bg-cover bg-center;
+}
+
+.product_swipper .mySwiper2 {
+  @apply w-full;
+}
+
+.product_swipper .mySwiper {
+  @apply box-border;
+}
+
+.product_swipper .mySwiper .swiper-slide {
+  @apply h-full opacity-40;
+}
+.swiper-pagination-bullet-active {
+  @apply bg-brand;
+}
+.product_swipper .mySwiper .swiper-slide-thumb-active {
+  @apply opacity-100;
+}
+.product_swipper .mySwiper .swiper-wrapper {
+  @apply mx-10 !important;
+}
+.product_swipper .swiper-slide .image-swipper {
+  @apply block w-full h-full object-cover;
+}
+
+.banner_slide .swiper {
+  @apply h-full w-full;
+}
+
+.banner_slide .swiper-slide {
+  @apply text-center flex justify-center items-center;
+}
+
+.product_card .swiper {
+  @apply h-full w-full;
+}
+
+.product_card .swiper-slide {
+  /* Center slide text vertically */
+  @apply flex justify-center items-center;
+}
+
+.product_card .swiper-slide img {
+  @apply block w-full h-full object-cover;
+}
+.product_card .swiper-button-lock {
+  @apply block  !important;
+}
+.product_card .swipper-wrapper {
+  @apply ml-0 !important;
+}

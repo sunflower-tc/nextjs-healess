@@ -1,0 +1,41 @@
+#import "@voguish/module-catalog/graphql/fragments/_price_range.graphql"
+#import "@voguish/module-catalog/graphql/fragments/_configurable_options.graphql"
+query RelatedProductsQuery(
+  $sku: String
+  $pageSize: Int = 9
+  $currentPage: Int = 1
+  $sort: ProductAttributeSortInput
+) {
+  products(
+    filter: { sku: { eq: $sku } }
+    pageSize: $pageSize
+    currentPage: $currentPage
+    sort: $sort
+  ) {
+    items {
+      related_products {
+        id: uid
+        url_key
+        sku
+        name
+        price_range {
+          ...price_range
+        }
+        thumbnail {
+          id: url
+          url
+          label
+        }
+        url_key
+        ... on ConfigurableProduct {
+          configurable_options {
+            ...configurable_options
+          }
+          variants {
+            ...variants
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,55 @@
+.image {
+  @apply rounded-md;
+}
+
+.banner_box_label {
+  @apply text-xl;
+}
+.banner_box_content {
+  @apply text-4xl font-bold;
+}
+.link {
+  @apply text-brand;
+}
+.brand__banner {
+  align-items: initial;
+}
+
+.brand_banner__wrapper__banner_container {
+  align-items: initial;
+}
+.brand_image {
+  @apply rounded-md;
+}
+.brand_image {
+  @apply min-h-full lg:min-h-max;
+}
+.best_offer_background {
+  clip-path: polygon(0 0, 100% 0, 85% 100%, 0% 100%);
+}
+.offer_amount_background {
+  @apply flex w-20 h-20 bg-white;
+}
+.off_amount {
+  @apply flex font-semibold text-brand;
+}
+.brand_banner {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.brand_banner::-webkit-scrollbar {
+  @apply hidden;
+  /* Safari and Chrome */
+}
+.shopping_banner {
+  -ms-overflow-style: none;
+  /* Internet Explorer 10+ */
+  scrollbar-width: none;
+  /* Firefox */
+}
+.shopping_banner::-webkit-scrollbar {
+  @apply hidden;
+  /* Safari and Chrome */
+}

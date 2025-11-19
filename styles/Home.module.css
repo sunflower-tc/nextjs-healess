@@ -1,0 +1,55 @@
+.container {
+  @apply px-8 py-0;
+}
+.recent_products {
+  @apply mx-0 my-12;
+}
+.recent_products__info {
+  @apply text-sm;
+}
+.product_banner {
+  @apply mb-[2.125rem];
+}
+.main {
+  @apply min-h-screen flex-[1] flex flex-col justify-center items-center px-0 py-16;
+}
+.footer {
+  @apply flex flex-[1] justify-center items-center px-0 py-8 border-t-[#eaeaea] border-t border-solid;
+}
+.footer a {
+  @apply flex justify-center items-center grow;
+}
+.title a {
+  @apply text-[#0070f3] no-underline hover:focus:active:underline;
+}
+
+.title {
+  @apply leading-[1.15] text-[4rem] m-0;
+}
+.title,
+.description {
+  @apply text-center;
+}
+.description {
+  @apply leading-normal text-2xl mx-0 my-16;
+}
+.code {
+  @apply text-[1.1rem] p-3 rounded-[5px] bg-[#fafafa];
+}
+.grid {
+  @apply flex w-full flex-col sm:flex-row items-center justify-center flex-wrap sm:max-w-[800px];
+}
+.card {
+  @apply text-left text-inherit no-underline border max-w-[300px] m-4 p-6 rounded-[10px] border-solid border-[#eaeaea] hover:focus:active:text-[#0070f3] hover:focus:active:border-[#0070f3];
+  transition: color 0.15s ease, border-color 0.15s ease;
+}
+
+.card h2 {
+  @apply text-2xl mt-0 mb-4 mx-0;
+}
+.card p {
+  @apply text-xl leading-normal m-0;
+}
+.logo {
+  @apply h-[1em] ml-2;
+}

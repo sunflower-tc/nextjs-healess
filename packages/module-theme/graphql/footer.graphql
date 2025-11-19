@@ -1,0 +1,12 @@
+query FooterLinks {
+  footerLinks {
+    title
+    uid
+    subLinks {
+      uid
+      type
+      title
+      url_key
+    }
+  }
+}

@@ -1,0 +1,11 @@
+mutation AddWishlistItemsToCart($id: ID!, $itemIds: [ID!]!) {
+  addWishlistItemsToCart(wishlistId: $id, wishlistItemIds: $itemIds) {
+    add_wishlist_items_to_cart_user_errors {
+      code
+      message
+      wishlistId
+      wishlistItemId
+    }
+    status
+  }
+}

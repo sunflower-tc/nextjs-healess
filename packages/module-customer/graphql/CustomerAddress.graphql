@@ -1,0 +1,22 @@
+query CustomerQuery {
+  customer {
+    email
+    addresses {
+      id
+      default_billing
+      city
+      company
+      firstname
+      lastname
+      telephone
+      postcode
+      country_code
+      region {
+        region_id
+        region
+      }
+      street
+      telephone
+    }
+  }
+}

@@ -1,0 +1,55 @@
+#import "./fragments/_price_range.graphql"
+#import "./fragments/_configurable_options.graphql"
+#import "./fragments/_product_reviews.graphql"
+query ProductQuery($filters: ProductAttributeFilterInput) {
+  products(filter: $filters) {
+    items {
+      id: uid
+      description {
+        html
+      }
+      image {
+        url
+      }
+      thumbnail {
+        id: url
+        url
+        label
+      }
+      media_gallery {
+        disabled
+        label
+        url
+        position
+      }
+      meta_description
+      meta_title
+      canonical_url
+      meta_keyword
+      name
+      only_x_left_in_stock
+      price_range {
+        ...price_range
+      }
+      rating_summary
+      review_count
+      reviews {
+        ...reviews
+      }
+      sku
+      stock_status
+      short_description {
+        html
+      }
+      url_key
+      ... on ConfigurableProduct {
+        configurable_options {
+          ...configurable_options
+        }
+        variants {
+          ...variants
+        }
+      }
+    }
+  }
+}

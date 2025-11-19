@@ -1,0 +1,23 @@
+query SellersList($filter: SellerFilters!) {
+  sellersList(filter: $filter) {
+    items {
+      entity_id
+      shop_url
+      created_at
+      shop_title
+      privacy_policy
+      return_policy
+      banner_pic
+      logo_pic
+      shipping_policy
+      store_id
+      seller_id
+      contact_number
+      product_count
+      order_count
+      email
+      seller_rating
+    }
+    total_count
+  }
+}

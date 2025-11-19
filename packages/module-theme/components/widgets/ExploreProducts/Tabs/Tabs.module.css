@@ -1,0 +1,52 @@
+.link__tag {
+  @apply text-brand;
+}
+.ease {
+  animation: 0.7s ease-out 0s 1 fadeIn;
+}
+
+.tab__list {
+  @apply relative pt-[0.001rem] pb-[0.8rem] px-3.5 -xs:px-[0.44rem];
+}
+
+.tab__list > input {
+  @apply cursor-pointer focus:bg-brand/5 duration-200 p-2 focus:rounded  opacity-0 px-1 absolute z-[99];
+  filter: alpha(opacity=0);
+}
+
+.tab-content {
+  @apply w-full;
+}
+
+.tab-content section {
+  @apply w-full hidden;
+}
+
+.tab-content section h1 {
+  @apply text-8xl font-thin text-center;
+}
+
+.tab__list > label {
+  @apply text-center px-1 overflow-hidden cursor-pointer -xs:text-sm font-semibold;
+}
+
+.tab__list > input:active + label {
+  @apply bg-neutral-50 box-border duration-150;
+}
+
+.tab__list > input:checked + label + .line {
+  @apply visible;
+}
+
+.tab__list > input:checked + label {
+  @apply text-brand;
+}
+.tabs {
+  @apply inline-flex;
+}
+.tab__content {
+  animation: 0.8s ease-out 0s 1 fadeIn;
+}
+.tabs .line {
+  @apply absolute w-full h-1 invisible left-0 bottom-0 bg-brand;
+}

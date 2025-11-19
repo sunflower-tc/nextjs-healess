@@ -1,0 +1,34 @@
+query WishlistQuery($currentPage: Int, $pageSize: Int) {
+  customer {
+    email
+    wishlists {
+      id
+      items_v2(currentPage: $currentPage, pageSize: $pageSize) {
+        items {
+          id: id
+          description
+          quantity
+          product {
+            id
+            url_key
+            name
+            price_range {
+              minimum_price {
+                regular_price {
+                  currency
+                  value
+                }
+              }
+            }
+            stock_status
+            thumbnail {
+              id: url
+              url
+              label
+            }
+          }
+        }
+      }
+    }
+  }
+}

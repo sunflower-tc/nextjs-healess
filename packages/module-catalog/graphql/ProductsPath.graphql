@@ -1,0 +1,10 @@
+query ProductsPathQuery(
+  $filters: ProductAttributeFilterInput
+  $pageSize: Int = 1200
+) {
+  products(filter: $filters, pageSize: $pageSize) {
+    items {
+      url_key
+    }
+  }
+}

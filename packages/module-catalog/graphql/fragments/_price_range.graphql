@@ -1,0 +1,28 @@
+#import "./_money.graphql"
+
+fragment product_price on ProductPrice {
+  regular_price {
+    ...Money
+  }
+  final_price {
+    ...Money
+  }
+  discount {
+    amount_off
+    percent_off
+  }
+  fixed_product_taxes {
+    label
+    amount {
+      ...Money
+    }
+  }
+}
+fragment price_range on PriceRange {
+  minimum_price {
+    ...product_price
+  }
+  maximum_price {
+    ...product_price
+  }
+}

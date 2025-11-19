@@ -1,0 +1,38 @@
+query StoreConfig {
+  storeConfig {
+    base_currency_code
+    base_url
+    catalog_default_sort_by
+    category_url_suffix
+    copyright
+    default_description
+    default_display_currency_code
+    default_keywords
+    default_title
+    grid_per_page
+    grid_per_page_values
+    head_includes
+    head_shortcut_icon
+    header_logo_src
+    is_default_store
+    list_mode
+    list_per_page
+    list_per_page_values
+    locale
+    logo_alt
+    logo_height
+    logo_width
+    marketplace_is_active
+    minimum_password_length
+    product_url_suffix
+    show_cms_breadcrumbs
+    store_code
+    store_group_name
+    store_name
+    title_prefix
+    title_separator
+    title_suffix
+    welcome
+    customer_token_lifetime
+  }
+}

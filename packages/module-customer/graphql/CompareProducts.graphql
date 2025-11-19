@@ -1,0 +1,20 @@
+query CompareProductsQuery($filters: ProductAttributeFilterInput) {
+  products(filter: $filters) {
+    items {
+      id: id
+      sku
+      name
+      short_description {
+        html
+      }
+      description {
+        html
+      }
+      image {
+        id: url
+        url
+        label
+      }
+    }
+  }
+}

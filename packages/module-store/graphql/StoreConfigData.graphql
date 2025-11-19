@@ -1,0 +1,5 @@
+query StoreConfigData {
+  storeConfig {
+    marketplace_is_active
+  }
+}

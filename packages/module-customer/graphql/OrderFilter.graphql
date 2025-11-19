@@ -1,0 +1,120 @@
+query OrdersQuery($filter: CustomerOrdersFilterInput) {
+  customer {
+    email
+    orders(filter: $filter) {
+      total_count
+      items {
+        id
+        number
+        order_date
+        status
+        items {
+          product_name
+          product_sku
+          product_url_key
+          product_sale_price {
+            value
+            currency
+          }
+          selected_options {
+            label
+            value
+          }
+          quantity_ordered
+          quantity_invoiced
+          quantity_shipped
+        }
+        shipping_address {
+          city
+          firstname
+          middlename
+          lastname
+          street
+          company
+          region
+          postcode
+          telephone
+          country_code
+        }
+        billing_address {
+          firstname
+          lastname
+          middlename
+          company
+          country_code
+          postcode
+          region
+          street
+          telephone
+          city
+        }
+        shipping_method
+        payment_methods {
+          name
+        }
+        carrier
+        shipments {
+          id
+          number
+          items {
+            product_name
+            quantity_shipped
+          }
+        }
+        total {
+          base_grand_total {
+            value
+            currency
+          }
+          grand_total {
+            value
+            currency
+          }
+          total_tax {
+            value
+          }
+          subtotal {
+            value
+            currency
+          }
+          taxes {
+            amount {
+              value
+              currency
+            }
+            title
+            rate
+          }
+          total_shipping {
+            value
+          }
+          shipping_handling {
+            amount_including_tax {
+              value
+            }
+            amount_excluding_tax {
+              value
+            }
+            total_amount {
+              value
+            }
+            taxes {
+              amount {
+                value
+              }
+              title
+              rate
+            }
+          }
+          discounts {
+            amount {
+              value
+              currency
+            }
+            label
+          }
+        }
+      }
+    }
+  }
+}

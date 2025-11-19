@@ -1,0 +1,8 @@
+mutation AddProductsToWishlist($id: ID!, $items: [WishlistItemInput!]!) {
+  addProductsToWishlist(wishlistId: $id, wishlistItems: $items) {
+    wishlist {
+      id
+      items_count
+    }
+  }
+}

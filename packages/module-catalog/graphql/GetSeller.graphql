@@ -1,0 +1,13 @@
+query GetSeller($productSku: String!) {
+  sellerByProductSku(productSku: $productSku) {
+    seller {
+      seller_id
+      seller_rating
+      shop_url
+      shop_title
+      logo_pic
+      email
+      product_count
+    }
+  }
+}

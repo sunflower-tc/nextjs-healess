@@ -1,0 +1,13 @@
+query MegaMenu {
+  megaMenu {
+    category_id
+    title
+    url_key
+    parent_id
+    image_url
+    position
+    path
+    item_id
+    display_mode
+  }
+}
