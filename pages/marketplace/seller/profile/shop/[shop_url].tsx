@@ -1,5 +1,6 @@
 import { client } from '@lib/apollo-client';
-import { Trans } from '@lingui/macro';
+import { i18n } from '@lingui/core';
+import { Trans, t } from '@lingui/macro';
 import Typography from '@mui/material/Typography';
 import {
   STORE_CONFIG,
@@ -91,8 +92,8 @@ const SellerPage: NextPageWithLayout = (prop) => {
 export default SellerPage;
 
 const pageProps: PageOptions = {
-  title: 'Seller Profile',
-  description: 'Seller Profile',
+  title: i18n._(t`Seller Profile`),
+  description: i18n._(t`Seller Profile`),
   showBreadcrumb: true,
 };
 

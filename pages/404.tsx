@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { PageOptions } from '@voguish/module-theme';
 import dynamic from 'next/dynamic';
 const NotFoundError = dynamic(
@@ -12,6 +14,6 @@ export default function NotFound() {
   );
 }
 const pageProps: PageOptions = {
-  title: 'Not Found',
+  title: i18n._(t`Not Found`),
 };
 NotFound.pageOptions = pageProps;

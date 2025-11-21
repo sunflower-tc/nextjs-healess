@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { STORE_CONFIG, getKeyFromStorage } from '@store/local-storage';
 import type {
   NextPageWithLayout,
@@ -14,8 +16,8 @@ const SellerList: NextPageWithLayout = () => {
 };
 
 const pageProps: PageOptions = {
-  title: 'All Sellers',
-  description: 'All Sellers',
+  title: i18n._(t`All Sellers`),
+  description: i18n._(t`All Sellers`),
   showBreadcrumb: true,
 };
 

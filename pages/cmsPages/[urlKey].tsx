@@ -71,6 +71,8 @@ export async function getStaticProps({ params }: PagePaths) {
       title: 'Sitemap',
       metaDescription: 'Sitemap',
       urlKey: 'sitemap',
+      content: '',
+      contentHeading: 'Sitemap',
     };
   } else {
     const data: CMSPageResult = await graphqlRequest({

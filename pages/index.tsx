@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { graphqlRequest } from '@utils/Fetcher';
 import { PageOptions } from '@voguish/module-theme';
 import Home_Page from '@voguish/module-theme/graphql/home.graphql';
@@ -13,8 +15,8 @@ const Home = ({ pageData }: { pageData: HomePageData }) => {
 };
 
 const pageProps: PageOptions = {
-  title: 'Home Page - Voguish',
-  description: 'Welcome to Voguish Theme',
+  title: i18n._(t`Home Page - Voguish`),
+  description: i18n._(t`Welcome to Voguish Theme`),
   showBreadcrumb: false,
 };
 

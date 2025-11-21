@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import dynamic from 'next/dynamic';
 
 const OrderProduct = dynamic(
@@ -12,7 +14,7 @@ const Order = () => {
 };
 
 Order.pageOptions = {
-  title: 'Order',
-  description: 'Voguish product order',
+  title: i18n._(t`Order`),
+  description: i18n._(t`Voguish product order`),
 };
 export default Order;

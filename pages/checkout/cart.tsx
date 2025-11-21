@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { PageOptions } from '@voguish/module-theme';
 import dynamic from 'next/dynamic';
 
@@ -11,7 +13,7 @@ export function Cart() {
   );
 }
 const pageProps: PageOptions = {
-  title: 'Shopping Cart',
+  title: i18n._(t`Shopping Cart`),
 };
 Cart.pageOptions = pageProps;
 

@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { PageOptions } from '@voguish/module-theme';
 import dynamic from 'next/dynamic';
 const CheckoutHome = dynamic(
@@ -13,7 +15,7 @@ const Checkout = () => {
 };
 
 const pageProps: PageOptions = {
-  title: 'Checkout',
+  title: i18n._(t`Checkout`),
 };
 Checkout.pageOptions = pageProps;
 

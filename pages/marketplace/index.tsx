@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import Main from '@voguish/module-marketplace/pages/Main';
 import { NextPageWithLayout, PageOptions } from '@voguish/module-theme';
 
@@ -8,8 +10,8 @@ const SellerIndex: NextPageWithLayout = () => {
 export default SellerIndex;
 
 const pageProps: PageOptions = {
-  title: 'Turn Your Passion Into a Business',
-  description: 'Turn Your Passion Into a Business',
+  title: i18n._(t`Turn Your Passion Into a Business`),
+  description: i18n._(t`Turn Your Passion Into a Business`),
   showBreadcrumb: false,
 };
 

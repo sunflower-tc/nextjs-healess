@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import dynamic from 'next/dynamic';
 
 const PasswordForm = dynamic(
@@ -11,7 +13,7 @@ const Index = () => {
   );
 };
 Index.pageOptions = {
-  title: 'Reset Password',
-  description: 'Customer reset passsword of your login credential',
+  title: i18n._(t`Reset Password`),
+  description: i18n._(t`Customer reset password of your login credential`),
 };
 export default Index;

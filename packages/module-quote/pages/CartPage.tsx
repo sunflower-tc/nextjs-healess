@@ -36,9 +36,9 @@ export function CartPage() {
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
   const grandTotal = quote?.prices?.grand_total?.value
     ? getFormattedPrice(
-        quote.prices.grand_total.value,
-        quote.prices.grand_total.currency
-      )
+      quote.prices.grand_total.value,
+      quote.prices.grand_total.currency
+    )
     : getFormattedPrice(0, 'USD');
   /**
    * Cart Items
@@ -159,8 +159,6 @@ export default CartPage;
  */
 export async function getStaticProps() {
   return {
-    props: {
-      title: 'My Cart',
-    },
+    props: {},
   };
 }

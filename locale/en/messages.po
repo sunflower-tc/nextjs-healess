@@ -197,6 +197,7 @@ msgid "404 Error!"
 msgstr "404 Error!"
 
 #: packages/module-theme/pages/Server.tsx:22
+#: pages/_error.tsx:22
 msgid "500 Error!"
 msgstr "500 Error!"
 
@@ -231,6 +232,7 @@ msgid "Add Your Review"
 msgstr "Add Your Review"
 
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:85
+#: pages/customer/account/address/index.tsx:17
 msgid "Address"
 msgstr "Address"
 
@@ -286,6 +288,8 @@ msgid "All Products"
 msgstr "All Products"
 
 #: packages/module-marketplace/Components/StoreList.tsx:30
+#: pages/marketplace/seller/sellerlist.tsx:19
+#: pages/marketplace/seller/sellerlist.tsx:20
 msgid "All Sellers"
 msgstr "All Sellers"
 
@@ -296,6 +300,18 @@ msgstr "Allow remote shopping assistance"
 #: packages/module-theme/pages/CreateAccount.tsx:267
 msgid "Already have an account"
 msgstr "Already have an account"
+
+#: pages/_error.tsx:25
+msgid "An error {statusCode} occurred on server"
+msgstr "An error {statusCode} occurred on server"
+
+#: pages/_error.tsx:62
+msgid "An error occurred"
+msgstr "An error occurred"
+
+#: pages/_error.tsx:26
+msgid "An error occurred on client"
+msgstr "An error occurred on client"
 
 #: packages/module-quote/Components/Cart/AppliedCoupons.tsx:22
 msgid "Applied Coupon Code"
@@ -367,6 +383,7 @@ msgstr "Cancel"
 #: packages/module-quote/Components/Cart/Cart.tsx:157
 #: packages/module-quote/pages/CartPage.tsx:123
 #: packages/module-quote/pages/CheckoutHome.tsx:217
+#: pages/checkout/index.tsx:18
 msgid "Checkout"
 msgstr "Checkout"
 
@@ -457,6 +474,10 @@ msgstr "Country*"
 msgid "Create a account"
 msgstr "Create a account"
 
+#: pages/customer/account/create/index.tsx:12
+msgid "Create Account"
+msgstr "Create Account"
+
 #: packages/module-theme/pages/CreateAccount.tsx:103
 msgid "Create New Customer Account"
 msgstr "Create New Customer Account"
@@ -473,21 +494,25 @@ msgstr "Creating Account"
 msgid "Current Password"
 msgstr "Current Password"
 
-#: pages/customer/account/address/index.tsx:17
-#~ msgid "Customer Address"
-#~ msgstr "Customer Address"
+#: pages/customer/account/address/index.tsx:18
+msgid "Customer Address"
+msgstr "Customer Address"
 
-#: pages/customer/account/login/index.tsx:11
-#~ msgid "Customer Login"
-#~ msgstr "Customer Login"
+#: pages/customer/account/login/index.tsx:12
+msgid "Customer Login"
+msgstr "Customer Login"
 
-#: pages/customer/account/profile/index.tsx:16
-#~ msgid "Customer profile"
-#~ msgstr "Customer profile"
+#: pages/customer/account/profile/index.tsx:17
+msgid "Customer profile"
+msgstr "Customer profile"
 
 #: pages/customer/account/reset-password/index.tsx:16
 #~ msgid "Customer reset passsword of your login credential"
 #~ msgstr "Customer reset passsword of your login credential"
+
+#: pages/customer/account/reset-password/index.tsx:17
+msgid "Customer reset password of your login credential"
+msgstr "Customer reset password of your login credential"
 
 #: packages/module-customer/Components/AddressTab/AddressList.tsx:129
 msgid "Default Address"
@@ -625,13 +650,17 @@ msgstr "For now no reviews added."
 msgid "Forget Password"
 msgstr "Forget Password"
 
+#: pages/customer/account/forget-password/index.tsx:20
+msgid "Forgot Your Password"
+msgstr "Forgot Your Password"
+
 #: packages/module-theme/components/widgets/Newsletter.tsx:31
 msgid "Get In Touch"
 msgstr "Get In Touch"
 
 #: packages/module-theme/pages/NotFound.tsx:36
 #: packages/module-theme/pages/Server.tsx:34
-#: pages/_error.tsx:34
+#: pages/_error.tsx:35
 msgid "Go Back"
 msgstr "Go Back"
 
@@ -652,7 +681,7 @@ msgstr "Go To Cart"
 #: packages/module-theme/components/ui/NoDataFound.tsx:27
 #: packages/module-theme/pages/NotFound.tsx:46
 #: packages/module-theme/pages/Server.tsx:44
-#: pages/_error.tsx:44
+#: pages/_error.tsx:45
 msgid "Go To Home"
 msgstr "Go To Home"
 
@@ -679,6 +708,10 @@ msgstr "Handpicked products in your Personal Wishlist"
 #: packages/module-theme/components/ui/Breadcrumbs.tsx:14
 msgid "Home"
 msgstr "Home"
+
+#: pages/index.tsx:18
+msgid "Home Page - Voguish"
+msgstr "Home Page - Voguish"
 
 #: packages/module-quote/Components/Cart/CartItem.tsx:173
 #: packages/module-quote/Components/Checkout/OrderSummary.tsx:134
@@ -843,6 +876,10 @@ msgstr "No return, No Exchange - All Sales Final."
 msgid "No Shipping Policy Found"
 msgstr "No Shipping Policy Found"
 
+#: pages/404.tsx:17
+msgid "Not Found"
+msgstr "Not Found"
+
 #: packages/module-theme/pages/CreateAccount.tsx:277
 #: packages/module-theme/pages/LoginAccount.tsx:168
 #: packages/module-theme/pages/NewPassword.tsx:132
@@ -861,10 +898,10 @@ msgstr "Oops! There are no products here."
 msgid "or"
 msgstr "or"
 
-#: pages/sales/order/[order].tsx:14
-#: pages/sales/order/history/index.tsx:16
-#~ msgid "Order"
-#~ msgstr "Order"
+#: pages/sales/order/[order].tsx:15
+#: pages/sales/order/history/index.tsx:17
+msgid "Order"
+msgstr "Order"
 
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:103
 msgid "Order Detail"
@@ -881,6 +918,10 @@ msgstr "Order No."
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:111
 msgid "Order Number:"
 msgstr "Order Number:"
+
+#: pages/checkout/success.tsx:13
+msgid "Order Placed"
+msgstr "Order Placed"
 
 #: packages/module-quote/Components/Checkout/OrderSummary.tsx:57
 msgid "Order Summary"
@@ -899,9 +940,9 @@ msgstr "out of 5"
 msgid "Overall Rating"
 msgstr "Overall Rating"
 
-#: pages/customer/account/index.tsx:20
-#~ msgid "Overview"
-#~ msgstr "Overview"
+#: pages/customer/account/index.tsx:18
+msgid "Overview"
+msgstr "Overview"
 
 #: packages/module-customer/Components/OverviewTab/EditProfile.tsx:194
 #: packages/module-customer/Components/OverviewTab/EditProfile.tsx:199
@@ -1033,6 +1074,7 @@ msgid "Products"
 msgstr "Products"
 
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:108
+#: pages/customer/account/profile/index.tsx:16
 msgid "Profile"
 msgstr "Profile"
 
@@ -1111,9 +1153,9 @@ msgstr "Remember your password"
 msgid "Reorder"
 msgstr "Reorder"
 
-#: pages/customer/account/reset-password/index.tsx:15
-#~ msgid "Reset Password"
-#~ msgstr "Reset Password"
+#: pages/customer/account/reset-password/index.tsx:16
+msgid "Reset Password"
+msgstr "Reset Password"
 
 #: packages/module-quote/Components/Checkout/Payment.tsx:72
 msgid "Reture to Billing Address"
@@ -1204,7 +1246,9 @@ msgstr "Select Payment Method"
 msgid "Seller Contact"
 msgstr "Seller Contact"
 
-#: pages/marketplace/seller/profile/shop/[shop_url].tsx:42
+#: pages/marketplace/seller/profile/shop/[shop_url].tsx:43
+#: pages/marketplace/seller/profile/shop/[shop_url].tsx:95
+#: pages/marketplace/seller/profile/shop/[shop_url].tsx:96
 msgid "Seller Profile"
 msgstr "Seller Profile"
 
@@ -1222,6 +1266,7 @@ msgstr "Set as default address"
 
 #: packages/module-theme/pages/NewPassword.tsx:73
 #: packages/module-theme/pages/NewPassword.tsx:116
+#: pages/customer/account/create-password/index.tsx:12
 msgid "Set New Password"
 msgstr "Set New Password"
 
@@ -1266,6 +1311,7 @@ msgstr "Shop URL"
 
 #: packages/module-quote/Components/Cart/Cart.tsx:72
 #: packages/module-quote/pages/CartPage.tsx:51
+#: pages/checkout/cart.tsx:16
 msgid "Shopping Cart"
 msgstr "Shopping Cart"
 
@@ -1434,9 +1480,10 @@ msgstr "Total:"
 msgid "Track, manage, and revisit your shopping orders history"
 msgstr "Track, manage, and revisit your shopping orders history"
 
-#: packages/module-marketplace/pages/Main.tsx:79
-#~ msgid "Turn Your Passion Into a Business"
-#~ msgstr "Turn Your Passion Into a Business"
+#: pages/marketplace/index.tsx:13
+#: pages/marketplace/index.tsx:14
+msgid "Turn Your Passion Into a Business"
+msgstr "Turn Your Passion Into a Business"
 
 #: packages/module-customer/Components/AddressTab/AddressList.tsx:172
 msgid "Tx:"
@@ -1479,23 +1526,27 @@ msgstr "View Order"
 msgid "View Seller"
 msgstr "View Seller"
 
-#: pages/sales/order/[order].tsx:15
-#: pages/sales/order/history/index.tsx:17
-#~ msgid "Voguish product order"
-#~ msgstr "Voguish product order"
+#: pages/sales/order/[order].tsx:16
+#: pages/sales/order/history/index.tsx:18
+msgid "Voguish product order"
+msgstr "Voguish product order"
 
 #: packages/module-catalog/Components/Product/Slider.tsx:95
 #~ msgid "We can not find products matching for the selection."
 #~ msgstr "We can not find products matching for the selection."
 
-#: pages/customer/account/index.tsx:21
-#~ msgid "Welcome to Voguish customer account"
-#~ msgstr "Welcome to Voguish customer account"
+#: pages/customer/account/index.tsx:19
+msgid "Welcome to Voguish customer account"
+msgstr "Welcome to Voguish customer account"
 
-#: pages/customer/account/login/index.tsx:12
-#: pages/wishlist/index.tsx:18
-#~ msgid "Welcome to Voguish Theme"
-#~ msgstr "Welcome to Voguish Theme"
+#: pages/customer/account/create-password/index.tsx:13
+#: pages/customer/account/create/index.tsx:13
+#: pages/customer/account/forget-password/index.tsx:21
+#: pages/customer/account/login/index.tsx:13
+#: pages/index.tsx:19
+#: pages/wishlist/index.tsx:19
+msgid "Welcome to Voguish Theme"
+msgstr "Welcome to Voguish Theme"
 
 #: packages/module-theme/pages/NotFound.tsx:24
 msgid "Whoops, our bad! The page you &apo; re looking for does not exist."
@@ -1515,6 +1566,7 @@ msgstr "Whoops, our bad! The page you &apo; re looking for does not exist."
 
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:43
 #: packages/module-customer/Components/WishlistTab/Wishlist.tsx:137
+#: pages/wishlist/index.tsx:18
 msgid "Wishlist"
 msgstr "Wishlist"
 
