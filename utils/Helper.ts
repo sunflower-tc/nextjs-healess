@@ -29,7 +29,7 @@ export const getFormattedPrice = (
   currency: string,
   isNegative = false
 ) => {
-  const currencySelected = getLocalStorage('current_currency', true);
+  const currencySelected = getLocalStorage('current_currency');
 
   const selectedRate = currencySelected?.rate || 1;
   currency = currencySelected?.currency_to || getCurrencyCode();

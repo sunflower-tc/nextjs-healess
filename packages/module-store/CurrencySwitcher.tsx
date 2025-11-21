@@ -20,7 +20,6 @@ import {
   Fragment,
   JSXElementConstructor,
   Key,
-  PromiseLikeOfReactNode,
   ReactElement,
   ReactNode,
   ReactPortal,
@@ -131,7 +130,6 @@ function CurrencySwitcher({ header = true }: { header?: boolean }) {
                             >
                           | Iterable<ReactNode>
                           | ReactPortal
-                          | PromiseLikeOfReactNode
                           | null
                           | undefined;
                       },
@@ -208,7 +206,6 @@ function CurrencySwitcher({ header = true }: { header?: boolean }) {
                             >
                           | Iterable<ReactNode>
                           | ReactPortal
-                          | PromiseLikeOfReactNode
                           | null
                           | undefined;
                       },

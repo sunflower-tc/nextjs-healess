@@ -1,0 +1,1548 @@
+msgid ""
+msgstr ""
+"POT-Creation-Date: 2023-10-23 14:59+0530\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: @lingui/cli\n"
+"Language: es\n"
+"Project-Id-Version: \n"
+"Report-Msgid-Bugs-To: \n"
+"PO-Revision-Date: \n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Plural-Forms: \n"
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:150
+msgid "* Current Password is required"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:184
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:161
+#: packages/module-quote/Components/Checkout/Email.tsx:57
+#: packages/module-theme/components/widgets/Newsletter.tsx:54
+#: packages/module-theme/pages/CreateAccount.tsx:142
+#: packages/module-theme/pages/LoginAccount.tsx:97
+msgid "* Email is required"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:208
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:242
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:131
+msgid "* Enter Address1"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:221
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:255
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:151
+msgid "* Enter Address2"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:235
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:269
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:162
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:160
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:338
+msgid "* Enter city Name"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:195
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:229
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:111
+msgid "* Enter Company Name"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:167
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:204
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:88
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:93
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:265
+msgid "* Enter First Name"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:181
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:216
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:99
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:107
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:279
+msgid "* Enter Last Name"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:133
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:307
+msgid "* Enter Line One"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:248
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:281
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:173
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:175
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:353
+msgid "* Enter Post Code"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:286
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:321
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:218
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:401
+msgid "* Enter State/region"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:262
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:294
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:184
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:191
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:371
+msgid "* Enter Telephone Number"
+msgstr ""
+
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:130
+msgid "* First Name is required"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:154
+msgid "* firstname is required"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:116
+msgid "* Firstname is required"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:169
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:145
+msgid "* lastname is required"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:128
+msgid "* Lastname is required"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:163
+#: packages/module-theme/pages/NewPassword.tsx:78
+msgid "* New Password is required"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:163
+msgid "* Nickname is required"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:203
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:180
+#: packages/module-theme/pages/LoginAccount.tsx:116
+msgid "* Password is required"
+msgstr ""
+
+#: packages/module-theme/pages/ForgetPassword.tsx:62
+msgid "* Please Enter the mail"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:114
+msgid "* Query is required"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:181
+msgid "* Re-enter Password is required"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:274
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:309
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:205
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:387
+msgid "* Select Country"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:393
+msgid "* Select state/Region"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:280
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:315
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:212
+msgid "* Select State/Region"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:99
+msgid "* Subject is required"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:178
+msgid "* Summary is required"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:197
+msgid "* This is Required field"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:92
+msgid "*Confirm New Password is required"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:140
+msgid "*Please provide your heading for review"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:123
+msgid "*Please provide your name"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:128
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:37
+#: packages/module-quote/Components/Cart/CartItem.tsx:210
+#: packages/module-quote/Components/Cart/CartItem.tsx:276
+msgid "%1 is required."
+msgstr ""
+
+#: packages/module-theme/pages/NotFound.tsx:21
+msgid "404 Error!"
+msgstr ""
+
+#: packages/module-theme/pages/Server.tsx:22
+msgid "500 Error!"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:72
+msgid "Account created successfully"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddressList.tsx:203
+msgid "Add"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:153
+msgid "Add Address"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:186
+msgid "Add to cart"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToWishlist.tsx:86
+#: packages/module-catalog/Components/Product/Detail/AddToWishlist.tsx:104
+msgid "Add To Whishlist"
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewRightPanel.tsx:189
+msgid "Add your review"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:117
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:102
+msgid "Add Your Review"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:85
+msgid "Address"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:201
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:204
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:235
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:238
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:117
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:119
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:128
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:129
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:302
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:303
+msgid "Address 1"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:214
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:217
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:248
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:251
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:137
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:139
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:143
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:144
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:317
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:318
+msgid "Address 2"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:62
+msgid "Address added successfully"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:114
+msgid "Address craeted successfully"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/DeleteModal.tsx:37
+msgid "Address deleted successfully"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:88
+msgid "Address Update and manage your preferred addresses"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:156
+msgid "Address updated successfully"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:51
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:41
+msgid "All Products"
+msgstr ""
+
+#: packages/module-marketplace/Components/StoreList.tsx:30
+msgid "All Sellers"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:161
+msgid "Allow remote shopping assistance"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:267
+msgid "Already have an account"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/AppliedCoupons.tsx:22
+msgid "Applied Coupon Code"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:47
+msgid "Apply"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:48
+#~ msgid "Apply Coupon"
+#~ msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:28
+msgid "Apply Coupon Code"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/DeleteModal.tsx:58
+msgid "Are you sure you wish to remove this address?"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:237
+msgid "At least 1 symbol"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:247
+msgid "At least 8 characters"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:227
+msgid "At least one integer (0-9)"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:217
+msgid "At least one uppercase (A-Z)"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:55
+#~ msgid "Available Coupon Code :"
+#~ msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:171
+#: packages/module-quote/pages/CartPage.tsx:132
+msgid "Back To Shopping"
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewRightPanel.tsx:180
+msgid "Based on"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerReview.tsx:43
+msgid "Based on users reviews"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:278
+#: packages/module-quote/pages/CheckoutHome.tsx:112
+msgid "Billing Address"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:306
+#: packages/module-customer/Components/AddressTab/DeleteModal.tsx:66
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:343
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:222
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:126
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:161
+msgid "Cancel"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:157
+#: packages/module-quote/pages/CartPage.tsx:123
+#: packages/module-quote/pages/CheckoutHome.tsx:217
+msgid "Checkout"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/DropDownOption.tsx:56
+msgid "Choose"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:157
+msgid "city"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:228
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:229
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:262
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:155
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:156
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:333
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:334
+msgid "City"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:133
+msgid "Color"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:268
+msgid "Comments"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:188
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:191
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:223
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:105
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:107
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:117
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:118
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:289
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:290
+msgid "Company"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/DeleteModal.tsx:63
+msgid "Confirm"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:87
+msgid "Confirm New Password"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:222
+#: packages/module-theme/pages/CreateAccount.tsx:225
+#: packages/module-theme/pages/NewPassword.tsx:84
+msgid "Confirm Password"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:49
+msgid "Confirm Password And New Password Are Not Similar"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/DeleteModal.tsx:54
+msgid "Confirm Removal"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:34
+msgid "Connect with us for personalized shopping assistance and prompt customer support. Reach out now!"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerCard.tsx:140
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:89
+#: packages/module-marketplace/Seller/SellerProfile/ProfileBanner.tsx:175
+msgid "Contact Seller"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/EmptyCart.tsx:35
+msgid "Continue Shopping"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:77
+msgid "Copy as Shipping Address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:191
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:197
+msgid "Country*"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:261
+msgid "Create a account"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:103
+msgid "Create New Customer Account"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:250
+msgid "Creating Account"
+msgstr ""
+
+#: packages/module-customer/Components/Layout/Sidebar.tsx:91
+#~ msgid "Curate your dreams: These treasures await in your personalized Wishlist"
+#~ msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:141
+msgid "Current Password"
+msgstr ""
+
+#: pages/customer/account/address/index.tsx:17
+#~ msgid "Customer Address"
+#~ msgstr ""
+
+#: pages/customer/account/login/index.tsx:11
+#~ msgid "Customer Login"
+#~ msgstr ""
+
+#: pages/customer/account/profile/index.tsx:16
+#~ msgid "Customer profile"
+#~ msgstr ""
+
+#: pages/customer/account/reset-password/index.tsx:16
+#~ msgid "Customer reset passsword of your login credential"
+#~ msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddressList.tsx:129
+msgid "Default Address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:56
+msgid "Delivery address"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/TabPanel.tsx:37
+msgid "Description"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartTotal.tsx:96
+msgid "Discount :"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:170
+msgid "Do you wand to become a seller/vendor ?"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/index.tsx:42
+msgid "DropdownData"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:110
+msgid "Edit"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:191
+msgid "Edit Address"
+msgstr ""
+
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:102
+msgid "Edit Profile"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:175
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:180
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:152
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:157
+#: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:72
+#: packages/module-quote/Components/Checkout/Email.tsx:48
+#: packages/module-quote/Components/Checkout/Email.tsx:53
+#: packages/module-theme/pages/CreateAccount.tsx:134
+#: packages/module-theme/pages/CreateAccount.tsx:137
+#: packages/module-theme/pages/ForgetPassword.tsx:54
+#: packages/module-theme/pages/ForgetPassword.tsx:58
+#: packages/module-theme/pages/LoginAccount.tsx:89
+#: packages/module-theme/pages/LoginAccount.tsx:92
+msgid "Email"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:193
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:128
+msgid "Email :"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/NoWishlistItem.tsx:56
+msgid "Empty Wishlist"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/NoWishlistItem.tsx:60
+msgid "Empty wishlist? Start your wishlist journey"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:35
+#~ msgid "Enter discount code"
+#~ msgstr ""
+
+#: packages/module-quote/Components/Cart/CartDiscount.tsx:35
+msgid "Enter discount code : 'Test'"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:176
+msgid "Enter review summary"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:67
+#~ msgid "Enter your email"
+#~ msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:61
+msgid "Enter your mail id"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:127
+msgid "Enter your nickName"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:153
+msgid "Enter Your Nickname"
+msgstr ""
+
+#: packages/module-theme/components/ui/SearchPopOver.tsx:149
+msgid "ESC"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/FilterDrawer.tsx:39
+#: packages/module-catalog/Components/Product/Item/MobileFilter.tsx:84
+msgid "Filter"
+msgstr ""
+
+#: packages/module-theme/Layout/Footer/index.tsx:107
+#: packages/module-theme/Layout/Footer/index.tsx:217
+msgid "FIND US ON :"
+msgstr "Encuéntranos en"
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:163
+#: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:53
+msgid "First name"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:160
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:197
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:199
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:145
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:150
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:121
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:126
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:83
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:88
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:89
+#: packages/module-theme/pages/CreateAccount.tsx:108
+#: packages/module-theme/pages/CreateAccount.tsx:111
+msgid "First Name"
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewLeftPanel.tsx:128
+msgid "For now no reviews added."
+msgstr ""
+
+#: packages/module-theme/pages/ForgetPassword.tsx:50
+#: packages/module-theme/pages/LoginAccount.tsx:153
+msgid "Forget Password"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:31
+msgid "Get In Touch"
+msgstr ""
+
+#: packages/module-theme/pages/NotFound.tsx:36
+#: packages/module-theme/pages/Server.tsx:34
+#: pages/_error.tsx:34
+msgid "Go Back"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/NoWishlistItem.tsx:67
+msgid "Go Home"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:439
+msgid "Go to cart"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/FormActions.tsx:27
+msgid "Go To Cart"
+msgstr ""
+
+#: packages/module-quote/pages/SuccessPage.tsx:72
+#: packages/module-theme/components/ui/EmptyPage.tsx:31
+#: packages/module-theme/components/ui/NoDataFound.tsx:27
+#: packages/module-theme/pages/NotFound.tsx:46
+#: packages/module-theme/pages/Server.tsx:44
+#: pages/_error.tsx:44
+msgid "Go To Home"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:120
+msgid "Go to Payment"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/FormActions.tsx:27
+msgid "Go to Previous Step"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:215
+msgid "Grand Total"
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewItem.tsx:82
+msgid "Guest"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:46
+msgid "Handpicked products in your Personal Wishlist"
+msgstr ""
+
+#: packages/module-theme/components/ui/Breadcrumbs.tsx:14
+msgid "Home"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartItem.tsx:173
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:134
+msgid "In Stock"
+msgstr ""
+
+#: packages/module-theme/pages/Server.tsx:25
+msgid "Internal Server Error"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:63
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:70
+msgid "items"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/Pagination.tsx:110
+msgid "Items"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Pagination.tsx:192
+#: packages/module-theme/components/widgets/Pagination.tsx:238
+msgid "items per page"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:175
+msgid "Last name"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:173
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:210
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:160
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:165
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:136
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:141
+#: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:62
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:94
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:102
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:103
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:274
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:275
+#: packages/module-theme/pages/CreateAccount.tsx:122
+msgid "Last Name"
+msgstr ""
+
+#: packages/module-theme/pages/ForgetPassword.tsx:74
+msgid "Link is on the way..."
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewLeftPanel.tsx:116
+#: packages/module-theme/components/widgets/ProductReview/ReviewsList.tsx:83
+msgid "Load more reviews"
+msgstr ""
+
+#: pages/customer/account/index.tsx:7
+#~ msgid "Loading..."
+#~ msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:142
+msgid "Log in"
+msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:134
+msgid "Logging In..."
+msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:84
+msgid "Login"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/EmptyCart.tsx:25
+msgid "Look's Like You Haven't Made Your Choice Yet.."
+msgstr ""
+
+#: packages/module-theme/components/widgets/Testimonial/index.tsx:36
+#~ msgid "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto aliquam et blanditiis deserunt eius illo."
+#~ msgstr ""
+
+#: packages/module-theme/pages/ForgetPassword.tsx:32
+msgid "Mail has been sent to your registered Email"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:112
+#~ msgid "Manage Profile for enhanced experience"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:111
+msgid "Manage profile for enhanced shopping experience"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartItem.tsx:217
+#: packages/module-quote/Components/Cart/CartItem.tsx:283
+msgid "maximum value"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:131
+#: packages/module-quote/Components/Cart/CartItem.tsx:213
+#: packages/module-quote/Components/Cart/CartItem.tsx:279
+msgid "minimum value"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:189
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:124
+#: packages/module-quote/Components/Checkout/Address/AddressCard.tsx:33
+msgid "Mobile :"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:157
+msgid "New password"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:154
+#: packages/module-theme/pages/NewPassword.tsx:65
+#: packages/module-theme/pages/NewPassword.tsx:70
+msgid "New Password"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:64
+msgid "new Password & Confirm is not same"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:40
+msgid "New password set successfully"
+msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:158
+msgid "New to Vougish"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/FormActions.tsx:38
+msgid "Next"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:151
+msgid "Nickname"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/NoAddress.tsx:16
+msgid "No Address found!"
+msgstr ""
+
+#: packages/module-theme/components/ui/NoDataFound.tsx:16
+msgid "No Data Found"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/page/Details.tsx:56
+msgid "No Product Found"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/RelatedProducts.tsx:238
+msgid "No Products yet!!"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:91
+msgid "No Return Policy Found"
+msgstr ""
+
+#: packages/module-theme/components/ui/NoDataFound.tsx:19
+msgid "No return, No Exchange - All Sales Final."
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:108
+msgid "No Shipping Policy Found"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:277
+#: packages/module-theme/pages/LoginAccount.tsx:168
+#: packages/module-theme/pages/NewPassword.tsx:132
+msgid "now"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:145
+msgid "Old password"
+msgstr ""
+
+#: packages/module-theme/components/ui/EmptyPage.tsx:19
+msgid "Oops! There are no products here."
+msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:162
+msgid "or"
+msgstr ""
+
+#: pages/sales/order/[order].tsx:14
+#: pages/sales/order/history/index.tsx:16
+#~ msgid "Order"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:103
+msgid "Order Detail"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:238
+msgid "Order Information"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/OrderProduct.tsx:113
+msgid "Order No."
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:111
+msgid "Order Number:"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:57
+msgid "Order Summary"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddressList.tsx:129
+msgid "Other Address"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerReview.tsx:40
+msgid "out of 5"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerReview.tsx:20
+#: packages/module-marketplace/Components/ReviewRightPanel.tsx:138
+msgid "Overall Rating"
+msgstr ""
+
+#: pages/customer/account/index.tsx:20
+#~ msgid "Overview"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:194
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:199
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:171
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:175
+#: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:81
+#: packages/module-theme/pages/CreateAccount.tsx:208
+#: packages/module-theme/pages/CreateAccount.tsx:211
+#: packages/module-theme/pages/LoginAccount.tsx:107
+#: packages/module-theme/pages/LoginAccount.tsx:111
+msgid "Password"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:216
+msgid "Password is required"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:207
+msgid "Password Must contain"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:81
+msgid "Password updaete successfully"
+msgstr ""
+
+#: packages/module-quote/pages/CheckoutHome.tsx:129
+msgid "Payment"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:307
+msgid "Payment Method"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:95
+msgid "Payment Mode"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Payment.tsx:52
+msgid "Payment Option"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:109
+#~ msgid "Payment Options"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OrderTab/Pagination.tsx:134
+msgid "per page"
+msgstr ""
+
+#: packages/module-quote/pages/CheckoutHome.tsx:100
+#: packages/module-quote/pages/CheckoutHome.tsx:210
+msgid "Personal Details"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:255
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:288
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:179
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:362
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:364
+msgid "Phone"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:186
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:121
+msgid "Phone :"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:257
+msgid "Phone number"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:133
+msgid "Place Order"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/DropDownOption.tsx:39
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/DropDownOption.tsx:54
+msgid "Placeholder"
+msgstr ""
+
+#: packages/module-theme/components/ui/EmptyPage.tsx:22
+msgid "Please discover new products here."
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:187
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:164
+#: packages/module-quote/Components/Checkout/Email.tsx:61
+#: packages/module-theme/components/widgets/Newsletter.tsx:57
+#: packages/module-theme/pages/CreateAccount.tsx:145
+#: packages/module-theme/pages/LoginAccount.tsx:100
+msgid "Please enter a valid email"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:207
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:167
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:185
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:184
+msgid "Please enter a valid Password"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:128
+msgid "Policy"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:136
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:122
+msgid "Price"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartItem.tsx:305
+msgid "Price:"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:147
+msgid "Proceed To Cart Page"
+msgstr ""
+
+#: packages/module-marketplace/pages/Main.tsx:80
+msgid "Process of selling with us"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:124
+msgid "Product Name"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerCard.tsx:129
+#: packages/module-marketplace/Seller/MUIIndex/Sellers.tsx:98
+msgid "Products"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:108
+msgid "Profile"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:73
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:66
+msgid "profile updaete successfully"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:201
+msgid "Qty"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartItem.tsx:184
+#: packages/module-quote/Components/Cart/CartItem.tsx:250
+msgid "Qty :"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:130
+msgid "Quality"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:118
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:139
+#: packages/module-quote/Components/Cart/CartItem.tsx:199
+#: packages/module-quote/Components/Cart/CartItem.tsx:265
+msgid "Quantity"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:100
+#~ msgid "Quantity :"
+#~ msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:97
+msgid "Quantity:"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:104
+msgid "Query"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:108
+msgid "Rating"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:172
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:175
+msgid "Re-enter Password"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:60
+msgid "Recently Added"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:75
+msgid "Recently Added Product"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:55
+msgid "Related Added Products"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/TabPanel.tsx:54
+#: packages/module-catalog/Components/Product/RelatedProducts.tsx:39
+msgid "Related Products"
+msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:122
+msgid "Remember me"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:122
+msgid "Remember your password"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/ReOrderItem.tsx:37
+msgid "Reorder"
+msgstr ""
+
+#: pages/customer/account/reset-password/index.tsx:15
+#~ msgid "Reset Password"
+#~ msgstr ""
+
+#: packages/module-quote/Components/Checkout/Payment.tsx:72
+msgid "Reture to Billing Address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:439
+msgid "Reture to personal address"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:82
+msgid "Return Policy"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:106
+msgid "Return to account Overview"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ShippingMethods.tsx:83
+msgid "Return to shipping address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:235
+msgid "Return to shipping method"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:70
+msgid "Review created successfully"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:190
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:149
+msgid "Review Description"
+msgstr ""
+
+#: packages/module-quote/pages/CheckoutHome.tsx:143
+msgid "Review Order"
+msgstr ""
+
+#: packages/module-marketplace/Components/ReviewRightPanel.tsx:181
+msgid "reviews"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/TabPanel.tsx:65
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:104
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:71
+msgid "Reviews"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/ProfileBanner.tsx:151
+msgid "Sale :"
+msgstr ""
+
+#: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:127
+msgid "Save"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:223
+msgid "Save Address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:226
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:413
+msgid "Save in Address Book"
+msgstr ""
+
+#: packages/module-theme/components/ui/SearchPopOver.tsx:175
+msgid "Search"
+msgstr ""
+
+#: packages/module-theme/components/ui/SearchPopOver.tsx:141
+msgid "Search Product..."
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/ColorSwatchOption.tsx:54
+msgid "Select"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/Pagination.tsx:116
+msgid "Select Page Limit"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Payment.tsx:61
+msgid "Select Payment Method"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:180
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:116
+msgid "Seller Contact"
+msgstr ""
+
+#: pages/marketplace/seller/profile/shop/[shop_url].tsx:42
+msgid "Seller Profile"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:47
+msgid "Sellers collection"
+msgstr ""
+
+#: packages/module-theme/pages/ForgetPassword.tsx:84
+msgid "Send Link"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:330
+msgid "Set as default address"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:73
+#: packages/module-theme/pages/NewPassword.tsx:116
+msgid "Set New Password"
+msgstr ""
+
+#: packages/module-theme/pages/NewPassword.tsx:106
+msgid "Setting New Password..."
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:194
+msgid "Shipping"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartTotal.tsx:79
+msgid "Shipping :"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:243
+#: packages/module-quote/pages/CheckoutHome.tsx:169
+msgid "Shipping Address"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:149
+#~ msgid "Shipping Address updated successfully!!"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:270
+#: packages/module-quote/pages/CheckoutHome.tsx:187
+msgid "Shipping Method"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:68
+msgid "Shipping Mode"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:154
+#: packages/module-marketplace/Seller/SellerProfile/Profile/ProfileContent.tsx:99
+msgid "Shipping Policy"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:190
+msgid "Shop URL"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:72
+#: packages/module-quote/pages/CartPage.tsx:51
+msgid "Shopping Cart"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/Pagination.tsx:133
+msgid "Show"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:275
+#: packages/module-theme/pages/NewPassword.tsx:130
+msgid "Sign In"
+msgstr ""
+
+#: packages/module-customer/Components/Layout/Sidebar.tsx:69
+msgid "Sign out"
+msgstr ""
+
+#: packages/module-theme/pages/LoginAccount.tsx:166
+msgid "Sign Up"
+msgstr ""
+
+#: packages/module-theme/pages/CreateAccount.tsx:156
+msgid "Sign Up For Newsletter"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:130
+msgid "Size"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:127
+msgid "Sku"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/Details.tsx:79
+msgid "Sku :"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerCard.tsx:73
+msgid "Sold by"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/SellerCard.tsx:154
+msgid "Sold By"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/MobileFilter.tsx:71
+msgid "Sort"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Toolbar.tsx:93
+#~ msgid "Sort By :"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OrderTab/NoOrderProduct.tsx:18
+msgid "Start Shopping"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:93
+msgid "Subject"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:314
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:351
+#: packages/module-customer/Components/OverviewTab/EditProfile.tsx:125
+#: packages/module-customer/Components/ProfileTab/EditForm.tsx:113
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:232
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:147
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:168
+msgid "Submit"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/ContactSellerForm.tsx:138
+msgid "Submitting your Query..."
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:207
+msgid "Submitting your Review..."
+msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:69
+msgid "Subscribe"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Newsletter.tsx:18
+msgid "Subscribe successfully"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:182
+msgid "Subtotal"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartTotal.tsx:64
+msgid "Subtotal :"
+msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:169
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:158
+msgid "Summary"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:265
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:302
+msgid "T:"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:206
+msgid "Tax"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartTotal.tsx:116
+msgid "Tax :"
+msgstr ""
+
+#: packages/module-quote/pages/SuccessPage.tsx:54
+msgid "Thank You !"
+msgstr ""
+
+#: packages/module-quote/pages/SuccessPage.tsx:61
+msgid "Thank you for your purchase! See You Again"
+msgstr ""
+
+#: utils/Constants.ts:41
+msgid "The current customer is not authorized."
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/ColorSwatchOption.tsx:38
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/DropDownOption.tsx:40
+#: packages/module-catalog/Components/Product/Item/ConfigOptions/TextSwatchOption.tsx:34
+msgid "This is a required field."
+msgstr ""
+
+#: packages/module-theme/components/widgets/ExploreProducts/index.tsx:28
+#: utils/Constants.ts:20
+msgid "Top Deals"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ExploreProducts/index.tsx:44
+#: utils/Constants.ts:19
+msgid "Top Rated"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ExploreProducts/index.tsx:61
+#: utils/Constants.ts:18
+msgid "Top Selling"
+msgstr ""
+
+#: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:142
+msgid "Total"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/Cart.tsx:125
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:140
+#: packages/module-quote/Components/Checkout/OrderSummary.tsx:174
+#: packages/module-quote/pages/CartPage.tsx:106
+msgid "Total :"
+msgstr ""
+
+#: packages/module-marketplace/Seller/SellerProfile/ProfileBanner.tsx:135
+msgid "Total Count :"
+msgstr ""
+
+#: packages/module-quote/Components/Cart/CartItem.tsx:313
+msgid "Total:"
+msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:65
+msgid "Track, manage, and revisit your shopping orders history"
+msgstr ""
+
+#: packages/module-marketplace/pages/Main.tsx:79
+#~ msgid "Turn Your Passion Into a Business"
+#~ msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddressList.tsx:172
+msgid "Tx:"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:427
+msgid "UPDATE"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Item/Price.tsx:19
+#~ msgid "USD"
+#~ msgstr ""
+
+#: packages/module-marketplace/Components/form/AddReviewForm.tsx:140
+msgid "Value"
+msgstr ""
+
+#: packages/module-marketplace/Seller/MUIIndex/Sellers.tsx:119
+#~ msgid "View All"
+#~ msgstr ""
+
+#: packages/module-marketplace/pages/Main.tsx:122
+msgid "View All Sellers"
+msgstr ""
+
+#: packages/module-theme/components/widgets/Banner/PromotionBanner.tsx:95
+#~ msgid "View Items"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OrderTab/OrderProduct.tsx:180
+msgid "View Order"
+msgstr ""
+
+#: packages/module-catalog/Components/Product/Detail/Details.tsx:75
+#: packages/module-catalog/Components/Product/Detail/Details.tsx:110
+#~ msgid "View reviews"
+#~ msgstr ""
+
+#: packages/module-marketplace/Seller/MUIIndex/Sellers.tsx:105
+msgid "View Seller"
+msgstr ""
+
+#: pages/sales/order/[order].tsx:15
+#: pages/sales/order/history/index.tsx:17
+#~ msgid "Voguish product order"
+#~ msgstr ""
+
+#: packages/module-catalog/Components/Product/Slider.tsx:95
+#~ msgid "We can not find products matching for the selection."
+#~ msgstr ""
+
+#: pages/customer/account/index.tsx:21
+#~ msgid "Welcome to Voguish customer account"
+#~ msgstr ""
+
+#: pages/customer/account/login/index.tsx:12
+#: pages/wishlist/index.tsx:18
+#~ msgid "Welcome to Voguish Theme"
+#~ msgstr ""
+
+#: packages/module-theme/pages/NotFound.tsx:24
+msgid "Whoops, our bad! The page you &apo; re looking for does not exist."
+msgstr ""
+
+#: packages/module-theme/pages/NotFound.tsx:24
+#~ msgid "Whoops, our bad! The page you&apo;re looking for does not exist."
+#~ msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:144
+#~ msgid "Wish List"
+#~ msgstr ""
+
+#: pages/wishlist/index.tsx:17
+#~ msgid "wishlist"
+#~ msgstr ""
+
+#: packages/module-customer/Components/OverviewTab/TabButton.tsx:43
+#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:137
+msgid "Wishlist"
+msgstr ""
+
+#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:276
+msgid "Write a comments"
+msgstr ""
+
+#: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:134
+msgid "Write a summary"
+msgstr ""
+
+#: packages/module-customer/Components/OrderTab/NoOrderProduct.tsx:10
+msgid "You haven placed any orders yet."
+msgstr ""
+
+#: packages/module-quote/Components/Cart/EmptyCart.tsx:19
+msgid "Your cart is empty!"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:243
+msgid "Zip code"
+msgstr ""
+
+#: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:241
+#: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:275
+#: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:168
+#: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:169
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:345
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:348
+msgid "Zip Code"
+msgstr ""

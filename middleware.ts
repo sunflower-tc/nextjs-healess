@@ -1,4 +1,3 @@
-
 import { isMarketplaceEnable } from '@utils/Helper';
 import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
@@ -15,6 +14,13 @@ export const config = {
 
 const sellerUrls = ['marketplace'];
 
+const checkAuthPages = (pathName: string) => {
+  return (
+    pathName.endsWith('/customer/account/login') ||
+    pathName.endsWith('/customer/account/create') ||
+    pathName.endsWith('/customer/account/forgot-password')
+  );
+};
 // Validating Seller Path
 const isValidSellerPath = (pathName: string) =>
   sellerUrls.find((url) => pathName.startsWith(url));
@@ -26,9 +32,14 @@ const isValidSellerPath = (pathName: string) =>
  */
 const fromMiddleware = async (req: any) => {
   const marketplaceIsActive = await isMarketplaceEnable();
+  const token = req.nextauth.token;
 
   let pathName = req.nextUrl.pathname;
-
+  const url = req.nextUrl.clone();
+  if (token && checkAuthPages(pathName)) {
+    url.pathname = '/';
+    return NextResponse.redirect(url);
+  }
   if (pathName.startsWith('next/')) {
     return NextResponse.next();
   }
@@ -52,9 +63,14 @@ export default withAuth(
     callbacks: {
       authorized: async ({ req, token }) => {
         let pathName = req.nextUrl.pathname;
-        if (!token && !pathName.includes('marketplace')) {
+        if (
+          !token &&
+          checkAuthPages(pathName) === false &&
+          !pathName.includes('marketplace')
+        ) {
           return false;
         }
+
         return true;
       },
     },

@@ -197,7 +197,7 @@ const BillingAddress = ({
               {
                 <CountryRegionDropdown
                   labelName
-                  selectedCountryCode={countryCode}
+                  selectedCountryCode={countryCode??''}
                   selectedRegionId={`${selectedBillingAddress.region_id || ''}`}
                   selectedRegion={selectedBillingAddress.region || ''}
                   countryRegister={{

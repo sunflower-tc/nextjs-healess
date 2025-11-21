@@ -9,7 +9,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   images: {
     unoptimized: true,
-    domains: process.env.IMAGE_DOMAINS.split(','),
+    domains: process.env.IMAGE_DOMAINS?.split(','),
   },
   experimental: {
     swcPlugins: [

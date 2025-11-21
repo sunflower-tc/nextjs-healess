@@ -61,10 +61,6 @@ const errorLink = onError(({ graphQLErrors, networkError }) => {
       message: `[Network error]: ${networkError}`,
       type: 'error',
     });
-
-    /* setTimeout(() => {
-      Router.push('/error');
-    }, 3000); */
   }
 });
 

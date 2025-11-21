@@ -61,9 +61,9 @@ export async function getStaticPaths() {
   let paths: PagePathProps = [];
 
   if (process.env.MODE === 'PRODUCTION') {
-    const { data }: { data: ProductsListInterface } = await graphqlRequest({
+    const data: ProductsListInterface = await graphqlRequest({
       query: PRODUCT_PATH_QUERY,
-      variables: { filters: {}, pageSize: 9 },
+      variables: { filters: {} },
     });
 
     const products = data?.products?.items || [];

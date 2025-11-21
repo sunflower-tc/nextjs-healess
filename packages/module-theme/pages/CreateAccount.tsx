@@ -19,9 +19,11 @@ import { motion } from 'framer-motion';
 import { Trans, t } from '@lingui/macro';
 import InputField from '@voguish/module-theme/components/ui/Form/Elements/Input';
 import type { NextPageWithLayout } from '@voguish/module-theme/page';
+import { useSession } from 'next-auth/react';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
+
 const CreateAccount: NextPageWithLayout = () => {
   const {
     register,
@@ -30,6 +32,7 @@ const CreateAccount: NextPageWithLayout = () => {
     formState: { errors, isSubmitting },
   } = useForm();
   const router = useRouter();
+  const { data: session } = useSession();
 
   //commented code is for later use while implementing confirm password
   const [createCustomer, { data /*loading, error*/ }] =
@@ -39,6 +42,9 @@ const CreateAccount: NextPageWithLayout = () => {
   useEffect(() => {
     if (data?.createCustomer?.customer) {
       router.push('/customer/account/login');
+    }
+    if (session?.user?.token) {
+      router.push('/customer/account');
     }
   }, [data, router]);
 

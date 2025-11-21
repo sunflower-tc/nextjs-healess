@@ -14,6 +14,7 @@ export interface ProductsInterface {
   activePageFilter?: string | null;
   activePageFilterValue?: string | null;
   search?: string;
+  subCategoryItem?: CategoryItem;
 }
 
 /**

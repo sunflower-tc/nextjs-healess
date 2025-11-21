@@ -104,18 +104,19 @@ export const ProductReviewForm = (props: PropData) => {
             </Grid>
             <FormGroup sx={{ mt: 1 }}>
               <input type="hidden" {...register('sku', { value: props.sku })} />
-              <label htmlFor="ratings__NA==" className="mt-2">
+              <label htmlFor="ratings__NA==" className="mt-2 max-w-fit">
                 <Trans>Rating</Trans>
               </label>
               <input
                 type="hidden"
                 {...register('ratings__NA==', { value: Ratingvalue })}
               />
-
-              <ReviewRating
-                Ratingvalue={Ratingvalue || 0}
-                setRatingvalue={setRatingvalue}
-              />
+              <div className="truncate max-w-[9.75rem]">
+                <ReviewRating
+                  Ratingvalue={Ratingvalue || 0}
+                  setRatingvalue={setRatingvalue}
+                />
+              </div>
               <InputField
                 label="Name"
                 {...register('nickname', {

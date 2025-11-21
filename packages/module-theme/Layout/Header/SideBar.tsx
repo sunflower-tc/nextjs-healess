@@ -26,7 +26,7 @@ type Props = {
   sortedMenu: Record<string, FormattedMenuItem>;
 };
 
-type Category = {
+export type Category = {
   title: string;
   url_key: string;
   image_url: string;
@@ -103,9 +103,8 @@ export default function SideBar({
                                 classNames(
                                   selected
                                     ? ''
-                                    : `text-gray-900 ${
-                                        selectedIndex !== -1 && 'hidden'
-                                      }`,
+                                    : `text-gray-900 ${selectedIndex !== -1 && 'hidden'
+                                    }`,
                                   ' mx-2 py-4 bg-white leading-6 font-semibold hover:bg-white text-left rounded-md duration-300 hover:text-brand px-1  flex items-center  border-0 text-base -tracking-wide uppercase'
                                 )
                               }
@@ -289,11 +288,10 @@ function LinkItem({ setOpenSidebar, page }: MenuItem) {
       <Link
         onClick={() => setOpenSidebar(false)}
         href={`/catalog/category/${page.url_key}`}
-        className={`block w-full p-2 -m-2 font-medium  cta ${
-          router.asPath === `/catalog/category/${page.url_key}`
+        className={`block w-full p-2 -m-2 font-medium  cta ${router.asPath === `/catalog/category/${page.url_key}`
             ? 'text-brand'
             : 'text-gray-900'
-        }`}
+          }`}
       >
         <div className="cta max-w-fit">
           <span className="flex w-full text-base font-semibold leading-6 uppercase hover-underline-animation -tracking-wide">

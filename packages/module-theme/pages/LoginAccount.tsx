@@ -29,13 +29,17 @@ const LoginAccount: NextPageWithLayout = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { data: session } = useSession();
+  const credential = process.env.DEMO_CREDENTIALS?.split('||');
+  const [email = '', password = ''] = credential || [];
   const [mergeCart] = useCustomerMutation(MERGE_CART);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm({ defaultValues: { email, password, remember: false } });
   const token = useToken();
+  const { query } = router;
+
   useEffect(() => {
     let guestId = getLocalStorage(CART_DATA, true) || {};
 
@@ -61,7 +65,7 @@ const LoginAccount: NextPageWithLayout = () => {
     }
     if (result?.ok) {
       dispatch(setUser(session));
-      router.back();
+      router.push(query?.callbackUrl?.toString() || '/');
     }
   };
 

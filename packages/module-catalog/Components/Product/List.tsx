@@ -14,7 +14,6 @@ import {
   ToolbarActionType,
   useProductsQuery,
 } from '@voguish/module-catalog';
-// import PRODUCTS_QUERY from '@voguish/module-catalog/graphql/Products.graphql';
 import { Pagination } from '@voguish/module-theme';
 import Containers from '@voguish/module-theme/components/ui/Container';
 import EmptyPage from '@voguish/module-theme/components/ui/EmptyPage';
@@ -23,8 +22,7 @@ import LayeredPlaceHolder from './Detail/placeholder/PlaceHolder';
 import { Placeholder, ProductItem } from './Item';
 import DesktopFilter from './Item/DesktopFilter';
 import MobileFilter from './Item/MobileFilter';
-
-// import { PlaceHolder as LayeredPlaceHolder } from './LayerNavigation';
+import { SubCategory } from '~packages/module-theme/components/ui/SubCategory';
 
 /**
  * Initial Search Criteria
@@ -88,6 +86,7 @@ const ProductList = ({
   activePageFilter = null,
   activePageFilterValue = null,
   showToolBar,
+  subCategoryItem,
 }: ProductsInterface) => {
   const [searchCriteria, dispatchSearchCriteria] = useReducer(
     searchCriteriaReducer,
@@ -258,26 +257,26 @@ const ProductList = ({
             <Grid container spacing={4}>
               {loading
                 ? placeHolders.map((item, index) => (
-                    <Grid item xs={12} sm={6} md={4} key={`${index + item}`}>
-                      <Placeholder />
-                    </Grid>
-                  ))
+                  <Grid item xs={12} sm={6} md={4} key={`${index + item}`}>
+                    <Placeholder />
+                  </Grid>
+                ))
                 : isValidArray(products) &&
-                  products.map((product) => (
-                    <Grid
-                      item
-                      xs={12}
-                      sm={view === ProductListViewType.GRID ? 6 : 12}
-                      md={view === ProductListViewType.GRID ? 4 : 12}
-                      key={product.url_key}
-                    >
-                      <ProductItem
-                        view={view}
-                        product={product}
-                        key={product.id}
-                      />
-                    </Grid>
-                  ))}
+                products.map((product) => (
+                  <Grid
+                    item
+                    xs={12}
+                    sm={view === ProductListViewType.GRID ? 6 : 12}
+                    md={view === ProductListViewType.GRID ? 4 : 12}
+                    key={product.url_key}
+                  >
+                    <ProductItem
+                      view={view}
+                      product={product}
+                      key={product.id}
+                    />
+                  </Grid>
+                ))}
             </Grid>
             {isValidArray(products) && showPagination && (
               <Grid item className="w-full">
@@ -295,7 +294,9 @@ const ProductList = ({
           </Grid>
         </Grid>
       </Stack>
-      {!isValidArray(products) && !loading && <EmptyPage />}
+
+      {(isValidArray(subCategoryItem) && (!isValidArray(products) && !loading)) && (<SubCategory subCategoryItem={subCategoryItem} />)}
+      {(!isValidArray(products) && !isValidArray(subCategoryItem) && !loading) && <EmptyPage />}
     </Containers>
   );
 };
