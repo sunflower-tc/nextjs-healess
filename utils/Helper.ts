@@ -240,3 +240,32 @@ export function getFlagEmoji(countryCode: string) {
     return '';
   }
 }
+
+
+
+export const getLocalStore = (
+  availableStores: {
+    code: string;
+    store_code: string;
+    locale_code?: string;
+    locale?: string;
+  }[],
+  locale: string
+): string => {
+
+  if (availableStores?.length === 1) {
+    const storeLocale = availableStores[0]?.store_code ?? availableStores[0]?.locale;
+    return storeLocale?.split('_')?.[0]
+  }
+  const store = availableStores.find((store) => {
+    const storeLocale = store.store_code || store.locale;
+    const normalizedStoreLocale = storeLocale?.split('_')?.[0];
+    return normalizedStoreLocale === locale;
+  });
+
+  return (
+    store?.store_code ??
+    process.env.NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE ??
+    ''
+  );
+};

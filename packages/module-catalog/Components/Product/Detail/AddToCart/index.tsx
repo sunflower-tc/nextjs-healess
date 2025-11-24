@@ -19,7 +19,6 @@ const KeyboardArrowUp = dynamic(
   () => import('@mui/icons-material/KeyboardArrowUp')
 );
 const ConfigOptions = dynamic(() => import('../../Item/ConfigOptions'));
-
 export const AddToCart = ({
   product,
   setProductPrice,
