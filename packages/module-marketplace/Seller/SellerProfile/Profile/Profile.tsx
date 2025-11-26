@@ -13,7 +13,6 @@ const Profile = (props: IProfileProps) => {
   } = props;
 
   return (
-    <>
       <Content
         id={id}
         loading={loading}
@@ -23,7 +22,6 @@ const Profile = (props: IProfileProps) => {
         contactNumber={contactNumber}
         email={email}
       />
-    </>
   );
 };
 export default Profile;
