@@ -30,7 +30,6 @@ function CurrencySwitcher({
             (state) => state?.storeConfig?.currentCurrency?.currency_to
         ) ?? currencySelected?.currency_to ?? getKeyFromStorage('store_config','default_display_currency_code');
     
-    console.log(currencySelected , ' === currencySelected === ',currency)
 
     const { data, loading } = useQuery(AVAILABLE_CURRENCY, {
         fetchPolicy: 'network-only',
