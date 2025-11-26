@@ -6,6 +6,7 @@ import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
     CURRENCY_RATES,
+    getKeyFromStorage,
     getLocalStorage,
     setLocalStorage
 } from '@store/local-storage';
@@ -27,7 +28,10 @@ function CurrencySwitcher({
     const currency =
         useAppSelector(
             (state) => state?.storeConfig?.currentCurrency?.currency_to
-        ) ?? currencySelected?.currency_to;
+        ) ?? currencySelected?.currency_to ?? getKeyFromStorage('store_config','default_display_currency_code');
+    
+    console.log(currencySelected , ' === currencySelected === ',currency)
+
     const { data, loading } = useQuery(AVAILABLE_CURRENCY, {
         fetchPolicy: 'network-only',
         nextFetchPolicy: 'cache-first',
@@ -84,6 +88,7 @@ function CurrencySwitcher({
             return codeA.localeCompare(codeB);
         }) || [];
 
+        console.log(data?.currency , ' data?.currency === ')
     return (
         <>
             {header ? (
@@ -96,7 +101,7 @@ function CurrencySwitcher({
                                 ) : (
                                     <span className="flex items-center truncate hover:text-brand">
                                         <span className={`font-light leading-8 ${className}`}>
-                                            {itemOption?.symbol + itemOption?.code}
+                                            {itemOption?.symbol??itemOption?.code}
                                         </span>
                                         <motion.div
                                             className="relative py-0 max-h-4 lg:hidden"
