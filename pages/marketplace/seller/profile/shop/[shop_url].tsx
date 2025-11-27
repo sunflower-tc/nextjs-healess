@@ -40,7 +40,7 @@ const SellerPage: NextPageWithLayout = (prop) => {
         <>
           <Containers>
             <Typography variant="h4" mb={2}>
-              <Trans> Seller Profile</Trans>
+              <Trans>Seller Profile</Trans>
             </Typography>
           </Containers>
           <SPBanner

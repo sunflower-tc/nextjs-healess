@@ -99,7 +99,7 @@ export const ProductReviewForm = (props: PropData) => {
           >
             <Grid className="relative flex items-center justify-between">
               <Typography variant="h2" className="text-lg font-semibold">
-                <Trans> Add Your Review</Trans>
+                <Trans>Add Your Review</Trans>
               </Typography>
             </Grid>
             <FormGroup sx={{ mt: 1 }}>
@@ -158,7 +158,7 @@ export const ProductReviewForm = (props: PropData) => {
                   type="reset"
                   onClick={props.openForm}
                 >
-                  <Trans> Cancel</Trans>
+                  <Trans>Cancel</Trans>
                 </Button>
                 <Button
                   className="bg-brand w-1/3 border border-solid py-2 border-brand shadow-none hover:contrast-125 hover:bg-brand rounded-[unset]"

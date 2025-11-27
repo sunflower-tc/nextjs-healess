@@ -53,7 +53,7 @@ const DropDownOption = ({ name, option, index }: OptionRendererProps) => {
               >
                 <MenuItem disabled value={t`Placeholder`}>
                   <em>
-                    - -<Trans> Choose </Trans>
+                    - -<Trans>Choose</Trans>
                     {option.label} - -
                   </em>
                 </MenuItem>

@@ -108,7 +108,7 @@ function OrderView({ orderId }: OrderDatatype) {
         </Grid>
         <Grid item xs={12}>
           <Typography variant="subtitle1">
-            <Trans> Order Number:</Trans> #{orderDetail?.number}
+            <Trans>Order Number:</Trans> #{orderDetail?.number}
           </Typography>
           <Typography variant="body2" href="/history" component={Link}>
             {getFormattedDate(orderDetail?.order_date, 'dd/mm/yyyy')}
@@ -304,7 +304,7 @@ function OrderView({ orderId }: OrderDatatype) {
         </Grid>
         <Grid item lg={3} justifyContent="center" md={4} sm={6} xs={12}>
           <Typography variant="body1" sx={{ my: 2, fontSize: 18 }}>
-            <Trans> Payment Method</Trans>
+            <Trans>Payment Method</Trans>
           </Typography>
           <Typography variant="body2">
             {orderDetail?.payment_methods[0]?.name}

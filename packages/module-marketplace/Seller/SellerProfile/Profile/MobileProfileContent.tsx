@@ -125,7 +125,7 @@ export const MobileContent = (props: IProfileProps) => {
             }
           >
             <Typography variant="subtitle1">
-              <Trans> Policy</Trans>
+              <Trans>Policy</Trans>
             </Typography>
           </AccordionSummary>
 
@@ -186,11 +186,11 @@ export const MobileContent = (props: IProfileProps) => {
               <Trans>Phone :</Trans>
             </Typography>
             <Typography variant="body2">
-              <Trans>Mobile : </Trans>
+              <Trans>Mobile :</Trans>
               {contactNumber}
             </Typography>
             <Typography variant="body2">
-              <Trans>Email : </Trans>
+              <Trans>Email :</Trans>
               {email}
             </Typography>
           </AccordionDetails>

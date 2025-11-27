@@ -12,9 +12,8 @@
     "compile": "lingui compile"
   },
   "engines": {
-    "node": ">=14.0.0",
-    "npm": ">=8.1.0",
-    "yarn": ">=1.22.0"
+  "node": ">=20.9.0",
+  "npm": ">=10.1.0"
   },
   "dependencies": {
     "@apollo/client": "3.7.11",

@@ -119,7 +119,7 @@ const CreateAccount: NextPageWithLayout = () => {
           </Grid>
           <Grid className="grid gap-1">
             <Typography component="label" htmlFor="lastname">
-              <Trans> Last Name</Trans>
+              <Trans>Last Name</Trans>
             </Typography>
             <InputField
               placeHolder="Last Name"
@@ -159,8 +159,8 @@ const CreateAccount: NextPageWithLayout = () => {
 
             <CheckBoxInputField
               label={t`Allow remote shopping assistance`}
-              //not able to unregister so commented for later use
-              // {...(unregister('allow_remote'), { keepValue: true })}
+            //not able to unregister so commented for later use
+            // {...(unregister('allow_remote'), { keepValue: true })}
             />
           </FormGroup>
           {marketplaceIsActive && (
@@ -228,10 +228,10 @@ const CreateAccount: NextPageWithLayout = () => {
               helperText={
                 errors?.confirmPassword ? errors?.confirmPassword?.message : ''
               }
-              //not able to unregister so commented for later use
-              // {...register('confirmPassword', {
-              //   required: '* Confirm password is required.',
-              // })}
+            //not able to unregister so commented for later use
+            // {...register('confirmPassword', {
+            //   required: '* Confirm password is required.',
+            // })}
             />
           </Grid>
           <FormGroup
@@ -264,7 +264,7 @@ const CreateAccount: NextPageWithLayout = () => {
           </FormGroup>
         </FormGroup>
         <Typography variant="body1" textAlign="center" pt={3}>
-          <Trans> Already have an account</Trans>
+          <Trans>Already have an account</Trans>
           <Link
             className="px-1"
             color="primary"

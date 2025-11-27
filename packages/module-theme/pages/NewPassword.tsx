@@ -62,7 +62,7 @@ const NewPassword: NextPageWithLayout = () => {
         sx={{ mt: 1, width: '100%' }}
       >
         <Typography variant="h6" className="font-semibold">
-          <Trans> New Password</Trans>
+          <Trans>New Password</Trans>
         </Typography>
         <FormGroup className="grid gap-2 mt-4">
           <Grid className="grid gap-1">

@@ -134,7 +134,7 @@ const Wishlist = () => {
                 variant="h4"
                 className="text-lg font-semibold uppercase"
               >
-                <Trans> Wishlist</Trans>
+                <Trans>Wishlist</Trans>
               </Typography>
             </Grid>
             <Grid item></Grid>
@@ -224,7 +224,7 @@ const Wishlist = () => {
                               </div>
                               <div className="flex gap-1 max-w-1/3">
                                 {wishlist_item?.__typename ===
-                                'ConfigurableWishlistItem' ? (
+                                  'ConfigurableWishlistItem' ? (
                                   <Link
                                     href={
                                       '/catalog/product/' +
@@ -265,7 +265,7 @@ const Wishlist = () => {
                               htmlFor="message"
                               className="flex items-center justify-between text-black"
                             >
-                              <Trans> Comments</Trans>
+                              <Trans>Comments</Trans>
                               <WhishlistDown />
                             </label>
                             {commentOpen == wishlist_item?.id && (

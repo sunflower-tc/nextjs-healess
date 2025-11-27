@@ -172,7 +172,7 @@ const SPBanner = (props: IProfileBannerProps) => {
                     }}
                   >
                     <Typography variant="subtitle1">
-                      <Trans>Contact Seller </Trans>
+                      <Trans>Contact Seller</Trans>
                     </Typography>
                   </Button>
                 </div>

@@ -121,7 +121,7 @@ const Content = (props: IProfileProps) => {
               <Trans>Phone :</Trans>{' '}
             </Typography>
             <Typography variant="body2">
-              <Trans>Mobile : </Trans>
+              <Trans>Mobile :</Trans>
               {contactNumber}
             </Typography>
             <Typography variant="body2">

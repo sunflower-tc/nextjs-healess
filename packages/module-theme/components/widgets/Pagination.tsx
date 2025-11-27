@@ -159,11 +159,10 @@ const Pagination = ({
             <span className="flex gap-5">
               {pageNumbers.map((page, index) => (
                 <button
-                  className={`w-11 h-11 flex items-center cursor-pointer hover:shadow-md duration-300 justify-center text-bold text-lg rounded-full border border-solid border-secondary ${
-                    currentPage === page
-                      ? 'bg-secondary text-white hover:bg-secondary/90'
-                      : 'bg-white text-black hover:bg-secondary/10'
-                  }`}
+                  className={`w-11 h-11 flex items-center cursor-pointer hover:shadow-md duration-300 justify-center text-bold text-lg rounded-full border border-solid border-secondary ${currentPage === page
+                    ? 'bg-secondary text-white hover:bg-secondary/90'
+                    : 'bg-white text-black hover:bg-secondary/10'
+                    }`}
                   onClick={() => {
                     if (typeof page === 'number') {
                       changeHandler({
@@ -189,7 +188,7 @@ const Pagination = ({
                       <div className="flex w-full truncate cursor-pointer">
                         <div className="flex items-center justify-between w-full">
                           <span className="flex items-center w-4/5 line-clamp-1">
-                            {selectedOption} <Trans> items per page</Trans>
+                            {selectedOption} <Trans>items per page</Trans>
                           </span>
                           <motion.div
                             className="relative py-0 max-h-4 "
@@ -221,8 +220,7 @@ const Pagination = ({
                             <Listbox.Option
                               key={limit}
                               className={({ active }) =>
-                                `relative cursor-pointer py-0 select-none ${
-                                  active ? ' text-brand' : 'text-gray-900'
+                                `relative cursor-pointer py-0 select-none ${active ? ' text-brand' : 'text-gray-900'
                                 }`
                               }
                               value={limit}
@@ -230,12 +228,11 @@ const Pagination = ({
                               {({ selected }) => (
                                 <>
                                   <span
-                                    className={`block font-medium text-base truncate ${
-                                      selected ? 'text-brand' : 'text-slate-700'
-                                    }`}
+                                    className={`block font-medium text-base truncate ${selected ? 'text-brand' : 'text-slate-700'
+                                      }`}
                                   >
                                     <span className="flex items-center w-full">
-                                      {limit} <Trans> items per page</Trans>
+                                      {limit} <Trans>items per page</Trans>
                                       {selected && (
                                         <CheckIcon className="ml-6 text-brand" />
                                       )}

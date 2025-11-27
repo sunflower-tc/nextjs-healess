@@ -87,7 +87,6 @@ function CurrencySwitcher({
             return codeA.localeCompare(codeB);
         }) || [];
 
-        console.log(data?.currency , ' data?.currency === ')
     return (
         <>
             {header ? (

@@ -103,7 +103,7 @@ export function CartPage() {
                         )}
                       <div className="flex pt-1 justify-between md:w-[95%] w-[95.3%] pb-8 border-0 border-b border-solid border-commonBorder">
                         <Typography variant="h3" className="font-bold">
-                          <Trans> Total :</Trans>
+                          <Trans>Total :</Trans>
                         </Typography>
                         <Typography variant="h3" className="font-bold">
                           {grandTotal}
@@ -120,7 +120,7 @@ export function CartPage() {
                               variant="contained"
                               className="w-full rounded-none shadow-none"
                             >
-                              <Trans> Checkout</Trans>
+                              <Trans>Checkout</Trans>
                             </Button>
                           </Link>
                         )}

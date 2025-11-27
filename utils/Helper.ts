@@ -5,6 +5,7 @@ import { CartAddressInput, CartAddressInterface } from '@voguish/module-quote';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
 import { ToastContent, ToastOptions, toast } from 'react-toastify';
 
+
 /**
  * Toast Options
  */
@@ -69,7 +70,7 @@ export const getFormattedPrice = (
     });
   }
   // const convertedPrice = numericPrice / Number(selectedRate);
-  const convertedPrice = numericPrice * (Number(currencySelected?.rate??1))
+  const convertedPrice = numericPrice * (Number(currencySelected?.rate ?? 1))
   return convertedPrice.toLocaleString('en-US', {
     style: 'currency',
     currency: targetCurrency,

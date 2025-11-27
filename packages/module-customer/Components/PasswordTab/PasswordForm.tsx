@@ -124,7 +124,7 @@ const PasswordForm = () => {
                     {CustomerAccountData.buttonLabel}
                   </span>
                   <span className="block sm:hidden">
-                    <Trans> Save</Trans>
+                    <Trans>Save</Trans>
                   </span>
                 </Button>
               </Box>
@@ -214,7 +214,7 @@ const PasswordForm = () => {
                   )}
 
                   <Typography variant="body2" sx={{ px: 1 }}>
-                    <Trans> At least one uppercase (A-Z)</Trans>
+                    <Trans>At least one uppercase (A-Z)</Trans>
                   </Typography>
                 </Box>
                 <Box sx={iconStyle}>
