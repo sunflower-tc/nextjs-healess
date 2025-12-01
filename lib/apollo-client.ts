@@ -75,6 +75,9 @@ function createApolloClient() {
       new HttpLink({
         uri,
         // credentials: 'include', // Additional fetch() options like `credentials` or `headers`
+        fetchOptions: {
+          timeout: 30000, // 30 seconds timeout
+        },
       }),
     ]),
     cache: new InMemoryCache({

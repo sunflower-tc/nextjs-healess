@@ -15,7 +15,6 @@ query SellersList($filter: SellerFilters!) {
       contact_number
       product_count
       order_count
-      email
       seller_rating
     }
     total_count
