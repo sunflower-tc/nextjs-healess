@@ -14,6 +14,7 @@ type DesktopFilterTypes = {
 export default function DesktopFilter(props: DesktopFilterTypes) {
   const { loading, title, activeSort, view, manageToolbar, data, showToolBar } =
     props;
+
   return (
     <>
       <span className="-lg:hidden">

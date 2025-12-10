@@ -36,7 +36,7 @@ const FilterRenderer = ({
   expandedView?: boolean;
   manageFilterAction: (
     payload: // eslint-disable-line
-    ProductAttributeFilterInput
+      ProductAttributeFilterInput
   ) => void;
 }) => {
   /**
@@ -86,6 +86,7 @@ const FilterRenderer = ({
       value = value.replace('_', '-');
     }
     if (isValidArray(appliedFilters)) {
+
       const searchSelected = appliedFilters.find(
         (appliedFilter) =>
           appliedFilter.attribute_code === attributeCode &&
@@ -100,9 +101,8 @@ const FilterRenderer = ({
   };
   return (
     <List
-      className={`border-solid border -lg:px-4 border-commonBorder  ${
-        !open ? '-lg:border-b -lg:border-0' : '-lg:border-y -lg:border-0'
-      }`}
+      className={`border-solid border -lg:px-4 border-commonBorder  ${!open ? '-lg:border-b -lg:border-0' : '-lg:border-y -lg:border-0'
+        }`}
       subheader={
         <ListSubheader
           onClick={handleClick}
@@ -119,9 +119,8 @@ const FilterRenderer = ({
             borderBottom: `${open ? '1px solid' : ''}`,
             borderColor: 'themeAdditional.borderColor',
           }}
-          className={`leading-normal cursor-pointer ${
-            open ? 'py-3' : 'pt-3 pb-1'
-          } lg:leading-[1.55rem]`}
+          className={`leading-normal cursor-pointer ${open ? 'py-3' : 'pt-3 pb-1'
+            } lg:leading-[1.55rem]`}
         >
           {filter?.label}
           {!open ? (
@@ -151,7 +150,7 @@ const FilterRenderer = ({
                             checkedIcon={<CheckBox />}
                             checked={isSelectedFilter(
                               filter.attribute_code,
-                              option.value
+                              filter.attribute_code === 'category_uid' ? base64_encode(option.value) : option.value
                             )}
                             icon={<CheckBoxOutlineBlankRounded />}
                             value={option.value}

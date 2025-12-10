@@ -90,9 +90,8 @@ export function ProductImageGallery(props: {
         ))}
       </Swiper>
       <div
-        className={`flex items-center ${
-          images.length > 1 ? 'justify-between' : 'justify-center'
-        } mt-6`}
+        className={`flex items-center ${images.length > 1 ? 'justify-between' : 'justify-center'
+          } mt-6`}
       >
         {images.length > 1 && (
           <button
@@ -130,10 +129,9 @@ export function ProductImageGallery(props: {
                   loading="eager"
                   className="object-contain p-1 rounded-lg aspect-square first:rtl:mr-0 first:ltr:ml-0"
                   height={70}
-                  alt={`image-${
-                    item?.originalAlt ||
+                  alt={`image-${item?.originalAlt ||
                     '' + index * index + item?.originalTitle
-                  } `}
+                    } `}
                   thumbnail={item?.thumbnail || PLACEHOLDER_IMG}
                 />
               </SwiperSlide>

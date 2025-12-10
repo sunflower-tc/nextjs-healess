@@ -1,7 +1,7 @@
 // import { useQuery } from '@apollo/client';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
-import { isValidArray, isValidObject, parseAppliedFilter } from '@utils/Helper';
+import { isValidArray, isValidObject } from '@utils/Helper';
 import {
   FiltersRenderer,
   PaginationActionType,
@@ -18,11 +18,11 @@ import { Pagination } from '@voguish/module-theme';
 import Containers from '@voguish/module-theme/components/ui/Container';
 import EmptyPage from '@voguish/module-theme/components/ui/EmptyPage';
 import React, { Reducer, useEffect, useReducer, useState } from 'react';
+import { SubCategory } from '~packages/module-theme/components/ui/SubCategory';
 import LayeredPlaceHolder from './Detail/placeholder/PlaceHolder';
 import { Placeholder, ProductItem } from './Item';
 import DesktopFilter from './Item/DesktopFilter';
 import MobileFilter from './Item/MobileFilter';
-import { SubCategory } from '~packages/module-theme/components/ui/SubCategory';
 
 /**
  * Initial Search Criteria
@@ -36,27 +36,36 @@ const initialSearchCriteria: ProductsQueryInput = {
  * @param action ProductsAction
  * @returns
  */
-const searchCriteriaReducer: Reducer<ProductsQueryInput, ProductsAction> = (
-  state,
-  action
-) => {
+type SearchCriteriaAction =
+  | ProductsAction
+  | { type: 'reset'; payload: ProductsQueryInput };
+
+const searchCriteriaReducer: Reducer<
+  ProductsQueryInput,
+  SearchCriteriaAction
+> = (state, action) => {
+  if (action.type === 'reset') {
+    return { ...action.payload };
+  }
+
+  const nextState: ProductsQueryInput = { ...state };
   const value = action.payload;
 
   if (action.type === ToolbarActionType.SORT) {
     let sortValue = `${value}`.split('||');
-    state.sort = { [sortValue[0]]: sortValue[1] };
+    nextState.sort = { [sortValue[0]]: sortValue[1] };
   }
 
   if (action.type === PaginationActionType.PAGE) {
-    state.currentPage = parseInt(`${value}`);
+    nextState.currentPage = parseInt(`${value}`);
   }
 
   if (action.type === PaginationActionType.LIMIT) {
-    state.pageSize = parseInt(`${value}`);
+    nextState.pageSize = parseInt(`${value}`);
   }
 
   if (action.type === 'search' && typeof value === 'string') {
-    state.search = value;
+    nextState.search = value;
   }
 
   if (
@@ -64,17 +73,18 @@ const searchCriteriaReducer: Reducer<ProductsQueryInput, ProductsAction> = (
     typeof value !== 'string' &&
     typeof value !== 'number'
   ) {
-    state.filters = { ...state.filters, ...value };
+    nextState.filters = { ...nextState.filters, ...value };
   }
 
   if (action.type === 'removeFilter' && value && typeof value === 'string') {
-    let filters = state.filters;
+    let filters = nextState.filters;
     if (filters && isValidObject(filters)) {
       delete filters[value];
-      state.filters = filters;
+      nextState.filters = filters;
     }
   }
-  return state;
+
+  return nextState;
 };
 
 const ProductList = ({
@@ -88,11 +98,29 @@ const ProductList = ({
   showToolBar,
   subCategoryItem,
 }: ProductsInterface) => {
-  const [searchCriteria, dispatchSearchCriteria] = useReducer(
-    searchCriteriaReducer,
-    initialSearchCriteria
-  );
+
+  const [searchCriteria, dispatchSearchCriteria] = useReducer<
+    Reducer<ProductsQueryInput, SearchCriteriaAction>
+  >(searchCriteriaReducer, initialSearchCriteria);
+
+
+  const categoryFilterValue = React.useMemo(() => {
+    const categoryFilter = productsInput?.filters?.category_uid;
+    return JSON.stringify(categoryFilter ?? null);
+  }, [productsInput?.filters?.category_uid]);
+
+  const previousCategory = React.useRef<string | null>(null);
+
   useEffect(() => {
+    const categoryChanged = previousCategory.current !== categoryFilterValue;
+    if (categoryChanged) {
+      previousCategory.current = categoryFilterValue;
+      dispatchSearchCriteria({
+        type: 'reset',
+        payload: { ...initialSearchCriteria },
+      });
+    }
+
     if (isValidObject(productsInput)) {
       if (productsInput?.filters) {
         dispatchSearchCriteria({
@@ -120,7 +148,7 @@ const ProductList = ({
         });
       }
     }
-  }, [productsInput, search]);
+  }, [productsInput, search, categoryFilterValue]);
 
   /**
    * Managing View
@@ -142,10 +170,21 @@ const ProductList = ({
   const totalCount = data?.products?.total_count || 0;
 
   let filters = data?.products?.applied_filters;
+
+  console.log('filters', filters)
+  console.log('activePageFilter', activePageFilter)
+  console.log('activePageFilterValue', activePageFilterValue)
+
+  // const appliedFilters = React.useMemo(
+  //   () => parseAppliedFilter(filters, activePageFilter, activePageFilterValue),
+  //   [filters, activePageFilter, activePageFilterValue]
+  // );
   const appliedFilters = React.useMemo(
-    () => parseAppliedFilter(filters, activePageFilter, activePageFilterValue),
-    [filters, activePageFilter, activePageFilterValue]
+    () => filters,
+    [filters]
   );
+
+  console.log('appliedFilters--2', appliedFilters)
 
   // Placeholders for Product List
   const placeHolders = new Array(pageSize).fill(0);
@@ -208,11 +247,12 @@ const ProductList = ({
     dispatchSearchCriteria({ type: 'removeFilter', payload: filterKey || '' });
   };
 
+
   return (
     <Containers>
       <Stack>
         <span className="lg:hidden">
-          {isValidArray(products) && (
+          {/* {isValidArray(products) && (
             <MobileFilter
               title={`${title}(${totalCount})`}
               activeSort={activeSort}
@@ -223,9 +263,28 @@ const ProductList = ({
               manageFilterAction={manageFilterAction}
               data={data}
             />
-          )}
+          )} */}
+          <MobileFilter
+            title={`${title}(${totalCount})`}
+            activeSort={activeSort}
+            manageToolbar={manageToolbar}
+            removeFilterAction={removeFilterAction}
+            loading={loading}
+            appliedFilters={appliedFilters}
+            manageFilterAction={manageFilterAction}
+            data={data}
+          />
         </span>
-        {isValidArray(products) && (
+        <DesktopFilter
+          loading={loading}
+          title={[title, totalCount]}
+          activeSort={activeSort}
+          view={view}
+          manageToolbar={manageToolbar}
+          data={data}
+          showToolBar={showToolBar}
+        />
+        {/* {isValidArray(products) && (
           <DesktopFilter
             loading={loading}
             title={[title, totalCount]}
@@ -235,21 +294,22 @@ const ProductList = ({
             data={data}
             showToolBar={showToolBar}
           />
-        )}
+        )} */}
         <Grid container spacing={2} mt={1}>
           {showLayeredNavigation && (
             <Grid className="rounded-md -lg:hidden" item xs={12} sm={12} lg={3}>
               {loading ? (
                 <LayeredPlaceHolder />
               ) : (
-                isValidArray(products) && (
-                  <FiltersRenderer
-                    appliedFilters={appliedFilters}
-                    manageFilterAction={manageFilterAction}
-                    removeFilterAction={removeFilterAction}
-                    filters={data?.products?.aggregations}
-                  />
-                )
+                <FiltersRenderer
+                  appliedFilters={appliedFilters}
+                  manageFilterAction={manageFilterAction}
+                  removeFilterAction={removeFilterAction}
+                  filters={data?.products?.aggregations}
+                />
+                // isValidArray(products) && (
+
+                // )
               )}
             </Grid>
           )}
@@ -291,12 +351,12 @@ const ProductList = ({
                 />
               </Grid>
             )}
+            {(!isValidArray(products) && !isValidArray(subCategoryItem) && !loading) && <EmptyPage />}
           </Grid>
         </Grid>
       </Stack>
-
       {(isValidArray(subCategoryItem) && (!isValidArray(products) && !loading)) && (<SubCategory subCategoryItem={subCategoryItem} />)}
-      {(!isValidArray(products) && !isValidArray(subCategoryItem) && !loading) && <EmptyPage />}
+
     </Containers>
   );
 };

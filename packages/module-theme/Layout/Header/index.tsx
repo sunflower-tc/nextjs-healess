@@ -1,10 +1,10 @@
 import { useQuery } from '@apollo/client';
+import Box from '@mui/material/Box';
 import { useAppSelector } from '@store/hooks';
 import { STORE_CONFIG, getLocalStorage } from '@store/local-storage';
 import MenuHelper from '@utils/Menu';
 import { HeaderPlaceHolder } from '@voguish/module-theme/components';
 import MEGAMENU_QUERY from '@voguish/module-theme/graphql/MegaMenu.graphql';
-import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
@@ -53,6 +53,7 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
   const [open, setOpen] = useState(false);
   const node = useRef<any>();
 
+  console.log('sortedMenu', sortedMenu)
   return (
     <>
       {loading ? (
@@ -84,15 +85,21 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
                   />
                 </div>
                 <div aria-label="voguish">
-                  <Link aria-label="Go to Voguish Home Page" href="/">
-                    <Image
+                  <Link aria-label="Go to Voguish Home Page" href="/" color='#2a2931'>
+                    <Box
+                      component="img"
+                      src={'/assets/img/uni-logo_primary.svg'}
+                      alt={storeData?.logo_alt || 'Unineed'}
+                      width={146}
+                    />
+                    {/* <Image
                       priority={true}
                       loading="eager"
-                      src={baseUrl ? `${baseUrl}media/logo/${logoUrl}` : ''}
-                      alt={storeData?.logo_alt || 'voguish'}
+                      src={'/assets/img/uni-logo_primary.png'}
+                      alt={storeData?.logo_alt || 'Unineed'}
                       height={28}
                       width={88}
-                    />
+                    /> */}
                   </Link>
                 </div>
                 {/* Flyout menus */}
