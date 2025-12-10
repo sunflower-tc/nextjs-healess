@@ -1,7 +1,7 @@
 import { Divider } from '@mui/material';
 import CssBaseline from '@mui/material/CssBaseline';
 import { ThemeProvider } from '@mui/material/styles';
-import { useAppDispatch } from '@store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { setUser } from '@store/user';
 import { LOADING } from '@utils/Constants';
 import { isValidArray, isValidObject } from '@utils/Helper';
@@ -22,6 +22,7 @@ import React, { Fragment, useEffect } from 'react';
 import { ToastContainer, toast } from 'react-toastify';
 import Loader from '../components/ui/Form/Elements/Loader';
 import { CustomerWrapper, GuestWrapper } from './PageWrapper';
+import { useCreateEmptyCart } from '~packages/module-quote';
 const Footer = dynamic(() => import('./Footer'));
 
 const Header = dynamic(() => import('./Header'));
@@ -85,6 +86,19 @@ const Layout = ({
   }, [locale, refetch]);
   // Easy, right 😎
   toast.clearWaitingQueue();
+  const guestId = useAppSelector((state: any) => state?.cart?.quote);
+
+
+  const cartId = guestId?.id ?? null;
+  const emptyCart = useCreateEmptyCart();
+
+
+  useEffect(() => {
+    if (!cartId) {
+      emptyCart();
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cartId]);
 
   return (
     <Fragment>

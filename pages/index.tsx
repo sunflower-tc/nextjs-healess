@@ -62,8 +62,7 @@ export async function getServerSideProps() {
         pageData: data,
       },
     };
-  } catch (error) {
-    console.error('Error fetching home page data:', error);
+  } catch {
     return { notFound: true };
   }
 }

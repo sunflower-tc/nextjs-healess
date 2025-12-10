@@ -126,7 +126,7 @@ export default function SellerCard({
                         <Inventory2OutlinedIcon className="text-lg" />
                         <Typography className="font-medium  text-sm text-[#252525]">
                           {sellerData?.product_count}
-                          &nbsp;<Trans> Products</Trans>
+                          &nbsp;<Trans>Products</Trans>
                         </Typography>
                       </span>
                     </Grid>
@@ -137,7 +137,7 @@ export default function SellerCard({
                       onClick={sellerHandler}
                       className=" rounded-[unset] px-3 -sm:w-full border-secondary text-secondary font-semibold"
                     >
-                      <Trans> Contact Seller</Trans>
+                      <Trans>Contact Seller</Trans>
                     </Button>
                   </div>
                 </Box>

@@ -185,7 +185,7 @@ msgstr "*Please provide your heading for review"
 msgid "*Please provide your name"
 msgstr "*Please provide your name"
 
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:128
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:127
 #: packages/module-quote/Components/Cart/CartDiscount.tsx:37
 #: packages/module-quote/Components/Cart/CartItem.tsx:210
 #: packages/module-quote/Components/Cart/CartItem.tsx:276
@@ -213,7 +213,7 @@ msgstr "Add"
 msgid "Add Address"
 msgstr "Add Address"
 
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:186
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:185
 msgid "Add to cart"
 msgstr "Add to cart"
 
@@ -490,6 +490,10 @@ msgstr "Creating Account"
 #~ msgid "Curate your dreams: These treasures await in your personalized Wishlist"
 #~ msgstr "Curate your dreams: These treasures await in your personalized Wishlist"
 
+#: packages/module-store/CurrencySwitcher.tsx:166
+msgid "Currency"
+msgstr "Currency"
+
 #: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:141
 msgid "Current Password"
 msgstr "Current Password"
@@ -709,7 +713,7 @@ msgstr "Handpicked products in your Personal Wishlist"
 msgid "Home"
 msgstr "Home"
 
-#: pages/index.tsx:18
+#: pages/index.tsx:22
 msgid "Home Page - Voguish"
 msgstr "Home Page - Voguish"
 
@@ -806,7 +810,7 @@ msgstr "Manage profile for enhanced shopping experience"
 msgid "maximum value"
 msgstr "maximum value"
 
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:131
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:130
 #: packages/module-quote/Components/Cart/CartItem.tsx:213
 #: packages/module-quote/Components/Cart/CartItem.tsx:279
 msgid "minimum value"
@@ -1096,7 +1100,7 @@ msgstr "Qty :"
 msgid "Quality"
 msgstr "Quality"
 
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:118
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:117
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:139
 #: packages/module-quote/Components/Cart/CartItem.tsx:199
 #: packages/module-quote/Components/Cart/CartItem.tsx:265
@@ -1107,7 +1111,7 @@ msgstr "Quantity"
 #~ msgid "Quantity :"
 #~ msgstr "Quantity :"
 
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:97
+#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:96
 msgid "Quantity:"
 msgstr "Quantity:"
 
@@ -1543,7 +1547,7 @@ msgstr "Welcome to Voguish customer account"
 #: pages/customer/account/create/index.tsx:13
 #: pages/customer/account/forget-password/index.tsx:21
 #: pages/customer/account/login/index.tsx:13
-#: pages/index.tsx:19
+#: pages/index.tsx:23
 #: pages/wishlist/index.tsx:19
 msgid "Welcome to Voguish Theme"
 msgstr "Welcome to Voguish Theme"

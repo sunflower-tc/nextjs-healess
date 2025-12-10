@@ -20,6 +20,9 @@ export const IS_GUEST = 'is_guest';
 export const CUSTOMER = 'customer';
 export const IS_VIRTUAL_CART = 'isVirtualCart';
 export const CURRENCY_RATES = 'currency_rates';
+export const DEFAULT_CURRENCY_CODE = 'DEFAULT_CURRENCY_CODE';
+export const IS_AUTO_CURRENCY_SET = 'IS_AUTO_CURRENCY_SET';
+
 
 /**
  * Set local storage

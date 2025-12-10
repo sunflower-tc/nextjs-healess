@@ -47,11 +47,11 @@ const Forget: NextPageWithLayout = () => {
           className="w-full mt-2"
         >
           <Typography variant="h6" className="font-semibold">
-            <Trans> Forget Password</Trans>
+            <Trans>Forget Password</Trans>
           </Typography>
           <FormGroup className="mt-3 max-h-fit">
             <Typography component="label" htmlFor="email">
-              <Trans> Email</Trans>
+              <Trans>Email</Trans>
             </Typography>
             <InputField
               sx={{ mt: 0.5 }}

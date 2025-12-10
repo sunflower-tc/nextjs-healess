@@ -51,7 +51,7 @@ export const ColorSwatchOption = ({
                 id={`swatch-option-${option.attribute_code}`}
               >
                 <Typography variant="body1" className="mt-1.5 text-primary">
-                  <Trans> Select</Trans>
+                  <Trans>Select</Trans>
                   {option.label}:
                 </Typography>
 
@@ -62,11 +62,10 @@ export const ColorSwatchOption = ({
               </FormLabel>
             )}
             <RadioGroup
-              className={`col-span-3 ${
-                detailsPage
+              className={`col-span-3 ${detailsPage
                   ? 'flex-wrap items-center flex col-span-4 gap-5 sm:col-span-3'
                   : 'gap-2'
-              }`}
+                }`}
               {...field}
               row
               aria-labelledby={`swatch-option-${option.attribute_code}-${option.uid}`}
@@ -89,9 +88,8 @@ export const ColorSwatchOption = ({
                           ? 'black'
                           : 'transparent',
                       }}
-                      className={`!h-8 flex justify-center items-center !w-8 absolute min-w-0 !rounded-full ${
-                        validItem(optionValue.uid) && 'border-spacing-20'
-                      } border border-solid`}
+                      className={`!h-8 flex justify-center items-center !w-8 absolute min-w-0 !rounded-full ${validItem(optionValue.uid) && 'border-spacing-20'
+                        } border border-solid`}
                     >
                       {selectedOption === optionValue.uid && (
                         <Done className="font-extrabold text-white" />
@@ -116,11 +114,10 @@ export const ColorSwatchOption = ({
                 option.values.slice(0, 3).map((optionValue) => (
                   <Grid
                     sx={{
-                      border: `1px solid ${
-                        validItem(optionValue.uid)
+                      border: `1px solid ${validItem(optionValue.uid)
                           ? optionValue.swatch_data?.value
                           : '#e4e4e7'
-                      }`,
+                        }`,
                     }}
                     className="flex items-center justify-center p-0 m-0 rounded-full"
                     key={optionValue.uid}
@@ -132,11 +129,10 @@ export const ColorSwatchOption = ({
                       sx={{
                         backgroundColor: optionValue.swatch_data?.value,
                       }}
-                      className={` flex justify-center items-center absolute min-w-0 !rounded-full ${
-                        validItem(optionValue.uid)
+                      className={` flex justify-center items-center absolute min-w-0 !rounded-full ${validItem(optionValue.uid)
                           ? '!h-5 w-5 shadow'
                           : '!h-6 w-6'
-                      }`}
+                        }`}
                     ></Typography>
                     <FormControlLabel
                       control={<Radio className="p-0 m-0" />}

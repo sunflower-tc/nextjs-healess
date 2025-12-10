@@ -110,7 +110,7 @@ const OrderProduct = () => {
                         fontWeight="600"
                         className="flex gap-0.5"
                       >
-                        <Trans>Order No. </Trans>{' '}
+                        <Trans>Order No.</Trans>{' '}
                         <span> {' ' + item.number}</span>
                       </Typography>
                     </Grid>

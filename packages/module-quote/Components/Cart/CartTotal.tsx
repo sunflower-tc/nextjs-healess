@@ -24,10 +24,10 @@ export const CartTotals = ({ quote }: any) => {
    */
   const taxPrice = isValidArray(quote?.prices?.applied_taxes || null)
     ? quote?.prices?.applied_taxes.reduce(
-        (previousTax: any, currentTax: any) =>
-          previousTax?.amount?.value || 0 + currentTax?.amount?.value || 0,
-        0
-      )
+      (previousTax: any, currentTax: any) =>
+        previousTax?.amount?.value || 0 + currentTax?.amount?.value || 0,
+      0
+    )
     : 0;
 
   /**
@@ -43,9 +43,9 @@ export const CartTotals = ({ quote }: any) => {
    */
   const subTotal = quote?.prices?.subtotal_excluding_tax?.value
     ? getFormattedPrice(
-        quote.prices.subtotal_excluding_tax.value,
-        quote.prices.subtotal_excluding_tax.currency
-      )
+      quote.prices.subtotal_excluding_tax.value,
+      quote.prices.subtotal_excluding_tax.currency
+    )
     : getFormattedPrice(0, 'USD');
 
   /**
@@ -93,7 +93,7 @@ export const CartTotals = ({ quote }: any) => {
                 variant="CartItemPrice"
                 className="grid font-medium text-black leading-normal lg:leading-[1.45rem]"
               >
-                <Trans> Discount :</Trans>
+                <Trans>Discount :</Trans>
                 <span>({discount.label})</span>
               </Typography>
               <Typography

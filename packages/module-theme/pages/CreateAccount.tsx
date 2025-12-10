@@ -8,6 +8,8 @@ import { STORE_CONFIG, getKeyFromStorage } from '@store/local-storage';
 import { showToast } from '@utils/Helper';
 import { AuthLayout } from '@voguish/module-customer';
 import CREATE_CUSTOMER from '@voguish/module-customer/graphql/mutation/CreateCustomer.graphql';
+import CREATE_SELLER_ACCOUNT from '@voguish/module-customer/graphql/mutation/CreateSellerAccount.mutation.graphql';
+
 import {
   CheckBoxInputField,
   Link,
@@ -37,10 +39,12 @@ const CreateAccount: NextPageWithLayout = () => {
   //commented code is for later use while implementing confirm password
   const [createCustomer, { data /*loading, error*/ }] =
     useMutation(CREATE_CUSTOMER);
+  const [createSeller, { data: sellerData /*loading, error*/ }] =
+    useMutation(CREATE_SELLER_ACCOUNT);
   // const [passwordWatch] = watch(['password']);
 
   useEffect(() => {
-    if (data?.createCustomer?.customer) {
+    if (data?.createCustomer?.customer || sellerData?.createSellerAccount?.customer) {
       router.push('/customer/account/login');
     }
     if (session?.user?.token) {
@@ -61,21 +65,40 @@ const CreateAccount: NextPageWithLayout = () => {
   const registerUser = async (data: FieldValues) => {
     data.is_seller = data?.is_seller === 'yes' ? true : false;
     !marketplaceIsActive && delete data?.is_seller;
-    createCustomer({
-      variables: {
-        input: data,
-      },
-    })
-      .then(() => {
-        showToast({
-          type: 'success',
-          message: t`Account created successfully`,
-        });
-        router.push('/customer/account/login');
+    if (data.is_seller) {
+      createSeller({
+        variables: {
+          input: data,
+        },
       })
-      .catch((err) => {
-        showToast({ message: err.message, type: 'error' });
-      });
+        .then(() => {
+          showToast({
+            type: 'success',
+            message: t`Account created successfully`,
+          });
+          router.push('/customer/account/login');
+        })
+        .catch((err) => {
+          showToast({ message: err.message, type: 'error' });
+        });
+    } else {
+      createCustomer({
+        variables: {
+          input: data,
+        },
+      })
+        .then(() => {
+          showToast({
+            type: 'success',
+            message: t`Account created successfully`,
+          });
+          router.push('/customer/account/login');
+        })
+        .catch((err) => {
+          showToast({ message: err.message, type: 'error' });
+        });
+    }
+
   };
   const show = {
     opacity: 1,
@@ -119,7 +142,7 @@ const CreateAccount: NextPageWithLayout = () => {
           </Grid>
           <Grid className="grid gap-1">
             <Typography component="label" htmlFor="lastname">
-              <Trans> Last Name</Trans>
+              <Trans>Last Name</Trans>
             </Typography>
             <InputField
               placeHolder="Last Name"
@@ -159,8 +182,8 @@ const CreateAccount: NextPageWithLayout = () => {
 
             <CheckBoxInputField
               label={t`Allow remote shopping assistance`}
-              //not able to unregister so commented for later use
-              // {...(unregister('allow_remote'), { keepValue: true })}
+            //not able to unregister so commented for later use
+            // {...(unregister('allow_remote'), { keepValue: true })}
             />
           </FormGroup>
           {marketplaceIsActive && (
@@ -228,10 +251,10 @@ const CreateAccount: NextPageWithLayout = () => {
               helperText={
                 errors?.confirmPassword ? errors?.confirmPassword?.message : ''
               }
-              //not able to unregister so commented for later use
-              // {...register('confirmPassword', {
-              //   required: '* Confirm password is required.',
-              // })}
+            //not able to unregister so commented for later use
+            // {...register('confirmPassword', {
+            //   required: '* Confirm password is required.',
+            // })}
             />
           </Grid>
           <FormGroup
@@ -264,7 +287,7 @@ const CreateAccount: NextPageWithLayout = () => {
           </FormGroup>
         </FormGroup>
         <Typography variant="body1" textAlign="center" pt={3}>
-          <Trans> Already have an account</Trans>
+          <Trans>Already have an account</Trans>
           <Link
             className="px-1"
             color="primary"

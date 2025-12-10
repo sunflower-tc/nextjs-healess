@@ -86,7 +86,7 @@ const SellerContactForm = ({
             sx={{ width: '100%' }}
           >
             <Typography variant="h2">
-              <Trans>Contact Seller </Trans>
+              <Trans>Contact Seller</Trans>
             </Typography>
             <div className="flex flex-col gap-2.5">
               <InputField
@@ -135,7 +135,7 @@ const SellerContactForm = ({
                   <span className="flex items-center h-full pr-2">
                     <RotateRight className="w-5 h-5 animate-spin" />
                   </span>
-                  <Trans> Submitting your Query...</Trans>
+                  <Trans>Submitting your Query...</Trans>
                 </Button>
               ) : (
                 <Button

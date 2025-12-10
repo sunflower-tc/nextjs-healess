@@ -146,7 +146,7 @@ export function SearchPopOver({
                       className="absolute right-2.5 bg-slate-200 text-slate-900 hover:bg-slate-300 bottom-2.5 rounded-full focus:ring-4 border-none focus:outline-none cursor-pointer focus:ring-blue-300 font-medium text-[10px] px-3 py-2 "
                       onClick={handleSearch}
                     >
-                      <Trans> ESC</Trans>
+                      <Trans>ESC</Trans>
                     </button>
                   </div>
                 </form>

@@ -1,17 +1,16 @@
-import { useMutation } from '@apollo/client';
+import { useLazyQuery, useMutation } from '@apollo/client';
 import { setCart } from '@store/cart';
 import {
   setOrderId,
   setShippingAddressFromCartData,
   setShippingMethod,
 } from '@store/checkout';
-import { useAppDispatch } from '@store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   GUEST_CART,
   getLocalStorage,
   setLocalStorage,
 } from '@store/local-storage';
-import { graphqlRequest } from '@utils/Fetcher';
 import { isValidArray, isValidObject, showToast } from '@utils/Helper';
 import {
   useCustomerMutation,
@@ -35,7 +34,7 @@ import SetShippingPaymentOnCart from '@voguish/module-quote/graphql/mutation/Set
 import UpdateCartItems from '@voguish/module-quote/graphql/mutation/UpdateCartItems.graphql';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from 'store';
+import { Logout, RootState } from 'store';
 import {
   AddProductsToCartInput,
   AddProductsToCartOutput,
@@ -50,6 +49,10 @@ import {
   SetShippingMethodsOnCartInput,
   SetShippingMethodsOnCartOutput,
 } from '../types';
+import { useSession } from 'next-auth/react';
+import { AUTHORIZED, errorAuthentication, errorCat } from '~utils/Constants';
+import { graphqlMutate, graphqlRequest  } from '@utils/Fetcher';
+
 
 // fetchTranslations("product");
 
@@ -730,3 +733,157 @@ const createCustomerCart = async (
     callback(customerData.customerCart);
   }
 };
+
+export const useCreateEmptyCart = (checkout = false) => {
+  const { status, data: session } = useSession();
+  const [updateCart] = useLazyQuery(CART_QUERY, {
+    fetchPolicy: 'no-cache',
+  });
+  // Create the hook but it won't execute unless explicitly called
+  const [customerCart, { refetch }] = useLazyQuery(CustomerCartQuery, {
+    fetchPolicy: 'no-cache',
+  });
+  const dispatch = useAppDispatch();
+  const quote = useAppSelector((state) => state?.cart);
+  const storeCode = process.env.DEFAULT_STORE_CODE;
+
+  const [createEmptyCart, { loading: newCartLoad }] = useMutation(
+    CreateEmptyCartQuery,
+    {
+      fetchPolicy: 'no-cache',
+    }
+  );
+  const emptyCart = () => {
+    if (session?.user?.token && (status === AUTHORIZED)) {
+      customerCart({
+        context: {
+          headers: {
+            Authorization: `Bearer ${session?.user?.token ?? ''}`,
+            Store: storeCode,
+          },
+        },
+      })
+        .then((res) => {
+          const data = res?.data?.customerCart;
+          if (isValidObject(data) && data && data.id) {
+            dispatch(setCart({ ...data }));
+          }
+        })
+        .catch((error) => {
+          if (
+            error.graphQLErrors?.some(
+              (err: {
+                extensions: { category: string };
+                message: string | string[];
+              }) =>
+                errorCat.includes(err.extensions?.category) ||
+                errorAuthentication.includes(
+                  err.extensions?.category as string
+                ) ||
+                err.message.includes(
+                  'The current user cannot perform operations on cart'
+                )
+            )
+          ) {
+            Logout();
+          } else if (error.message.includes("The cart isn't active.")) {
+            refetch().then((res) => {
+              const data = res?.data?.customerCart;
+              if (isValidObject(data) &&
+                data?.cart &&
+                data.cart.id) {
+                dispatch(setCart({ ...data }));
+              }
+            });
+          }
+        });
+    }
+    else if (
+      !newCartLoad || checkout
+    ) {
+      createEmptyCart().then((res) => {
+        if (res?.data?.createEmptyCart) {
+          updateCart({
+            variables: { cartId: res?.data?.createEmptyCart || '' },
+          }).then((res) => {
+            const data = res?.data?.cart;
+            if (isValidObject(data) &&
+              data &&
+              data.id) {
+              dispatch(setCart({ ...data, isGuest: true }));
+            }
+          });
+          const newCartData = {
+            id: res?.data?.createEmptyCart,
+            isGuest: true,
+          };
+          setLocalStorage(GUEST_CART, JSON.stringify(newCartData));
+        }
+      });
+    } else {
+      updateCart({
+        variables: { cart_id: quote?.id || '' },
+      }).then((res) => {
+        const data = res?.data?.cart;
+        if (isValidObject(data) &&
+          data &&
+          data.id) {
+          dispatch(setCart({ ...data, isGuest: true }));
+
+        }
+      });
+    }
+  };
+  return emptyCart;
+};
+
+
+/**
+ * Create empty guest cart for logout scenario
+ * This function creates a new guest cart and updates the Redux store
+ */
+export const createEmptyGuestCartOnLogout = async () => {
+  try {
+    const locale = getLocalStorage('current_store');
+
+    const data = await graphqlMutate({
+      mutation: CreateEmptyCartQuery,
+      options: {
+        Store:  locale,
+      },
+    });
+
+    if (data && data.createEmptyCart) {
+      // Fetch the cart data and update the store
+      const cartData = await graphqlRequest({
+        query: CART_QUERY,
+        variables: { cartId: data.createEmptyCart },
+        options: {
+          context: {
+            headers: {
+              Store:  locale ?? process.env.DEFAULT_STORE_CODE,
+            },
+          },
+        },
+      });
+
+      if (isValidObject(cartData) && cartData.cart && cartData.cart.id) {
+        // Import store dynamically to avoid circular dependency
+        const { store } = await import('store');
+        const { setCart } = await import('@store/cart');
+
+        store.dispatch(setCart({ ...cartData.cart, isGuest: true }));
+
+        // Also update local storage
+        const newCartData = {
+          id: data.createEmptyCart,
+          isGuest: true,
+        };
+        setLocalStorage(GUEST_CART, JSON.stringify(newCartData));
+      }
+    }
+  } catch (error) {
+    console.error('Failed to create empty cart on logout:', error);
+  }
+};
+

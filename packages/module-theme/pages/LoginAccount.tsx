@@ -81,7 +81,7 @@ const LoginAccount: NextPageWithLayout = () => {
         sx={{ mt: 1, width: '100%' }}
       >
         <Typography variant="h6" className="font-semibold">
-          <Trans> Login</Trans>
+          <Trans>Login</Trans>
         </Typography>
         <FormGroup className="grid gap-2 mt-4">
           <Grid className="grid gap-1">
@@ -165,7 +165,7 @@ const LoginAccount: NextPageWithLayout = () => {
           >
             <Trans>Sign Up</Trans>
           </Link>
-          <Trans> now</Trans>
+          <Trans>now</Trans>
         </Typography>
       </Box>
     </AuthLayout>

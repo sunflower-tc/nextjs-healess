@@ -130,8 +130,8 @@ const Pagination = ({
                 className="mx-3 my-1.5 w-[90%] rounded-md"
                 value={limit}
               >
-                <Trans> Show</Trans> {limit}
-                <Trans> per page</Trans>
+                <Trans>Show</Trans> {limit}
+                <Trans>per page</Trans>
               </MenuItem>
             ))}
           </Select>
