@@ -12,8 +12,9 @@
     "compile": "lingui compile"
   },
   "engines": {
-  "node": ">=20.9.0",
-  "npm": ">=10.1.0"
+    "node": ">=20.9.0",
+    "npm": ">=10.1.0",
+    "yarn": ">=1.22.0"
   },
   "dependencies": {
     "@apollo/client": "3.7.11",
@@ -21,9 +22,9 @@
     "@emotion/react": "^11.9.3",
     "@emotion/server": "^11.10.0",
     "@emotion/styled": "^11.9.3",
-    "@pack": "^1.7.15",
+    "@headlessui/react": "^1.7.15",
     "@lingui/react": "^4.5.0",
-    "@mui/icons-material": "^5.18.0",
+    "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.15",
     "@next/bundle-analyzer": "^13.4.8",
     "@reduxjs/toolkit": "^1.9.3",
