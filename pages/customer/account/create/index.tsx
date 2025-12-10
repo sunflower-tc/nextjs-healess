@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import type { PageOptions } from '@voguish/module-theme/page';
 import dynamic from 'next/dynamic';
 const CreateAccount = dynamic(
@@ -6,10 +8,9 @@ const CreateAccount = dynamic(
 const SignUp = () => {
   return <CreateAccount />;
 };
-// SignUp.pageOptions = pageOptions;
 const pageOptions: PageOptions = {
-  title: 'Create Account',
-  description: 'Welcome to Voguish Theme',
+  title: i18n._(t`Create Account`),
+  description: i18n._(t`Welcome to Voguish Theme`),
 };
 SignUp.pageOptions = pageOptions;
 export default SignUp;

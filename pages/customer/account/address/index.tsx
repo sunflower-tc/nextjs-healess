@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import dynamic from 'next/dynamic';
 
 const AddressList = dynamic(
@@ -12,7 +14,7 @@ const Index = () => {
   );
 };
 Index.pageOptions = {
-  title: 'Address',
-  description: 'Customer Address',
+  title: i18n._(t`Address`),
+  description: i18n._(t`Customer Address`),
 };
 export default Index;

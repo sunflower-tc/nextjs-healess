@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { PageOptions } from '@voguish/module-theme';
 import dynamic from 'next/dynamic';
 const CheckoutSuccessPage = dynamic(
@@ -8,7 +10,7 @@ const CheckoutSuccess = () => {
   return <CheckoutSuccessPage />;
 };
 const pageProps: PageOptions = {
-  title: 'Order Placed',
+  title: i18n._(t`Order Placed`),
 };
 CheckoutSuccess.pageOptions = pageProps;
 export default CheckoutSuccess;

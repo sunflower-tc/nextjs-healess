@@ -10,6 +10,7 @@ import {
 } from '@voguish/module-catalog';
 import { LayeredPlaceHolder } from '@voguish/module-catalog/Components/Product/Detail/placeholder/PlaceHolder';
 import CATEGORIES_QUERY from '@voguish/module-catalog/graphql/Categories.graphql';
+import MEGAMENU_QUERY from '@voguish/module-theme/graphql/MegaMenu.graphql';
 import CATEGORY_QUERY from '@voguish/module-catalog/graphql/Category.graphql';
 import {
   BreadcrumbProps,
@@ -84,7 +85,7 @@ const createPageOptions = (
   };
 };
 
-const Categories = ({ category }: { category: CategoryItem }) => {
+const Categories = ({ category, subCategoryItem }: { category: CategoryItem , subCategoryItem: CategoryItem}) => {
   const { uid, name } = category;
   const filterProps = {
     filters: { category_uid: { eq: uid } },
@@ -100,6 +101,7 @@ const Categories = ({ category }: { category: CategoryItem }) => {
         activePageFilterValue={uid}
         showToolBar
         productsInput={filterProps}
+        subCategoryItem={subCategoryItem}
       />
     </>
   );
@@ -157,6 +159,15 @@ export async function getStaticProps({ params }: PagePaths) {
       notFound: true,
     };
   }
+
+  const { megaMenu } =  await graphqlRequest({
+    query: MEGAMENU_QUERY,
+  })
+
+  const parentId = megaMenu?.find((menu: any) => menu.url_key ===  params?.urlKey)?.item_id
+  const subMenu = megaMenu?.filter((menu: any) => menu.parent_id === parentId)
+  const subCategoryItem = isValidArray(subMenu) ? subMenu : []
+ 
   const pageOptions: PageOptions = {
     ...createPageOptions(category.breadcrumbs, category.name, category.uid),
     ...{
@@ -171,6 +182,7 @@ export async function getStaticProps({ params }: PagePaths) {
   return {
     props: {
       category: category,
+      subCategoryItem,
       pageOptions: pageOptions,
     },
     revalidate: 100, // Time In which it revalidate or check for changes

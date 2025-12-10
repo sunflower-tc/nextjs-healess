@@ -204,7 +204,7 @@ const AddReviewForm = ({ submitReview, open, setOpen }: any) => {
                   <span className="flex items-center h-full pr-2">
                     <RotateRight className="w-5 h-5 animate-spin" />
                   </span>
-                  <Trans> Submitting your Review...</Trans>
+                  <Trans>Submitting your Review...</Trans>
                 </Button>
               ) : (
                 <Box

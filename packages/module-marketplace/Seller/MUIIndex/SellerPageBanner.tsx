@@ -16,11 +16,7 @@ const SellerPageBanner = (props: any) => {
       style={{
         backgroundSize: 'cover',
         backgroundRepeat: 'no-repeat',
-        background: `url(${
-          bannerImage != null
-            ? bannerImage
-            : '/assets/img/dummy/sellerBanner.png' || PLACEHOLDER_IMG
-        })`,
+        background: `url(${bannerImage ? bannerImage : PLACEHOLDER_IMG})`,
       }}
     >
       {' '}

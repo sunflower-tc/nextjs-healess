@@ -19,7 +19,7 @@ import {
 const storeConfig: StoreConfigInterface =
   getLocalStorage(STORE_CONFIG, true) || {};
 
-const currencySelected = getLocalStorage('current_currency');
+const currencySelected = getLocalStorage('current_currency', true);
 
 /**
  * Initializing the state
@@ -45,7 +45,7 @@ export const storeConfigSlice = createSlice({
     ) => {
       const storeConfig = action.payload || {};
       setLocalStorage(STORE_CONFIG, storeConfig);
-      state = { ...state, ...storeConfig };
+      return { ...state, ...storeConfig };
     },
     setCountries: (
       state,
@@ -57,7 +57,7 @@ export const storeConfigSlice = createSlice({
       setLocalStorage(STORE_CODE, action.payload);
       state.currentStore = action.payload;
     },
-    setCurrentCurrency: (state, action: PayloadAction<string>) => {
+    setCurrentCurrency: (state, action: PayloadAction<any>) => {
       setLocalStorage(CURRENCY_CODE, action.payload);
       state.currentCurrency = action.payload;
     },

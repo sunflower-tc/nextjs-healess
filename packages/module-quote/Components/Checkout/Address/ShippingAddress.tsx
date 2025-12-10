@@ -104,7 +104,6 @@ const ShippingAddress = ({
   }, [reset, closeUpdateHandler, newAdress]);
   const regionId = watch('region_id');
   const region = watch('region');
-  console.log(region, regionId);
   /**
    * Handle Add New Address
    */

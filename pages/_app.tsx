@@ -50,16 +50,8 @@ function MyApp({
       i18n.load(locale, messages);
       i18n.activate(locale);
     };
-    loadLocaleData(locale ? locale : 'en' || 'en');
+    loadLocaleData(locale ? locale : 'en');
   }, [locale]);
-  // useEffect(() => {
-  //   const carouselItems = Array.from(
-  //     document.getElementsByClassName('carousel-item-padding-40-px')
-  //   );
-  //   carouselItems.forEach((element) =>
-  //     element.setAttribute('aria-hidden', false as any)
-  //   );
-  // }, []);
   return getLayout(
     <>
       <I18nProvider i18n={i18n}>

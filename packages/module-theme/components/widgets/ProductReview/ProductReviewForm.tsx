@@ -99,23 +99,24 @@ export const ProductReviewForm = (props: PropData) => {
           >
             <Grid className="relative flex items-center justify-between">
               <Typography variant="h2" className="text-lg font-semibold">
-                <Trans> Add Your Review</Trans>
+                <Trans>Add Your Review</Trans>
               </Typography>
             </Grid>
             <FormGroup sx={{ mt: 1 }}>
               <input type="hidden" {...register('sku', { value: props.sku })} />
-              <label htmlFor="ratings__NA==" className="mt-2">
+              <label htmlFor="ratings__NA==" className="mt-2 max-w-fit">
                 <Trans>Rating</Trans>
               </label>
               <input
                 type="hidden"
                 {...register('ratings__NA==', { value: Ratingvalue })}
               />
-
-              <ReviewRating
-                Ratingvalue={Ratingvalue || 0}
-                setRatingvalue={setRatingvalue}
-              />
+              <div className="truncate max-w-[9.75rem]">
+                <ReviewRating
+                  Ratingvalue={Ratingvalue || 0}
+                  setRatingvalue={setRatingvalue}
+                />
+              </div>
               <InputField
                 label="Name"
                 {...register('nickname', {
@@ -157,7 +158,7 @@ export const ProductReviewForm = (props: PropData) => {
                   type="reset"
                   onClick={props.openForm}
                 >
-                  <Trans> Cancel</Trans>
+                  <Trans>Cancel</Trans>
                 </Button>
                 <Button
                   className="bg-brand w-1/3 border border-solid py-2 border-brand shadow-none hover:contrast-125 hover:bg-brand rounded-[unset]"

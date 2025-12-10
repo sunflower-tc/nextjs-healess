@@ -1,8 +1,14 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import { graphqlRequest } from '@utils/Fetcher';
-import { PageOptions } from '@voguish/module-theme';
-import Home_Page from '@voguish/module-theme/graphql/home.graphql';
+import { isValidObject } from '@utils/Helper';
+import HOME_PAGE_QUERY from '@voguish/module-theme/graphql/home.graphql';
+import { PageOptions } from '@voguish/module-theme/page';
+import HomePage from '@voguish/module-theme/pages/Home';
 import { HomePageData } from '@voguish/module-theme/types/home-page';
-import HomePage from '~packages/module-theme/pages/Home';
+import { LRUCache } from '~utils/LRUCache';
+
+const homePageCache = new LRUCache<HomePageData>(50, 5);
 
 const Home = ({ pageData }: { pageData: HomePageData }) => {
   return (
@@ -13,25 +19,50 @@ const Home = ({ pageData }: { pageData: HomePageData }) => {
 };
 
 const pageProps: PageOptions = {
-  title: 'Home Page - Voguish',
-  description: 'Welcome to Voguish Theme',
+  title: i18n._(t`Home Page - Voguish`),
+  description: i18n._(t`Welcome to Voguish Theme`),
   showBreadcrumb: false,
 };
 
 Home.pageOptions = pageProps;
 export default Home;
-export async function getStaticProps() {
-  const data = await graphqlRequest({
-    query: Home_Page,
-    variables: {},
-    options: {
-      fetchPolicy: 'network-only',
-    },
-  });
-  return {
-    props: {
-      pageData: data,
-    },
-    revalidate: 20, // Time In which it revalidate or check for changes
-  };
+
+export async function getServerSideProps() {
+  const cacheKey = 'homepage_data';
+
+  try {
+    // Check cache first
+    const cachedData = homePageCache.get(cacheKey);
+    if (cachedData) {
+      return {
+        props: {
+          pageData: cachedData,
+        },
+      };
+    }
+
+    // Fetch fresh data
+    const data = await graphqlRequest({
+      query: HOME_PAGE_QUERY,
+      variables: {},
+      options: {
+        fetchPolicy: 'network-only',
+      },
+    });
+
+    if (!isValidObject(data)) {
+      return { notFound: true };
+    }
+
+    // Cache the result
+    homePageCache.set(cacheKey, data);
+
+    return {
+      props: {
+        pageData: data,
+      },
+    };
+  } catch {
+    return { notFound: true };
+  }
 }

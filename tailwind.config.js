@@ -90,6 +90,9 @@ module.exports = {
         price: '1.5rem',
         description: '0.875rem',
       },
+      fontFamily: {
+        sans: ['Poppins', 'Arial', 'Helvetica', 'sans-serif'], // 覆盖默认 sans
+      },
     },
   },
   plugins: [],

@@ -99,7 +99,7 @@ const EditForm = ({ handleClick, userinfoData }: EditFormType) => {
           />
 
           <Typography variant="h4" sx={{ mx: 1, flexGrow: 1 }} component="div">
-            <Trans> Edit Profile</Trans>
+            <Trans>Edit Profile</Trans>
           </Typography>
           <Button
             className="rounded-none shadow-none bg-brand"

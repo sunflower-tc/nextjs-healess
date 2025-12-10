@@ -29,13 +29,17 @@ const LoginAccount: NextPageWithLayout = () => {
   const router = useRouter();
   const dispatch = useAppDispatch();
   const { data: session } = useSession();
+  const credential = process.env.DEMO_CREDENTIALS?.split('||');
+  const [email = '', password = ''] = credential || [];
   const [mergeCart] = useCustomerMutation(MERGE_CART);
   const {
     register,
     handleSubmit,
     formState: { isSubmitting, errors },
-  } = useForm();
+  } = useForm({ defaultValues: { email, password, remember: false } });
   const token = useToken();
+  const { query } = router;
+
   useEffect(() => {
     let guestId = getLocalStorage(CART_DATA, true) || {};
 
@@ -61,7 +65,7 @@ const LoginAccount: NextPageWithLayout = () => {
     }
     if (result?.ok) {
       dispatch(setUser(session));
-      router.back();
+      router.push(query?.callbackUrl?.toString() || '/');
     }
   };
 
@@ -77,7 +81,7 @@ const LoginAccount: NextPageWithLayout = () => {
         sx={{ mt: 1, width: '100%' }}
       >
         <Typography variant="h6" className="font-semibold">
-          <Trans> Login</Trans>
+          <Trans>Login</Trans>
         </Typography>
         <FormGroup className="grid gap-2 mt-4">
           <Grid className="grid gap-1">
@@ -161,7 +165,7 @@ const LoginAccount: NextPageWithLayout = () => {
           >
             <Trans>Sign Up</Trans>
           </Link>
-          <Trans> now</Trans>
+          <Trans>now</Trans>
         </Typography>
       </Box>
     </AuthLayout>

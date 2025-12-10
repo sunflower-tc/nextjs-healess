@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import dynamic from 'next/dynamic';
 
 const Profile = dynamic(
@@ -11,7 +13,7 @@ function Index() {
   );
 }
 Index.pageOptions = {
-  title: 'Profile',
-  description: 'Customer profile',
+  title: i18n._(t`Profile`),
+  description: i18n._(t`Customer profile`),
 };
 export default Index;

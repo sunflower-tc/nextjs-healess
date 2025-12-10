@@ -5,6 +5,7 @@ import { CartAddressInput, CartAddressInterface } from '@voguish/module-quote';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
 import { ToastContent, ToastOptions, toast } from 'react-toastify';
 
+
 /**
  * Toast Options
  */
@@ -24,21 +25,55 @@ const toasterOptions: ToastOptions = {
  * @param {boolean} isNegative - default is false
  * @returns string
  */
+// todo hava to check 
+// export const getFormattedPrice = (
+//   price: number,
+//   currency: string,
+//   isNegative = false
+// ) => {
+//   const currencySelected = getLocalStorage('current_currency');
+
+//   const selectedRate = currencySelected?.rate || 1;
+//   currency = currencySelected?.currency_to || getCurrencyCode();
+//   price = typeof price === 'string' ? parseFloat(price) : price;
+//   price = isNegative ? -Math.abs(price) : price;
+//   price = price * selectedRate;
+//   return price?.toLocaleString('en-US', {
+//     style: 'currency',
+//     currency,
+//   });
+// };
+
 export const getFormattedPrice = (
-  price: number,
-  currency: string,
+  price: number | string,
+  currency?: string,
   isNegative = false
-) => {
+): string => {
   const currencySelected = getLocalStorage('current_currency', true);
 
-  const selectedRate = currencySelected?.rate || 1;
-  currency = currencySelected?.currency_to || getCurrencyCode();
-  price = typeof price === 'string' ? parseFloat(price) : price;
-  price = isNegative ? -Math.abs(price) : price;
-  price = price * selectedRate;
-  return price?.toLocaleString('en-US', {
+  const selectedRate = (1 / (currencySelected?.rate ?? 1)).toFixed(4);
+  const targetCurrency =
+    currencySelected?.currency_to ?? currency ?? getCurrencyCode();
+
+  let numericPrice = typeof price === 'string' ? parseFloat(price) : price;
+
+  if (isNaN(numericPrice)) {
+    console.warn('Invalid price value:', price);
+    numericPrice = 0;
+  }
+
+  numericPrice = isNegative ? -Math.abs(numericPrice) : numericPrice;
+  if (currency === currencySelected?.currency_to) {
+    return numericPrice.toLocaleString('en-US', {
+      style: 'currency',
+      currency: currency ?? getCurrencyCode(),
+    });
+  }
+  // const convertedPrice = numericPrice / Number(selectedRate);
+  const convertedPrice = numericPrice * (Number(currencySelected?.rate ?? 1))
+  return convertedPrice.toLocaleString('en-US', {
     style: 'currency',
-    currency,
+    currency: targetCurrency,
   });
 };
 
@@ -240,3 +275,45 @@ export function getFlagEmoji(countryCode: string) {
     return '';
   }
 }
+
+
+
+export const getLocalStore = (
+  availableStores: {
+    code: string;
+    store_code: string;
+    locale_code?: string;
+    locale?: string;
+  }[],
+  locale: string
+): string => {
+
+  if (availableStores?.length === 1) {
+    const storeLocale = availableStores[0]?.store_code ?? availableStores[0]?.locale;
+    return storeLocale?.split('_')?.[0]
+  }
+  const store = availableStores.find((store) => {
+    const storeLocale = store.store_code || store.locale;
+    const normalizedStoreLocale = storeLocale?.split('_')?.[0];
+    return normalizedStoreLocale === locale;
+  });
+
+  return (
+    store?.store_code ??
+    process.env.NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE ??
+    ''
+  );
+};
+
+
+export const getValidCurrencies = (data: any) => {
+  if (!data?.available_currency_codes || !data?.exchange_rates) {
+    return [];
+  }
+  return data.available_currency_codes.filter((currency: any) => {
+    const exchangeRate = data.exchange_rates.find(
+      (rate: any) => rate.currency_to === currency.code && rate.rate
+    );
+    return Boolean(exchangeRate);
+  });
+};

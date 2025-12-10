@@ -11,7 +11,7 @@ const Breadcrumb = ({ title, breadCrumbs }: PageOptions) => {
       <Breadcrumbs separator="›" aria-label="breadcrumb">
         <Link href="/" className="cta" underline="none">
           <Typography className="hover-underline-animation" variant="body2">
-            <Trans> Home</Trans>
+            <Trans>Home</Trans>
           </Typography>
         </Link>
 

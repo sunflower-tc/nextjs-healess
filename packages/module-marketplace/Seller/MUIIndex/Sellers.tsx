@@ -37,7 +37,7 @@ const Sellers = (props: { sellers: ISellers[] }) => {
                       key={product.id}
                       rows={
                         (index === 0 && store.products.length === 3) ||
-                        store.products.length !== 3
+                          store.products.length !== 3
                           ? 2
                           : 1
                       }
@@ -95,14 +95,14 @@ const Sellers = (props: { sellers: ISellers[] }) => {
                         {store.shopTitle}
                       </Typography>
                       <Typography variant="body1">
-                        {store.sellerProductCount} <Trans> Products</Trans>
+                        {store.sellerProductCount} <Trans>Products</Trans>
                       </Typography>
                       <Link
                         className="text-lg font-semibold no-underline cta text-brand"
                         href={`/marketplace/seller/profile/shop/${store.profileurl}`}
                       >
                         <span className=" hover-underline-animation">
-                          <Trans> View Seller</Trans>
+                          <Trans>View Seller</Trans>
                         </span>
                       </Link>
                     </Grid>

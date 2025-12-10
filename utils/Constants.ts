@@ -39,3 +39,9 @@ export const LAYOUT_3 = 3;
 
 export const FEEDS_FRACTION = 20;
 export const authorizationErr = t`The current customer is not authorized.`;
+export const AUTHORIZED = 'authenticated';
+export const errorCatEnity = ['graphql-no-such-entity'];
+export const errorCat = ['graphql-authentication'];
+export const errorAuthentication = ['graphql-authentication'];
+
+

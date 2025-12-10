@@ -40,7 +40,7 @@ const TabButton = () => {
                 variant="subtitle1"
                 className="group-hover:text-brand"
               >
-                <Trans> Wishlist</Trans>
+                <Trans>Wishlist</Trans>
               </Typography>
               <Typography variant="body2">
                 <Trans>Handpicked products in your Personal Wishlist</Trans>

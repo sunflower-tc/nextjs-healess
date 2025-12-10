@@ -80,7 +80,7 @@ export default function ReviewsList({ reviews }: { reviews: ProductReview[] }) {
                       }}
                     >
                       <Typography variant="subtitle1">
-                        <Trans> Load more reviews</Trans>
+                        <Trans>Load more reviews</Trans>
                       </Typography>
                     </Button>
                   </Box>

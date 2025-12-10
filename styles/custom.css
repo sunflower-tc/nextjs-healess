@@ -36,10 +36,14 @@ button {
   --font-size-lead: 1.25rem; /* text-lg */
   --font-size-heading: 2rem; /* text-2xl */
   --font-size-display: 3rem; /* text-4xl */
+  --font-sans: ui-sans-serif, system-ui, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+  --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   --height-nav: 3rem;
   --screen-height: 100vh;
   --screen-height-dynamic: 100vh;
   --color-gray: #676767;
   --color-button-text: #d9efff;
   --width-heading: 4rem;
+  --default-font-family: var(--font-sans);
+  --default-mono-font-family: var(--font-mono)
 }

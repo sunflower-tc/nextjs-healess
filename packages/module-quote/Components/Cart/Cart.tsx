@@ -33,9 +33,9 @@ export function Cart({ toggleDrawer, cartOpen }: CartType) {
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
   const grandTotal = quote?.prices?.grand_total?.value
     ? getFormattedPrice(
-        quote.prices.grand_total.value,
-        quote.prices.grand_total.currency
-      )
+      quote.prices.grand_total.value,
+      quote.prices.grand_total.currency
+    )
     : getFormattedPrice(0, 'USD');
 
   /**
@@ -90,9 +90,8 @@ export function Cart({ toggleDrawer, cartOpen }: CartType) {
             {cartItems.map((item, index) => (
               <div
                 key={item.cartItemId}
-                className={`relative p-5 mx-2 ${
-                  index > 0 && 'border-t'
-                } border-commonBorder border-solid border-0`}
+                className={`relative p-5 mx-2 ${index > 0 && 'border-t'
+                  } border-commonBorder border-solid border-0`}
               >
                 <CartItem
                   onClick={toggleDrawer(false)}
@@ -154,7 +153,7 @@ export function Cart({ toggleDrawer, cartOpen }: CartType) {
                   variant="contained"
                   className="w-full rounded-none shadow-none"
                 >
-                  <Trans> Checkout</Trans>
+                  <Trans>Checkout</Trans>
                 </Button>
               </Link>
               <Root>
@@ -168,7 +167,7 @@ export function Cart({ toggleDrawer, cartOpen }: CartType) {
                   variant="outlined"
                   className="w-full text-center text-black border-black rounded-none"
                 >
-                  <Trans> Back To Shopping</Trans>
+                  <Trans>Back To Shopping</Trans>
                 </Button>
               </Link>
             </>

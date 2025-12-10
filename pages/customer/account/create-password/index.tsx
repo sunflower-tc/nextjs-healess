@@ -1,3 +1,5 @@
+import { i18n } from '@lingui/core';
+import { t } from '@lingui/macro';
 import type { PageOptions } from '@voguish/module-theme/page';
 import dynamic from 'next/dynamic';
 const NewPassword = dynamic(
@@ -6,10 +8,9 @@ const NewPassword = dynamic(
 const CreateNewPassword = () => {
   return <NewPassword />;
 };
-// CreateNewPassword.pageOptions = pageOptions;
 const pageOptions: PageOptions = {
-  title: 'Set New Password',
-  description: 'Welcome to Voguish Theme',
+  title: i18n._(t`Set New Password`),
+  description: i18n._(t`Welcome to Voguish Theme`),
 };
 CreateNewPassword.pageOptions = pageOptions;
 export default CreateNewPassword;

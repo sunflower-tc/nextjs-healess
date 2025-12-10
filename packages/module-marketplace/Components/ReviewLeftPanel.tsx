@@ -113,7 +113,7 @@ const ReviewLeftPanel = ({ id }: { id: number }) => {
                         }}
                       >
                         <Typography variant="subtitle1">
-                          <Trans> Load more reviews</Trans>
+                          <Trans>Load more reviews</Trans>
                         </Typography>
                       </Button>
                     </Box>

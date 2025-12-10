@@ -22,6 +22,7 @@ import Sellers from '../Seller/MUIIndex/Sellers';
 const Main: NextPageWithLayout = () => {
   const router = useRouter();
   const { data, loading } = useQuery(Marketplace_Landing_Page);
+  console.log('data', data)
   const landingPageData = data?.marketplaceLandingPage || null;
   const labelData = landingPageData?.banner || null;
   const headTitle = landingPageData?.headTitle || null;
@@ -136,9 +137,8 @@ const Main: NextPageWithLayout = () => {
                 )}
                 {(pageLayout === LAYOUT_2 || pageLayout === LAYOUT_3) && (
                   <Box
-                    className={`flex flex-col items-center justify-center ${
-                      pageLayout === LAYOUT_2 ? 'sm:pt-[6.25rem]' : 'sm:pt-12'
-                    } md:pb-24 gap-5 pt-5 sm:gap-6`}
+                    className={`flex flex-col items-center justify-center ${pageLayout === LAYOUT_2 ? 'sm:pt-[6.25rem]' : 'sm:pt-12'
+                      } md:pb-24 gap-5 pt-5 sm:gap-6`}
                   >
                     <Typography
                       variant="subtitle1"
