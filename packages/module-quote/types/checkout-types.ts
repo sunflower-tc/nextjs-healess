@@ -56,6 +56,7 @@ export interface CheckoutStepBillAddress extends CheckoutStepProps {
 export interface CheckoutStepPayment extends CheckoutStepProps {
   availablePaymentMethods: AvailablePaymentMethods[];
   selectedPaymentMethod: SelectedPaymentMethod;
+  token: string;
 }
 export interface CheckoutStepReview extends CheckoutStepProps {
   selectedShippingAddress: CartAddressInterface;
@@ -145,4 +146,10 @@ export interface SetBillingAddressesOnCartOutput {
   setBillingAddressOnCart: {
     cart: CartInterface;
   };
+}
+
+export interface CreateNihaopayTokenInput {
+  terminal: number;
+  return_url: string;
+  cart_id: string;
 }

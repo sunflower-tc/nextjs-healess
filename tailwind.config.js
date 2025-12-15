@@ -56,7 +56,6 @@ module.exports = {
         checkoutBorder: '#DCDCDC',
         black: '#000',
       },
-
       screens: {
         '3xl': { min: '2500px' },
         '4xl': { min: '2700px' },
