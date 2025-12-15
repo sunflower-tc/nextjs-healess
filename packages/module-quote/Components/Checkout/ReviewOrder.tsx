@@ -77,12 +77,11 @@ const ReviewOrder = ({
                         sx={{ fontSize: 16, fontWeight: 500 }}
                         color="text.main"
                       >
-                        {`${
-                          selectedShippingMethod?.carrier_title
-                        }-${getFormattedPrice(
-                          selectedShippingMethod?.amount.value,
-                          selectedShippingMethod?.amount.currency
-                        )} `}
+                        {`${selectedShippingMethod?.carrier_title
+                          }-${getFormattedPrice(
+                            selectedShippingMethod?.amount.value,
+                            selectedShippingMethod?.amount.currency
+                          )} `}
                       </Typography>
                     </CardContent>
                   </Grid>
@@ -115,7 +114,7 @@ const ReviewOrder = ({
           className="flex px-2 rounded-none shadow-none py-0.5 space-x-3 font-normal tracking-widest"
           sx={{ color: '#2C3145', minWidth: 0 }}
         >
-          <ArrowBack className="text-lg rounded-full sm:text-xl" />
+          <ArrowBack />
           <span>
             <Trans>Go to Payment</Trans>
           </span>

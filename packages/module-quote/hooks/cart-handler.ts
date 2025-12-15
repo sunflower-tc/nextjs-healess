@@ -11,6 +11,7 @@ import {
   getLocalStorage,
   setLocalStorage,
 } from '@store/local-storage';
+import { graphqlMutate, graphqlRequest } from '@utils/Fetcher';
 import { isValidArray, isValidObject, showToast } from '@utils/Helper';
 import {
   useCustomerMutation,
@@ -32,9 +33,11 @@ import SetShippingAddressesOnCart from '@voguish/module-quote/graphql/mutation/S
 import SetShippingMethodsOnCart from '@voguish/module-quote/graphql/mutation/SetShippingMethodsOnCart.graphql';
 import SetShippingPaymentOnCart from '@voguish/module-quote/graphql/mutation/SetShippingPaymentOnCart.graphql';
 import UpdateCartItems from '@voguish/module-quote/graphql/mutation/UpdateCartItems.graphql';
+import { useSession } from 'next-auth/react';
 import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { Logout, RootState } from 'store';
+import { AUTHORIZED, errorAuthentication, errorCat } from '~utils/Constants';
 import {
   AddProductsToCartInput,
   AddProductsToCartOutput,
@@ -49,9 +52,6 @@ import {
   SetShippingMethodsOnCartInput,
   SetShippingMethodsOnCartOutput,
 } from '../types';
-import { useSession } from 'next-auth/react';
-import { AUTHORIZED, errorAuthentication, errorCat } from '~utils/Constants';
-import { graphqlMutate, graphqlRequest  } from '@utils/Fetcher';
 
 
 // fetchTranslations("product");
@@ -545,7 +545,7 @@ export const useSetPaymentMethodOnCart = () => {
     const cartData = data?.setPaymentMethodOnCart?.cart || null;
     if (cartData) {
       dispatch(setCart({ ...cartData, isGuest: token ? false : true }));
-      showToast({ message: 'Payment method updated successfully!!' });
+      // showToast({ message: 'Payment method updated successfully!!' });
     }
     if (error) {
       showToast({ message: error.message, type: 'error' });
@@ -786,7 +786,7 @@ export const useCreateEmptyCart = (checkout = false) => {
             )
           ) {
             Logout();
-          } else if (error.message.includes("The cart isn't active.")) {
+          } else if (error.message.includes('The cart isn\'t active.')) {
             refetch().then((res) => {
               const data = res?.data?.customerCart;
               if (isValidObject(data) &&
@@ -849,7 +849,7 @@ export const createEmptyGuestCartOnLogout = async () => {
     const data = await graphqlMutate({
       mutation: CreateEmptyCartQuery,
       options: {
-        Store:  locale,
+        Store: locale,
       },
     });
 
@@ -861,7 +861,7 @@ export const createEmptyGuestCartOnLogout = async () => {
         options: {
           context: {
             headers: {
-              Store:  locale ?? process.env.DEFAULT_STORE_CODE,
+              Store: locale ?? process.env.DEFAULT_STORE_CODE,
             },
           },
         },

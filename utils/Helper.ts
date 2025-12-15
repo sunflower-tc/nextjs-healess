@@ -2,9 +2,9 @@ import { ApolloClient, InMemoryCache } from '@apollo/client';
 import { getLocalStorage } from '@store/local-storage';
 import { AppliedLayerFilter } from '@voguish/module-catalog';
 import { CartAddressInput, CartAddressInterface } from '@voguish/module-quote';
+import { AvailablePaymentMethods } from '@voguish/module-quote/types';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
 import { ToastContent, ToastOptions, toast } from 'react-toastify';
-
 
 /**
  * Toast Options
@@ -317,3 +317,55 @@ export const getValidCurrencies = (data: any) => {
     return Boolean(exchangeRate);
   });
 };
+export const convertStringToHTML = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  document?.body?.appendChild(doc.body);
+  const form = document.getElementById('pay_form') as HTMLFormElement | null;
+  form?.submit();
+  return doc.body;
+};
+
+export const getUserAgent = () => {
+  const terminal = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 0 : 1;
+  return terminal;
+}
+
+export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMethods[]) => {
+  const titleMap: Record<string, string> = {
+    adyen_cc: 'Credit / Debit Card',
+    nihaopay_payments_wechatpay: 'WeChat Pay',
+    nihaopay_payments_unionpay: 'China Union Pay',
+    paypal_express: 'PayPal',
+  };
+
+  const order = [
+    'adyen_cc',
+    'paypal_express',
+    'clearpay',
+    'nihaopay_payments_alipay',
+    'nihaopay_payments_wechatpay',
+    'nihaopay_payments_unionpay',
+    'checkmo',
+  ];
+
+  const excluded = new Set([
+    'adyen_oneclick',
+    'adyen_hpp',
+    'checkmo',
+    'clearpay',
+  ]);
+
+  const orderIndex = new Map(order.map((code, index) => [code, index]));
+  const getIndex = (code: string) => orderIndex.get(code) ?? order.length;
+
+  return availablePaymentMethods
+    .filter((payment) => !excluded.has(payment.code))
+    .sort((a, b) => getIndex(a.code) - getIndex(b.code))
+    .map((payment) => ({
+      label: titleMap[payment.code] ?? payment.title,
+      value: payment.code,
+    }));
+}
+
+

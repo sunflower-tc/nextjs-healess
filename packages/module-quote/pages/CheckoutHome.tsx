@@ -43,9 +43,9 @@ const ShippingAddress = dynamic(
 const ShippingMethods = dynamic(
   () => import('@voguish/module-quote/Components/Checkout/ShippingMethods')
 );
-const ReviewOrder = dynamic(
-  () => import('@voguish/module-quote/Components/Checkout/ReviewOrder')
-);
+// const ReviewOrder = dynamic(
+//   () => import('@voguish/module-quote/Components/Checkout/ReviewOrder')
+// );
 interface PageInterface {
   props?: any;
   req?: any;
@@ -71,6 +71,11 @@ const CheckoutHome = () => {
    */
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
 
+  //for develop payment
+  // useEffect(() => {
+  //   setActiveStep(3)
+  // }, [])
+
   if (!isValidObject(quote) || !isValidArray(quote?.items)) {
     return <EmptyCart />;
   }
@@ -95,94 +100,92 @@ const CheckoutHome = () => {
 
   let steps: CheckoutStep[] = quote
     ? [
-        {
-          index: 'DETAILS',
-          label: t`Personal Details`,
-          content: (
-            <Email
-              isAccountLoggedIn={!!token}
-              handleNext={handleNext}
-              email={quote?.email}
-              cartId={quote?.id}
-              handlePrev={handlePrev}
-            />
-          ),
-        },
-        {
-          label: t`Billing Address`,
-          index: 'BILLING-ADDRESS',
-          content: (
-            <BillingAddress
-              isAccountLoggedIn={!token}
-              cartId={quote.id}
-              addresses={addresses}
-              selectedShippingAddress={parseAddress(
-                quote.shipping_addresses?.[0]
-              )}
-              selectedBillingAddress={parseAddress(quote.billing_address)}
-              handleNext={handleNext}
-              handlePrev={handlePrev}
-            />
-          ),
-        },
-        {
-          label: t`Payment`,
-          index: 'PAYMENT',
-          content: (
-            <Payment
-              isAccountLoggedIn={!token}
-              availablePaymentMethods={quote?.available_payment_methods}
-              cartId={quote.id}
-              handleNext={handleNext}
-              selectedPaymentMethod={quote?.selected_payment_method}
-              handlePrev={handlePrev}
-            />
-          ),
-        },
-        {
-          label: t`Review Order`,
-          index: 'REVIEW-ORDER',
-          content: (
-            <ReviewOrder
-              cartId={quote.id}
-              token={token || ''}
-              isVirtual={quote?.is_virtual}
-              handleNext={handleNext}
-              handlePrev={handlePrev}
-              isAccountLoggedIn={!token}
-              selectedShippingAddress={quote.shipping_addresses?.[0]}
-              selectedPaymentMethod={quote?.selected_payment_method}
-              selectedShippingMethod={
-                quote.shipping_addresses?.[0]?.selected_shipping_method
-              }
-            />
-          ),
-        },
-      ]
-    : [];
-
-  if (quote && !quote.is_virtual) {
-    steps.splice(
-      1,
-      0,
       {
-        label: t`Shipping Address`,
-        index: 'SHIPPING-ADDRESS',
+        index: 'DETAILS',
+        label: t`Personal Details`,
         content: (
-          <ShippingAddress
+          <Email
             isAccountLoggedIn={!!token}
-            addresses={addresses}
+            handleNext={handleNext}
+            email={quote?.email}
+            cartId={quote?.id}
+            handlePrev={handlePrev}
+          />
+        ),
+      },
+      {
+        label: t`Billing Address`,
+        index: 'BILLING-ADDRESS',
+        content: (
+          <BillingAddress
+            isAccountLoggedIn={!token}
             cartId={quote.id}
-            token={token || ''}
+            addresses={addresses}
             selectedShippingAddress={parseAddress(
               quote.shipping_addresses?.[0]
             )}
-            refetchAddress={refetch}
+            selectedBillingAddress={parseAddress(quote.billing_address)}
             handleNext={handleNext}
             handlePrev={handlePrev}
           />
         ),
       },
+      {
+        label: t`Payment`,
+        index: 'PAYMENT',
+        content: (
+          <Payment
+            isAccountLoggedIn={!token}
+            availablePaymentMethods={quote?.available_payment_methods}
+            cartId={quote.id}
+            token={token || ''}
+            handleNext={handleNext}
+            selectedPaymentMethod={quote?.selected_payment_method}
+            handlePrev={handlePrev}
+          />
+        ),
+      },
+      // {
+      //   label: t`Review Order`,
+      //   index: 'REVIEW-ORDER',
+      //   content: (
+      //     <ReviewOrder
+      //       cartId={quote.id}
+      //       token={token || ''}
+      //       isVirtual={quote?.is_virtual}
+      //       handleNext={handleNext}
+      //       handlePrev={handlePrev}
+      //       isAccountLoggedIn={!token}
+      //       selectedShippingAddress={quote.shipping_addresses?.[0]}
+      //       selectedPaymentMethod={quote?.selected_payment_method}
+      //       selectedShippingMethod={
+      //         quote.shipping_addresses?.[0]?.selected_shipping_method
+      //       }
+      //     />
+      //   ),
+      // },
+    ]
+    : [];
+
+  if (quote && !quote.is_virtual) {
+    steps.splice(1, 0, {
+      label: t`Shipping Address`,
+      index: 'SHIPPING-ADDRESS',
+      content: (
+        <ShippingAddress
+          isAccountLoggedIn={!!token}
+          addresses={addresses}
+          cartId={quote.id}
+          token={token || ''}
+          selectedShippingAddress={parseAddress(
+            quote.shipping_addresses?.[0]
+          )}
+          refetchAddress={refetch}
+          handleNext={handleNext}
+          handlePrev={handlePrev}
+        />
+      ),
+    },
       !quote.is_virtual && {
         label: t`Shipping Method`,
         index: 'SHIPPING-METHOD',
@@ -302,16 +305,16 @@ export async function getServerSideProps({ req }: PageInterface) {
   const token = session?.user?.token || null;
   const data = token
     ? await graphqlRequest({
-        query: CustomerAddressQuery,
-        options: {
-          context: {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
+      query: CustomerAddressQuery,
+      options: {
+        context: {
+          headers: {
+            Authorization: `Bearer ${token}`,
           },
-          fetchPolicy: 'network-only',
         },
-      })
+        fetchPolicy: 'network-only',
+      },
+    })
     : null;
   return {
     props: {

@@ -25,6 +25,6 @@
       "@assets/*": ["./public/assets/*"]
     }
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "packages/module-store/CurrencySwitcher.tsxt"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "**/*.js", "packages/module-store/CurrencySwitcher.tsx"],
   "exclude": ["node_modules", ".next"]
 }
