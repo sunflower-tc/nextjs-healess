@@ -9,8 +9,6 @@ import { useState } from 'react';
 import { CreateNihaopayTokenInput, CreatePaypalTokenInput, SetPayPalPaymentMethodOnCartInput } from '../types';
 
 
-
-
 /**
  * Create Nihaopay Token handler
  */
