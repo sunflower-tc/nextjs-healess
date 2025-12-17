@@ -2,15 +2,15 @@ import { t } from '@lingui/macro';
 import CircularProgress from '@mui/material/CircularProgress';
 import { CreateOrderActions, CreateOrderData, loadScript, OnApproveData, PayPalScriptOptions } from '@paypal/paypal-js';
 import { clearCart } from '@store/cart';
+import { removeCheckoutData } from '@store/checkout';
 import { PAYPAL_CLIENT_ID } from '@utils/Constants';
 import { getPaypalCurrency, showToast } from '@utils/Helper';
-import { useToken } from '@voguish/module-customer/hooks/useToken';
+import { useToken } from '@voguish/module-customer';
 import { useCreatePaypayToken, usePlaceOrder, useSetPayPalPaymentMethodOnCart } from '@voguish/module-quote/hooks';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
-
 
 export default function PaypalWrapper() {
   const containerId = useId();
@@ -20,27 +20,11 @@ export default function PaypalWrapper() {
   const router = useRouter();
   const { locale } = useRouter();
   const dispatch = useDispatch();
+  const token = useToken()
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
-  const token = useToken();
   const { createPaypalTokenHandler } = useCreatePaypayToken();
   const { setPayPalPaymentMethodOnCartHandler } = useSetPayPalPaymentMethodOnCart()
   const { placeOrderHandler, isInProcess } = usePlaceOrder();
-  const placeOrder = async () => {
-    if (quote?.id) {
-      const orderNumber = await placeOrderHandler(quote?.id);
-      console.log('placeOrderHandler orderNumber', orderNumber)
-      console.log('placeOrderHandler isInProcess', isInProcess)
-      if (!isInProcess && orderNumber) {
-        // const afterFetchingCart = async (cartData: CartInterface) => {
-        //   dispatch(setCart({ ...cartData, isGuest: true }));
-        // };
-        // await createEmptyCart(token, afterFetchingCart);
-
-        router.push('/checkout/success');
-        dispatch(clearCart());
-      }
-    }
-  }
 
   const createOrder = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -69,15 +53,21 @@ export default function PaypalWrapper() {
         code: 'paypal_express',
         payer_id: payerID,
         token: orderID,
-      })
-      await placeOrder();
+      });
+      const orderNumber = await placeOrderHandler(quote.id);
+      if (!isInProcess && orderNumber) {
+        await router.replace('/checkout/success').then(() => {
+          dispatch(removeCheckoutData());
+          dispatch(clearCart());
+        });
+      }
     }
-  }, []);
+  }, [quote?.id, setPayPalPaymentMethodOnCartHandler, placeOrderHandler, isInProcess, router, dispatch]);
 
   const onCancel = useCallback(async () => {
     showToast({ message: t`You cancelled the payment.`, type: 'warning' });
     await router.push('/checkout/cart');
-  }, []);
+  }, [router]);
 
   useEffect(() => {
     // Prevent multiple initializations
@@ -115,7 +105,7 @@ export default function PaypalWrapper() {
       .catch(() => {
         setIsLoading(false);
       });
-  }, [createOrder, onApprove, onCancel]);
+  }, [locale, createOrder, onApprove, onCancel]);
 
   return (
     <Fragment>

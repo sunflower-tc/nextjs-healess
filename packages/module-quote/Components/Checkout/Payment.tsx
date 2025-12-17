@@ -7,6 +7,7 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { clearCart, setCart } from '@store/cart';
+import { removeCheckoutData } from '@store/checkout';
 import { convertStringToHTML, getUserAgent, sortPaymentOptions } from '@utils/Helper';
 import PaypalWrapper from '@voguish/module-quote/Components/Checkout/Payment/PayPalWrapper';
 import { createEmptyCart, useCreateNihaopayToken, usePlaceOrder, useSetPaymentMethodOnCart } from '@voguish/module-quote/hooks';
@@ -84,11 +85,11 @@ const Payment = ({
         dispatch(setCart({ ...cartData, isGuest: true }));
       };
       await createEmptyCart(token, afterFetchingCart);
+      await dispatch(removeCheckoutData());
       setTimeout(() => dispatch(clearCart()), 1500);
     }
   };
 
-  console.log('paymentMethodOptions', paymentMethodOptions);
   return (
     <Box>
       <FormWrapper>

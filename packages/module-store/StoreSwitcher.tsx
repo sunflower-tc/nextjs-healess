@@ -17,11 +17,9 @@ import { StoreConfigInterface, StoreConfigQueryResult } from './types';
 export default function StoreSwitcher() {
   const { data: stores, loading } =
     useQuery<StoreConfigQueryResult>(AVAILABLE_STORES);
-  console.log('stores', stores);
 
   const storeSelected = getLocalStorage('current_store');
   const dispatch = useAppDispatch();
-  console.log('storeSelected', storeSelected);
   const router = useRouter();
   const { pathname, asPath, query } = router;
   const [code, setCode] = useState(storeSelected?.locale || 'en_US');

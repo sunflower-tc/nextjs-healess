@@ -14,6 +14,7 @@ const CheckoutSuccessPage = () => {
     (state: RootState) => state.checkout.lastOrderId
   );
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const handleRouteChange = () => {
       if ('/checkout/success' == router.pathname) {
