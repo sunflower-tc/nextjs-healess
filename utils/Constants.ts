@@ -1,5 +1,6 @@
 import { t } from '@lingui/macro';
 
+
 export const MODE = 'development';
 export const BASE_URL = 'http://localhost:3000';
 export const MAGENTO_URL = 'https://devmagento.webkul.com/voguish/pub/';
@@ -43,5 +44,11 @@ export const AUTHORIZED = 'authenticated';
 export const errorCatEnity = ['graphql-no-such-entity'];
 export const errorCat = ['graphql-authentication'];
 export const errorAuthentication = ['graphql-authentication'];
+
+
+
+//payment
+
+export const PAYPAL_CLIENT_ID = 'ATDZ9_ECFh-fudesZo4kz3fGTSO1pzuWCS4IjZMq4JKdRK7hQR3Rxyafx39H2fP363WtmlQNYXjUiAae';
 
 

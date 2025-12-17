@@ -1,19 +1,20 @@
 import { Trans } from '@lingui/macro';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-
 import { removeOrderId } from '@store/checkout';
-import { useAppDispatch } from '@store/hooks';
+import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { RootState } from 'store';
 
 const CheckoutSuccessPage = () => {
   const router = useRouter();
 
-  /* const orderId = useAppSelector(
+  const orderId = useAppSelector(
     (state: RootState) => state.checkout.lastOrderId
-  ); */
+  );
   const dispatch = useAppDispatch();
+
   useEffect(() => {
     const handleRouteChange = () => {
       if ('/checkout/success' == router.pathname) {
@@ -53,6 +54,14 @@ const CheckoutSuccessPage = () => {
           >
             <Trans>Thank You !</Trans>
           </Typography>
+          <Typography
+            variant="h2"
+            component="h2"
+            className="font-medium -xs:text-base"
+          >
+            Order Number:{orderId}
+          </Typography>
+
           <Typography
             variant="h2"
             component="h2"

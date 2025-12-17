@@ -1,17 +1,11 @@
 msgid ""
 msgstr ""
-"POT-Creation-Date: 2023-10-23 14:59+0530\n"
+"POT-Creation-Date: 2025-12-16 14:33+0800\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=utf-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: @lingui/cli\n"
-"Language: ar\n"
-"Project-Id-Version: \n"
-"Report-Msgid-Bugs-To: \n"
-"PO-Revision-Date: \n"
-"Last-Translator: \n"
-"Language-Team: \n"
-"Plural-Forms: \n"
+"Language: mex\n"
 
 #: packages/module-customer/Components/PasswordTab/PasswordForm.tsx:150
 msgid "* Current Password is required"
@@ -21,7 +15,7 @@ msgstr ""
 #: packages/module-customer/Components/ProfileTab/EditForm.tsx:161
 #: packages/module-quote/Components/Checkout/Email.tsx:57
 #: packages/module-theme/components/widgets/Newsletter.tsx:54
-#: packages/module-theme/pages/CreateAccount.tsx:142
+#: packages/module-theme/pages/CreateAccount.tsx:165
 #: packages/module-theme/pages/LoginAccount.tsx:97
 msgid "* Email is required"
 msgstr ""
@@ -42,7 +36,7 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:269
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:162
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:160
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:338
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:337
 msgid "* Enter city Name"
 msgstr ""
 
@@ -56,7 +50,7 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:204
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:88
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:93
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:265
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:264
 msgid "* Enter First Name"
 msgstr ""
 
@@ -64,12 +58,12 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:216
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:99
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:107
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:279
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:278
 msgid "* Enter Last Name"
 msgstr ""
 
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:133
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:307
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:306
 msgid "* Enter Line One"
 msgstr ""
 
@@ -77,14 +71,14 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:281
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:173
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:175
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:353
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:352
 msgid "* Enter Post Code"
 msgstr ""
 
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:286
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:321
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:218
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:401
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:400
 msgid "* Enter State/region"
 msgstr ""
 
@@ -92,7 +86,7 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:294
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:184
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:191
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:371
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:370
 msgid "* Enter Telephone Number"
 msgstr ""
 
@@ -104,7 +98,7 @@ msgstr ""
 msgid "* firstname is required"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:116
+#: packages/module-theme/pages/CreateAccount.tsx:139
 msgid "* Firstname is required"
 msgstr ""
 
@@ -113,7 +107,7 @@ msgstr ""
 msgid "* lastname is required"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:128
+#: packages/module-theme/pages/CreateAccount.tsx:151
 msgid "* Lastname is required"
 msgstr ""
 
@@ -147,11 +141,11 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:274
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:309
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:205
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:387
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:386
 msgid "* Select Country"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:393
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:392
 msgid "* Select state/Region"
 msgstr ""
 
@@ -169,7 +163,7 @@ msgstr ""
 msgid "* Summary is required"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:197
+#: packages/module-theme/pages/CreateAccount.tsx:220
 msgid "* This is Required field"
 msgstr ""
 
@@ -201,7 +195,8 @@ msgstr ""
 msgid "500 Error!"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:72
+#: packages/module-theme/pages/CreateAccount.tsx:77
+#: packages/module-theme/pages/CreateAccount.tsx:93
 msgid "Account created successfully"
 msgstr ""
 
@@ -234,7 +229,7 @@ msgstr ""
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:85
 #: pages/customer/account/address/index.tsx:17
 msgid "Address"
-msgstr "العنوان"
+msgstr ""
 
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:201
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:204
@@ -244,8 +239,8 @@ msgstr "العنوان"
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:119
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:128
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:129
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:301
 #: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:302
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:303
 msgid "Address 1"
 msgstr ""
 
@@ -257,8 +252,8 @@ msgstr ""
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:139
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:143
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:144
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:316
 #: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:317
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:318
 msgid "Address 2"
 msgstr ""
 
@@ -288,16 +283,16 @@ msgid "All Products"
 msgstr ""
 
 #: packages/module-marketplace/Components/StoreList.tsx:30
-#: pages/marketplace/seller/sellerlist.tsx:19
-#: pages/marketplace/seller/sellerlist.tsx:20
+#: pages/marketplace/seller/sellerlist.tsx:16
+#: pages/marketplace/seller/sellerlist.tsx:17
 msgid "All Sellers"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:161
+#: packages/module-theme/pages/CreateAccount.tsx:184
 msgid "Allow remote shopping assistance"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:267
+#: packages/module-theme/pages/CreateAccount.tsx:290
 msgid "Already have an account"
 msgstr ""
 
@@ -320,10 +315,6 @@ msgstr ""
 #: packages/module-quote/Components/Cart/CartDiscount.tsx:47
 msgid "Apply"
 msgstr ""
-
-#: packages/module-quote/Components/Cart/CartDiscount.tsx:48
-#~ msgid "Apply Coupon"
-#~ msgstr ""
 
 #: packages/module-quote/Components/Cart/CartDiscount.tsx:28
 msgid "Apply Coupon Code"
@@ -349,11 +340,7 @@ msgstr ""
 msgid "At least one uppercase (A-Z)"
 msgstr ""
 
-#: packages/module-quote/Components/Cart/CartDiscount.tsx:55
-#~ msgid "Available Coupon Code :"
-#~ msgstr ""
-
-#: packages/module-quote/Components/Cart/Cart.tsx:171
+#: packages/module-quote/Components/Cart/Cart.tsx:170
 #: packages/module-quote/pages/CartPage.tsx:132
 msgid "Back To Shopping"
 msgstr ""
@@ -367,7 +354,7 @@ msgid "Based on users reviews"
 msgstr ""
 
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:278
-#: packages/module-quote/pages/CheckoutHome.tsx:112
+#: packages/module-quote/pages/CheckoutHome.tsx:117
 msgid "Billing Address"
 msgstr ""
 
@@ -380,12 +367,12 @@ msgstr ""
 msgid "Cancel"
 msgstr ""
 
-#: packages/module-quote/Components/Cart/Cart.tsx:157
+#: packages/module-quote/Components/Cart/Cart.tsx:156
 #: packages/module-quote/pages/CartPage.tsx:123
-#: packages/module-quote/pages/CheckoutHome.tsx:217
+#: packages/module-quote/pages/CheckoutHome.tsx:220
 #: pages/checkout/index.tsx:18
 msgid "Checkout"
-msgstr "الدفع"
+msgstr ""
 
 #: packages/module-catalog/Components/Product/Item/ConfigOptions/DropDownOption.tsx:56
 msgid "Choose"
@@ -400,8 +387,8 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:262
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:155
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:156
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:332
 #: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:333
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:334
 msgid "City"
 msgstr ""
 
@@ -420,8 +407,8 @@ msgstr ""
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:107
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:117
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:118
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:288
 #: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:289
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:290
 msgid "Company"
 msgstr ""
 
@@ -433,8 +420,8 @@ msgstr ""
 msgid "Confirm New Password"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:222
-#: packages/module-theme/pages/CreateAccount.tsx:225
+#: packages/module-theme/pages/CreateAccount.tsx:245
+#: packages/module-theme/pages/CreateAccount.tsx:248
 #: packages/module-theme/pages/NewPassword.tsx:84
 msgid "Confirm Password"
 msgstr ""
@@ -470,27 +457,23 @@ msgstr ""
 msgid "Country*"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:261
+#: packages/module-theme/pages/CreateAccount.tsx:284
 msgid "Create a account"
 msgstr ""
 
 #: pages/customer/account/create/index.tsx:12
 msgid "Create Account"
-msgstr "إنشاء حساب"
+msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:103
+#: packages/module-theme/pages/CreateAccount.tsx:126
 msgid "Create New Customer Account"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:250
+#: packages/module-theme/pages/CreateAccount.tsx:273
 msgid "Creating Account"
 msgstr ""
 
-#: packages/module-customer/Components/Layout/Sidebar.tsx:91
-#~ msgid "Curate your dreams: These treasures await in your personalized Wishlist"
-#~ msgstr ""
-
-#: packages/module-store/CurrencySwitcher.tsx:166
+#: packages/module-store/CurrencySwitcher.tsx:169
 msgid "Currency"
 msgstr ""
 
@@ -504,15 +487,11 @@ msgstr ""
 
 #: pages/customer/account/login/index.tsx:12
 msgid "Customer Login"
-msgstr "تسجيل دخول العميل"
+msgstr ""
 
 #: pages/customer/account/profile/index.tsx:17
 msgid "Customer profile"
 msgstr ""
-
-#: pages/customer/account/reset-password/index.tsx:16
-#~ msgid "Customer reset passsword of your login credential"
-#~ msgstr ""
 
 #: pages/customer/account/reset-password/index.tsx:17
 msgid "Customer reset password of your login credential"
@@ -534,7 +513,7 @@ msgstr ""
 msgid "Discount :"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:170
+#: packages/module-theme/pages/CreateAccount.tsx:193
 msgid "Do you wand to become a seller/vendor ?"
 msgstr ""
 
@@ -561,8 +540,8 @@ msgstr ""
 #: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:72
 #: packages/module-quote/Components/Checkout/Email.tsx:48
 #: packages/module-quote/Components/Checkout/Email.tsx:53
-#: packages/module-theme/pages/CreateAccount.tsx:134
-#: packages/module-theme/pages/CreateAccount.tsx:137
+#: packages/module-theme/pages/CreateAccount.tsx:157
+#: packages/module-theme/pages/CreateAccount.tsx:160
 #: packages/module-theme/pages/ForgetPassword.tsx:54
 #: packages/module-theme/pages/ForgetPassword.tsx:58
 #: packages/module-theme/pages/LoginAccount.tsx:89
@@ -584,20 +563,12 @@ msgid "Empty wishlist? Start your wishlist journey"
 msgstr ""
 
 #: packages/module-quote/Components/Cart/CartDiscount.tsx:35
-#~ msgid "Enter discount code"
-#~ msgstr ""
-
-#: packages/module-quote/Components/Cart/CartDiscount.tsx:35
 msgid "Enter discount code : 'Test'"
 msgstr ""
 
 #: packages/module-marketplace/Components/form/AddReviewForm.tsx:176
 msgid "Enter review summary"
 msgstr ""
-
-#: packages/module-theme/components/widgets/Newsletter.tsx:67
-#~ msgid "Enter your email"
-#~ msgstr ""
 
 #: packages/module-theme/components/widgets/Newsletter.tsx:61
 msgid "Enter your mail id"
@@ -623,7 +594,7 @@ msgstr ""
 #: packages/module-theme/Layout/Footer/index.tsx:107
 #: packages/module-theme/Layout/Footer/index.tsx:217
 msgid "FIND US ON :"
-msgstr "تجدنا على"
+msgstr ""
 
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:163
 #: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:53
@@ -640,8 +611,8 @@ msgstr ""
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:83
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:88
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:89
-#: packages/module-theme/pages/CreateAccount.tsx:108
-#: packages/module-theme/pages/CreateAccount.tsx:111
+#: packages/module-theme/pages/CreateAccount.tsx:131
+#: packages/module-theme/pages/CreateAccount.tsx:134
 msgid "First Name"
 msgstr ""
 
@@ -672,7 +643,7 @@ msgstr ""
 msgid "Go Home"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:439
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:438
 msgid "Go to cart"
 msgstr ""
 
@@ -689,7 +660,7 @@ msgstr ""
 msgid "Go To Home"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:120
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:119
 msgid "Go to Payment"
 msgstr ""
 
@@ -715,7 +686,7 @@ msgstr ""
 
 #: pages/index.tsx:22
 msgid "Home Page - Voguish"
-msgstr "الصفحة الرئيسية - Voguish"
+msgstr ""
 
 #: packages/module-quote/Components/Cart/CartItem.tsx:173
 #: packages/module-quote/Components/Checkout/OrderSummary.tsx:134
@@ -735,8 +706,8 @@ msgstr ""
 msgid "Items"
 msgstr ""
 
-#: packages/module-theme/components/widgets/Pagination.tsx:192
-#: packages/module-theme/components/widgets/Pagination.tsx:238
+#: packages/module-theme/components/widgets/Pagination.tsx:191
+#: packages/module-theme/components/widgets/Pagination.tsx:235
 msgid "items per page"
 msgstr ""
 
@@ -754,9 +725,9 @@ msgstr ""
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:94
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:102
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:103
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:273
 #: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:274
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:275
-#: packages/module-theme/pages/CreateAccount.tsx:122
+#: packages/module-theme/pages/CreateAccount.tsx:145
 msgid "Last Name"
 msgstr ""
 
@@ -768,10 +739,6 @@ msgstr ""
 #: packages/module-theme/components/widgets/ProductReview/ReviewsList.tsx:83
 msgid "Load more reviews"
 msgstr ""
-
-#: pages/customer/account/index.tsx:7
-#~ msgid "Loading..."
-#~ msgstr ""
 
 #: packages/module-theme/pages/LoginAccount.tsx:142
 msgid "Log in"
@@ -789,17 +756,9 @@ msgstr ""
 msgid "Look's Like You Haven't Made Your Choice Yet.."
 msgstr ""
 
-#: packages/module-theme/components/widgets/Testimonial/index.tsx:36
-#~ msgid "Lorem ipsum, dolor sit amet consectetur adipisicing elit. Iusto aliquam et blanditiis deserunt eius illo."
-#~ msgstr ""
-
 #: packages/module-theme/pages/ForgetPassword.tsx:32
 msgid "Mail has been sent to your registered Email"
 msgstr ""
-
-#: packages/module-customer/Components/OverviewTab/TabButton.tsx:112
-#~ msgid "Manage Profile for enhanced experience"
-#~ msgstr ""
 
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:111
 msgid "Manage profile for enhanced shopping experience"
@@ -884,7 +843,7 @@ msgstr ""
 msgid "Not Found"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:277
+#: packages/module-theme/pages/CreateAccount.tsx:300
 #: packages/module-theme/pages/LoginAccount.tsx:168
 #: packages/module-theme/pages/NewPassword.tsx:132
 msgid "now"
@@ -898,14 +857,14 @@ msgstr ""
 msgid "Oops! There are no products here."
 msgstr ""
 
-#: packages/module-quote/Components/Cart/Cart.tsx:162
+#: packages/module-quote/Components/Cart/Cart.tsx:161
 msgid "or"
 msgstr ""
 
 #: pages/sales/order/[order].tsx:15
 #: pages/sales/order/history/index.tsx:17
 msgid "Order"
-msgstr "الطلب"
+msgstr ""
 
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:103
 msgid "Order Detail"
@@ -946,21 +905,21 @@ msgstr ""
 
 #: pages/customer/account/index.tsx:18
 msgid "Overview"
-msgstr "نظرة عامة"
+msgstr ""
 
 #: packages/module-customer/Components/OverviewTab/EditProfile.tsx:194
 #: packages/module-customer/Components/OverviewTab/EditProfile.tsx:199
 #: packages/module-customer/Components/ProfileTab/EditForm.tsx:171
 #: packages/module-customer/Components/ProfileTab/EditForm.tsx:175
 #: packages/module-customer/Components/ProfileTab/ProfileInfo.tsx:81
-#: packages/module-theme/pages/CreateAccount.tsx:208
-#: packages/module-theme/pages/CreateAccount.tsx:211
+#: packages/module-theme/pages/CreateAccount.tsx:231
+#: packages/module-theme/pages/CreateAccount.tsx:234
 #: packages/module-theme/pages/LoginAccount.tsx:107
 #: packages/module-theme/pages/LoginAccount.tsx:111
 msgid "Password"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:216
+#: packages/module-theme/pages/CreateAccount.tsx:239
 msgid "Password is required"
 msgstr ""
 
@@ -972,7 +931,7 @@ msgstr ""
 msgid "Password updaete successfully"
 msgstr ""
 
-#: packages/module-quote/pages/CheckoutHome.tsx:129
+#: packages/module-quote/pages/CheckoutHome.tsx:134
 msgid "Payment"
 msgstr ""
 
@@ -980,32 +939,24 @@ msgstr ""
 msgid "Payment Method"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:95
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:94
 msgid "Payment Mode"
 msgstr ""
-
-#: packages/module-quote/Components/Checkout/Payment.tsx:52
-msgid "Payment Option"
-msgstr ""
-
-#: packages/module-customer/Components/OverviewTab/TabButton.tsx:109
-#~ msgid "Payment Options"
-#~ msgstr ""
 
 #: packages/module-customer/Components/OrderTab/Pagination.tsx:134
 msgid "per page"
 msgstr ""
 
-#: packages/module-quote/pages/CheckoutHome.tsx:100
-#: packages/module-quote/pages/CheckoutHome.tsx:210
+#: packages/module-quote/pages/CheckoutHome.tsx:105
+#: packages/module-quote/pages/CheckoutHome.tsx:213
 msgid "Personal Details"
 msgstr ""
 
 #: packages/module-customer/Components/AddressTab/AddAddressModal.tsx:255
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:288
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:179
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:362
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:364
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:361
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:363
 msgid "Phone"
 msgstr ""
 
@@ -1018,7 +969,8 @@ msgstr ""
 msgid "Phone number"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:133
+#: packages/module-quote/Components/Checkout/Payment.tsx:135
+#: packages/module-quote/Components/Checkout/ReviewOrder.tsx:132
 msgid "Place Order"
 msgstr ""
 
@@ -1035,7 +987,7 @@ msgstr ""
 #: packages/module-customer/Components/ProfileTab/EditForm.tsx:164
 #: packages/module-quote/Components/Checkout/Email.tsx:61
 #: packages/module-theme/components/widgets/Newsletter.tsx:57
-#: packages/module-theme/pages/CreateAccount.tsx:145
+#: packages/module-theme/pages/CreateAccount.tsx:168
 #: packages/module-theme/pages/LoginAccount.tsx:100
 msgid "Please enter a valid email"
 msgstr ""
@@ -1060,11 +1012,11 @@ msgstr ""
 msgid "Price:"
 msgstr ""
 
-#: packages/module-quote/Components/Cart/Cart.tsx:147
+#: packages/module-quote/Components/Cart/Cart.tsx:146
 msgid "Proceed To Cart Page"
 msgstr ""
 
-#: packages/module-marketplace/pages/Main.tsx:80
+#: packages/module-marketplace/pages/Main.tsx:81
 msgid "Process of selling with us"
 msgstr ""
 
@@ -1080,7 +1032,7 @@ msgstr ""
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:108
 #: pages/customer/account/profile/index.tsx:16
 msgid "Profile"
-msgstr "الملف الشخصي"
+msgstr ""
 
 #: packages/module-customer/Components/OverviewTab/EditProfile.tsx:73
 #: packages/module-customer/Components/ProfileTab/EditForm.tsx:66
@@ -1106,10 +1058,6 @@ msgstr ""
 #: packages/module-quote/Components/Cart/CartItem.tsx:265
 msgid "Quantity"
 msgstr ""
-
-#: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:100
-#~ msgid "Quantity :"
-#~ msgstr ""
 
 #: packages/module-catalog/Components/Product/Detail/AddToCart/index.tsx:96
 msgid "Quantity:"
@@ -1161,11 +1109,7 @@ msgstr ""
 msgid "Reset Password"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/Payment.tsx:72
-msgid "Reture to Billing Address"
-msgstr ""
-
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:439
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:438
 msgid "Reture to personal address"
 msgstr ""
 
@@ -1194,10 +1138,6 @@ msgstr ""
 msgid "Review Description"
 msgstr ""
 
-#: packages/module-quote/pages/CheckoutHome.tsx:143
-msgid "Review Order"
-msgstr ""
-
 #: packages/module-marketplace/Components/ReviewRightPanel.tsx:181
 msgid "reviews"
 msgstr ""
@@ -1221,7 +1161,7 @@ msgid "Save Address"
 msgstr ""
 
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:226
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:413
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:412
 msgid "Save in Address Book"
 msgstr ""
 
@@ -1239,10 +1179,6 @@ msgstr ""
 
 #: packages/module-customer/Components/OrderTab/Pagination.tsx:116
 msgid "Select Page Limit"
-msgstr ""
-
-#: packages/module-quote/Components/Checkout/Payment.tsx:61
-msgid "Select Payment Method"
 msgstr ""
 
 #: packages/module-marketplace/Seller/SellerProfile/Profile/MobileProfileContent.tsx:180
@@ -1287,16 +1223,12 @@ msgid "Shipping :"
 msgstr ""
 
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:243
-#: packages/module-quote/pages/CheckoutHome.tsx:169
+#: packages/module-quote/pages/CheckoutHome.tsx:172
 msgid "Shipping Address"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:149
-#~ msgid "Shipping Address updated successfully!!"
-#~ msgstr ""
-
 #: packages/module-customer/Components/OrderDetail/OrderFilter.tsx:270
-#: packages/module-quote/pages/CheckoutHome.tsx:187
+#: packages/module-quote/pages/CheckoutHome.tsx:190
 msgid "Shipping Method"
 msgstr ""
 
@@ -1309,7 +1241,7 @@ msgstr ""
 msgid "Shipping Policy"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:190
+#: packages/module-theme/pages/CreateAccount.tsx:213
 msgid "Shop URL"
 msgstr ""
 
@@ -1317,13 +1249,13 @@ msgstr ""
 #: packages/module-quote/pages/CartPage.tsx:51
 #: pages/checkout/cart.tsx:16
 msgid "Shopping Cart"
-msgstr "عربة التسوق"
+msgstr ""
 
 #: packages/module-customer/Components/OrderTab/Pagination.tsx:133
 msgid "Show"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:275
+#: packages/module-theme/pages/CreateAccount.tsx:298
 #: packages/module-theme/pages/NewPassword.tsx:130
 msgid "Sign In"
 msgstr ""
@@ -1336,7 +1268,7 @@ msgstr ""
 msgid "Sign Up"
 msgstr ""
 
-#: packages/module-theme/pages/CreateAccount.tsx:156
+#: packages/module-theme/pages/CreateAccount.tsx:179
 msgid "Sign Up For Newsletter"
 msgstr ""
 
@@ -1363,10 +1295,6 @@ msgstr ""
 #: packages/module-catalog/Components/Product/Item/MobileFilter.tsx:71
 msgid "Sort"
 msgstr ""
-
-#: packages/module-catalog/Components/Product/Toolbar.tsx:93
-#~ msgid "Sort By :"
-#~ msgstr ""
 
 #: packages/module-customer/Components/OrderTab/NoOrderProduct.tsx:18
 msgid "Start Shopping"
@@ -1436,7 +1364,7 @@ msgstr ""
 msgid "Thank you for your purchase! See You Again"
 msgstr ""
 
-#: utils/Constants.ts:41
+#: utils/Constants.ts:42
 msgid "The current customer is not authorized."
 msgstr ""
 
@@ -1447,17 +1375,17 @@ msgid "This is a required field."
 msgstr ""
 
 #: packages/module-theme/components/widgets/ExploreProducts/index.tsx:28
-#: utils/Constants.ts:20
+#: utils/Constants.ts:21
 msgid "Top Deals"
 msgstr ""
 
 #: packages/module-theme/components/widgets/ExploreProducts/index.tsx:44
-#: utils/Constants.ts:19
+#: utils/Constants.ts:20
 msgid "Top Rated"
 msgstr ""
 
 #: packages/module-theme/components/widgets/ExploreProducts/index.tsx:61
-#: utils/Constants.ts:18
+#: utils/Constants.ts:19
 msgid "Top Selling"
 msgstr ""
 
@@ -1465,7 +1393,7 @@ msgstr ""
 msgid "Total"
 msgstr ""
 
-#: packages/module-quote/Components/Cart/Cart.tsx:125
+#: packages/module-quote/Components/Cart/Cart.tsx:124
 #: packages/module-quote/Components/Checkout/OrderSummary.tsx:140
 #: packages/module-quote/Components/Checkout/OrderSummary.tsx:174
 #: packages/module-quote/pages/CartPage.tsx:106
@@ -1493,38 +1421,21 @@ msgstr ""
 msgid "Tx:"
 msgstr ""
 
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:427
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:426
 msgid "UPDATE"
 msgstr ""
-
-#: packages/module-catalog/Components/Product/Item/Price.tsx:19
-#~ msgid "USD"
-#~ msgstr ""
 
 #: packages/module-marketplace/Components/form/AddReviewForm.tsx:140
 msgid "Value"
 msgstr ""
 
-#: packages/module-marketplace/Seller/MUIIndex/Sellers.tsx:119
-#~ msgid "View All"
-#~ msgstr ""
-
-#: packages/module-marketplace/pages/Main.tsx:122
+#: packages/module-marketplace/pages/Main.tsx:123
 msgid "View All Sellers"
 msgstr ""
-
-#: packages/module-theme/components/widgets/Banner/PromotionBanner.tsx:95
-#~ msgid "View Items"
-#~ msgstr ""
 
 #: packages/module-customer/Components/OrderTab/OrderProduct.tsx:180
 msgid "View Order"
 msgstr ""
-
-#: packages/module-catalog/Components/Product/Detail/Details.tsx:75
-#: packages/module-catalog/Components/Product/Detail/Details.tsx:110
-#~ msgid "View reviews"
-#~ msgstr ""
 
 #: packages/module-marketplace/Seller/MUIIndex/Sellers.tsx:105
 msgid "View Seller"
@@ -1534,10 +1445,6 @@ msgstr ""
 #: pages/sales/order/history/index.tsx:18
 msgid "Voguish product order"
 msgstr ""
-
-#: packages/module-catalog/Components/Product/Slider.tsx:95
-#~ msgid "We can not find products matching for the selection."
-#~ msgstr ""
 
 #: pages/customer/account/index.tsx:19
 msgid "Welcome to Voguish customer account"
@@ -1550,29 +1457,17 @@ msgstr ""
 #: pages/index.tsx:23
 #: pages/wishlist/index.tsx:19
 msgid "Welcome to Voguish Theme"
-msgstr "مرحبا بكم في موضوع Voguish"
+msgstr ""
 
 #: packages/module-theme/pages/NotFound.tsx:24
 msgid "Whoops, our bad! The page you &apo; re looking for does not exist."
 msgstr ""
 
-#: packages/module-theme/pages/NotFound.tsx:24
-#~ msgid "Whoops, our bad! The page you&apo;re looking for does not exist."
-#~ msgstr ""
-
-#: packages/module-customer/Components/WishlistTab/Wishlist.tsx:144
-#~ msgid "Wish List"
-#~ msgstr ""
-
-#: pages/wishlist/index.tsx:17
-#~ msgid "wishlist"
-#~ msgstr ""
-
 #: packages/module-customer/Components/OverviewTab/TabButton.tsx:43
 #: packages/module-customer/Components/WishlistTab/Wishlist.tsx:137
 #: pages/wishlist/index.tsx:18
 msgid "Wishlist"
-msgstr "قائمة الرغبات"
+msgstr ""
 
 #: packages/module-customer/Components/WishlistTab/Wishlist.tsx:276
 msgid "Write a comments"
@@ -1580,6 +1475,10 @@ msgstr ""
 
 #: packages/module-theme/components/widgets/ProductReview/ProductReviewForm.tsx:134
 msgid "Write a summary"
+msgstr ""
+
+#: packages/module-quote/Components/Checkout/Payment/PayPalWrapper.tsx:75
+msgid "You cancelled the payment."
 msgstr ""
 
 #: packages/module-customer/Components/OrderTab/NoOrderProduct.tsx:10
@@ -1598,7 +1497,7 @@ msgstr ""
 #: packages/module-customer/Components/AddressTab/EditaddressModel.tsx:275
 #: packages/module-quote/Components/Checkout/Address/AddNewAddress.tsx:168
 #: packages/module-quote/Components/Checkout/Address/BillingAddress.tsx:169
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:345
-#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:348
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:344
+#: packages/module-quote/Components/Checkout/Address/ShippingAddress.tsx:347
 msgid "Zip Code"
 msgstr ""

@@ -369,3 +369,15 @@ export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMeth
 }
 
 
+export const getPaypalCurrency = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+
+  const currencyMap: Record<string, string> = {
+    cn: 'GBP',
+    en: 'GBP',
+    us: 'USD',
+    mex: 'GBP',
+  };
+  return currencyMap[normalized] ?? 'GBP';
+};
+

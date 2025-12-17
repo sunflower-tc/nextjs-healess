@@ -27,6 +27,7 @@
     "@mui/icons-material": "^5.11.16",
     "@mui/material": "^5.11.15",
     "@next/bundle-analyzer": "^13.4.8",
+    "@paypal/paypal-js": "^9.0.1",
     "@reduxjs/toolkit": "^1.9.3",
     "base-64": "^1.0.0",
     "framer-motion": "^10.16.16",

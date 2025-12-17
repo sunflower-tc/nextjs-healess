@@ -71,7 +71,7 @@ const CheckoutHome = () => {
    */
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
 
-  //for develop payment
+  // for develop payment
   // useEffect(() => {
   //   setActiveStep(3)
   // }, [])
@@ -229,7 +229,7 @@ const CheckoutHome = () => {
               <Stepper
                 sx={{
                   '.MuiStepConnector-root': {
-                    borderLeft: '1px solid #c6c6c6',
+                    // borderLeft: '1px solid #c6c6c6',
                     ml: 1.5,
                     display: { xs: 'none', lg: 'flex' },
                     boxShadow: 'unset',

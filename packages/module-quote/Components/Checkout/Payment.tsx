@@ -7,7 +7,9 @@ import RadioGroup from '@mui/material/RadioGroup';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { clearCart, setCart } from '@store/cart';
+import { removeCheckoutData } from '@store/checkout';
 import { convertStringToHTML, getUserAgent, sortPaymentOptions } from '@utils/Helper';
+import PaypalWrapper from '@voguish/module-quote/Components/Checkout/Payment/PayPalWrapper';
 import { createEmptyCart, useCreateNihaopayToken, usePlaceOrder, useSetPaymentMethodOnCart } from '@voguish/module-quote/hooks';
 import { CartInterface, CheckoutStepPayment } from '@voguish/module-quote/types';
 import { AdyenPay, AirwallexCard, LoadingButtton, NihaopayPaymentsAlipay, NihaopayPaymentsUnionpay, NihaopayPaymentsWechatpay, PaypalExpress } from '@voguish/module-theme';
@@ -62,7 +64,6 @@ const Payment = ({
   };
 
   const placeOrder = async () => {
-    console.log('selectedPayment', selectedPayment)
     if (selectedPayment?.includes('nihaopay_payments')) {
       setShowRedirectUrl(false);
       redirectHtmlRef.current = null;
@@ -73,8 +74,6 @@ const Payment = ({
         return_url,
         cart_id: cartId,
       });
-      console.log('result', result)
-      console.log('createLoading', createLoading)
       const redirectUrl = result?.createNihaopayToken?.redirectUrl;
       if (!redirectUrl) return;
       await placeOrderHandler(cartId);
@@ -86,30 +85,38 @@ const Payment = ({
         dispatch(setCart({ ...cartData, isGuest: true }));
       };
       await createEmptyCart(token, afterFetchingCart);
+      await dispatch(removeCheckoutData());
       setTimeout(() => dispatch(clearCart()), 1500);
     }
   };
 
-  console.log('paymentMethodOptions', paymentMethodOptions);
   return (
     <Box>
       <FormWrapper>
         <Box sx={{ mt: 1, width: '100%' }}>
           {
+
             <RadioGroup defaultValue={selectedPayment} onChange={selectPaymentMethod}>
               {paymentMethodOptions.map((option) => (
-                <FormControlLabel
-                  key={option.value}
-                  value={option.value}
-                  control={<Radio />}
-                  className='py-2'
-                  label={<Stack direction={'row'} spacing={1} className='py-2'>
-                    <Box sx={{ width: 64, height: 28 }}>
-                      {paymentIconsMap[option.value] ?? null}
+                <Box key={option.value}>
+                  <FormControlLabel
+                    value={option.value}
+                    control={<Radio />}
+                    className='py-2'
+                    label={<Stack direction={'row'} spacing={1} className='py-2'>
+                      <Box sx={{ width: 64, height: 28 }}>
+                        {paymentIconsMap[option.value] ?? null}
+                      </Box>
+                      <Typography variant='body1'>{option.label}</Typography>
+                    </Stack>}
+                  />
+                  {option.value === 'paypal_express' && selectedPayment === 'paypal_express' && (
+                    <Box mt={1}>
+                      <PaypalWrapper />
                     </Box>
-                    <Typography variant='body1'>{option.label}</Typography>
-                  </Stack>}
-                />
+                  )}
+                </Box>
+
               ))}
             </RadioGroup>
           }

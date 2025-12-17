@@ -613,32 +613,31 @@ export const useApplyCoupon = () => {
  */
 export const usePlaceOrder = () => {
   const [isInProcess, setIsInProcess] = useState(false);
-
-  const [placeOrder, { data, loading, error }] =
-    useCustomerMutation(PlaceOrder);
-
   const dispatch = useAppDispatch();
-  useEffect(() => {
-    setIsInProcess(loading);
+  const [placeOrder] = useCustomerMutation(PlaceOrder);
 
-    if (data?.placeOrder?.order?.order_number) {
-      const orderNumber = data.placeOrder.order.order_number;
-      dispatch(setOrderId(orderNumber));
-      showToast({ message: 'Order Placed successfully!!' });
-    } else if (error) {
-      showToast({ message: error.message, type: 'error' });
-    }
-  }, [data, error, dispatch, loading]);
-
-  const placeOrderHandler = async (cartId: string) => {
+  const placeOrderHandler = async (cartId: string): Promise<string | null> => {
+    setIsInProcess(true);
     try {
-      await placeOrder({
+      const response = await placeOrder({
         variables: {
           cartId,
         },
       });
+
+      const orderNumber = response?.data?.placeOrder?.order?.order_number ?? null;
+
+      if (orderNumber) {
+        dispatch(setOrderId(orderNumber));
+        showToast({ message: 'Order Placed successfully!!' });
+      }
+
+      return orderNumber;
     } catch (error: any) {
       showToast({ message: error.message, type: 'error' });
+      return null;
+    } finally {
+      setIsInProcess(false);
     }
   };
   return { placeOrderHandler, isInProcess };

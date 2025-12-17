@@ -51,7 +51,6 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
     return Boolean(activeMenus?.includes(`${id}`));
   };
 
-  console.log('categories', categories);
 
   return (
     <>

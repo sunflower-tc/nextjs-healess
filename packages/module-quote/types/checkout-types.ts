@@ -153,3 +153,19 @@ export interface CreateNihaopayTokenInput {
   return_url: string;
   cart_id: string;
 }
+
+export interface CreatePaypalTokenInput {
+  cart_id: string;
+  code: string;
+  express_button: boolean;
+  cancel_url: string;
+  return_url: string;
+}
+
+export interface SetPayPalPaymentMethodOnCartInput {
+  cart_id: string;
+  code: string;
+  payer_id: string;
+  token: string;
+}
+

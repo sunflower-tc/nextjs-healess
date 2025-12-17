@@ -17,9 +17,9 @@ import { StoreConfigInterface, StoreConfigQueryResult } from './types';
 export default function StoreSwitcher() {
   const { data: stores, loading } =
     useQuery<StoreConfigQueryResult>(AVAILABLE_STORES);
+
   const storeSelected = getLocalStorage('current_store');
   const dispatch = useAppDispatch();
-
   const router = useRouter();
   const { pathname, asPath, query } = router;
   const [code, setCode] = useState(storeSelected?.locale || 'en_US');
@@ -113,8 +113,7 @@ export default function StoreSwitcher() {
                     <Listbox.Option
                       key={store?.store_code}
                       className={({ active }) =>
-                        `relative cursor-pointer py-0 select-none ${
-                          active ? ' text-brand' : 'text-gray-900'
+                        `relative cursor-pointer py-0 select-none ${active ? ' text-brand' : 'text-gray-900'
                         }`
                       }
                       value={store?.locale}
@@ -122,9 +121,8 @@ export default function StoreSwitcher() {
                       {({ selected }) => (
                         <>
                           <span
-                            className={`text-sm cursor-pointer flex items-center gap-2 truncate ${
-                              selected ? 'text-brand' : 'font-normal'
-                            }`}
+                            className={`text-sm cursor-pointer flex items-center gap-2 truncate ${selected ? 'text-brand' : 'font-normal'
+                              }`}
                           >
                             <span className="py-0 text-2xl">
                               {getFlagEmoji(store?.store_code)}

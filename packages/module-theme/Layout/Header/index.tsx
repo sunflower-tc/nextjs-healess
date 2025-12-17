@@ -53,7 +53,6 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
   const [open, setOpen] = useState(false);
   const node = useRef<any>();
 
-  console.log('sortedMenu', sortedMenu)
   return (
     <>
       {loading ? (
