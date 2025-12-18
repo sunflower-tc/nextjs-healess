@@ -9,6 +9,7 @@ import Typography from '@mui/material/Typography';
 import { clearCart, setCart } from '@store/cart';
 import { removeCheckoutData } from '@store/checkout';
 import { convertStringToHTML, getUserAgent, sortPaymentOptions } from '@utils/Helper';
+import AdyenCardPayWrapper from '@voguish/module-quote/Components/Checkout/Payment/AdyenCardPayWrapper';
 import PaypalWrapper from '@voguish/module-quote/Components/Checkout/Payment/PayPalWrapper';
 import { createEmptyCart, useCreateNihaopayToken, usePlaceOrder, useSetPaymentMethodOnCart } from '@voguish/module-quote/hooks';
 import { CartInterface, CheckoutStepPayment } from '@voguish/module-quote/types';
@@ -113,6 +114,11 @@ const Payment = ({
                   {option.value === 'paypal_express' && selectedPayment === 'paypal_express' && (
                     <Box mt={1}>
                       <PaypalWrapper />
+                    </Box>
+                  )}
+                  {option.value === 'adyen_cc' && selectedPayment === 'adyen_cc' && (
+                    <Box mt={1}>
+                      <AdyenCardPayWrapper />
                     </Box>
                   )}
                 </Box>
