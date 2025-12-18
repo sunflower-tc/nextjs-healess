@@ -1,6 +1,9 @@
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { TopSortPlaceHolder } from '../LayerNavigation';
+import { SortFields } from '@voguish/module-catalog/types';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
+import { TopSortPlaceHolder } from '../Detail/placeholder/TopSortPlaceholder';
 import Toolbar from '../Toolbar';
 type DesktopFilterTypes = {
   loading?: boolean | any;
@@ -9,14 +12,21 @@ type DesktopFilterTypes = {
   view?: any;
   manageToolbar?: any;
   showToolBar?: any;
-  data?: [] | object | any;
+  sortFields: SortFields | undefined;
 };
 export default function DesktopFilter(props: DesktopFilterTypes) {
-  const { loading, title, activeSort, view, manageToolbar, data, showToolBar } =
-    props;
-
+  const {
+    loading,
+    title,
+    activeSort,
+    view,
+    manageToolbar,
+    sortFields,
+    showToolBar,
+  } = props;
+  const { t } = useTranslation('common');
   return (
-    <>
+    <ErrorBoundary>
       <span className="-lg:hidden">
         {loading ? (
           <TopSortPlaceHolder />
@@ -35,20 +45,22 @@ export default function DesktopFilter(props: DesktopFilterTypes) {
                 className="font-light text-tertiary"
                 component="h2"
               >
-                {title[1]} Products
+                {title[1]} {t('Product')}
               </Typography>
             </div>
             {showToolBar && (
-              <Toolbar
-                sort={activeSort}
-                view={view}
-                manageToolbarAction={manageToolbar}
-                sortFields={data?.products?.sort_fields}
-              />
+              <ErrorBoundary>
+                <Toolbar
+                  sort={activeSort}
+                  view={view}
+                  manageToolbarAction={manageToolbar}
+                  sortFields={sortFields}
+                />
+              </ErrorBoundary>
             )}
           </Stack>
         )}
       </span>
-    </>
+    </ErrorBoundary>
   );
 }

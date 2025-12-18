@@ -1,40 +1,22 @@
-import Skeleton from '@mui/material/Skeleton';
+import Containers from '../../ui/Container';
 import { InfoTextPlaceHolder } from './InfoTextPlaceHolder';
 
 export function ShoppingBannerPlaceHolder() {
   return (
-    <>
-      <InfoTextPlaceHolder />
-      <div className="grid md:grid md:gap-2 md:grid-cols-2">
-        <Skeleton
-          animation="wave"
-          sx={{ height: 600, marginBlock: 0, paddingBlock: 0 }}
-          className="flex items-start -my-36"
-        />
-        <div className="hidden md:grid md:gap-2 md:-my-[4.2rem]">
-          <Skeleton
-            animation="wave"
-            height={290}
-            sx={{ marginBlock: 0, paddingBlock: 0 }}
-            className="flex items-start -md:-mt-28"
-          />
-          <div className="grid grid-cols-2 md:gap-2 md:-mt-32">
-            <Skeleton
-              animation="wave"
-              sx={{ marginBlock: 0, paddingBlock: 0 }}
-              height={290}
-              className="flex items-start"
-            />
-            <Skeleton
-              animation="wave"
-              sx={{ marginBlock: 0, paddingBlock: 0 }}
-              height={290}
-              className="flex items-start"
-            />
+    <Containers className="w-full">
+      <div className="grid w-full gap-4">
+        <InfoTextPlaceHolder />
+        <div className="grid md:grid md:gap-4 md:grid-cols-12">
+          <div className="flex items-start md:col-span-1 xl:col-span-4 animate-pulse h-[290px] md:h-[600px] bg-neutral-300 rounded-md" />
+          <div className="hidden md:col-span-2 xl:col-span-8 md:grid md:gap-4">
+            <div className="flex items-start animate-pulse h-[290px] bg-neutral-300 rounded-md" />
+            <div className="grid grid-cols-2 md:gap-4">
+              <div className="flex items-start animate-pulse h-[290px] bg-neutral-300 rounded-md" />
+              <div className="flex items-start animate-pulse h-[290px] bg-neutral-300 rounded-md" />
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </div>{' '}
+    </Containers>
   );
 }
-export default ShoppingBannerPlaceHolder;

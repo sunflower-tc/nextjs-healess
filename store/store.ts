@@ -19,7 +19,7 @@ import {
 const storeConfig: StoreConfigInterface =
   getLocalStorage(STORE_CONFIG, true) || {};
 
-const currencySelected = getLocalStorage('current_currency', true);
+const currencySelected = getLocalStorage('current_currency');
 
 /**
  * Initializing the state
@@ -27,6 +27,9 @@ const currencySelected = getLocalStorage('current_currency', true);
 const initialState: StoreConfigInterface = {
   ...storeConfig,
   currentCurrency: currencySelected,
+  setProduct: {},
+  setOpenCart: false,
+  currentStore: getLocalStorage(STORE_CODE),
 };
 
 /**
@@ -45,7 +48,7 @@ export const storeConfigSlice = createSlice({
     ) => {
       const storeConfig = action.payload || {};
       setLocalStorage(STORE_CONFIG, storeConfig);
-      return { ...state, ...storeConfig };
+      state = { ...state, ...storeConfig };
     },
     setCountries: (
       state,
@@ -55,11 +58,18 @@ export const storeConfigSlice = createSlice({
     },
     setCurrentStore: (state, action: PayloadAction<string>) => {
       setLocalStorage(STORE_CODE, action.payload);
+      console.log(action.payload, ' === ');
       state.currentStore = action.payload;
     },
-    setCurrentCurrency: (state, action: PayloadAction<any>) => {
+    setCurrentCurrency: (state, action: PayloadAction<string>) => {
       setLocalStorage(CURRENCY_CODE, action.payload);
       state.currentCurrency = action.payload;
+    },
+    setConfigProduct: (state, action: PayloadAction<any>) => {
+      state.setProduct = action.payload;
+    },
+    setCartOpen: (state, action: PayloadAction<any>) => {
+      state.setOpenCart = action.payload;
     },
   },
 });
@@ -67,8 +77,10 @@ export const storeConfigSlice = createSlice({
 export const {
   setStoreConfig,
   setCountries,
+  setCartOpen,
   setCurrentStore,
   setCurrentCurrency,
+  setConfigProduct,
 } = storeConfigSlice.actions;
 
 // Other code such as selectors can use the imported `RootState` type

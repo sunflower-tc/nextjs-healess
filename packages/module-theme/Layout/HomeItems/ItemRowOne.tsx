@@ -1,8 +1,8 @@
 import { isValidArray } from '@utils/Helper';
-import {
-  ColumnContainer,
-  PromtionPlaceHolder,
-} from '@voguish/module-theme/components';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { ColumnContainer } from '@voguish/module-theme/components/ui/ColumnContainer';
+import { PromtionPlaceHolder } from '@voguish/module-theme/components/widgets/placeholders/PromtionPlaceHolder';
+
 import Containers from '@voguish/module-theme/components/ui/Container';
 import { BannerImage } from '@voguish/module-theme/types/home-page';
 import dynamic from 'next/dynamic';
@@ -20,7 +20,7 @@ type Types = {
 };
 export default function ItemRowOne({ loading, items, products }: Types) {
   return (
-    <>
+    <ErrorBoundary>
       <Containers>
         {loading ? (
           <PromtionPlaceHolder />
@@ -39,6 +39,6 @@ export default function ItemRowOne({ loading, items, products }: Types) {
           </ColumnContainer>
         )}
       </Containers>
-    </>
+    </ErrorBoundary>
   );
 }

@@ -1,19 +1,8 @@
+#import "@packages/module-quote/graphql/fragments/_cart.graphql"
 mutation ReorderItems($orderNumber: String!) {
   reorderItems(orderNumber: $orderNumber) {
     cart {
-      id
-      items {
-        uid
-        product {
-          sku
-        }
-        quantity
-        prices {
-          price {
-            value
-          }
-        }
-      }
+      ...cart
     }
     userInputErrors {
       code

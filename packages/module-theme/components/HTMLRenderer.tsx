@@ -1,3 +1,5 @@
+import ErrorBoundary from './ErrorBoundary';
+
 export const HTMLRenderer = ({
   htmlText,
   className = '',
@@ -8,10 +10,13 @@ export const HTMLRenderer = ({
   onClick?: any;
 }) => {
   return (
-    <span
-      onClick={onClick}
-      className={className}
-      dangerouslySetInnerHTML={{ __html: htmlText }}
-    ></span>
+    <ErrorBoundary>
+      {' '}
+      <span
+        onClick={onClick}
+        className={className}
+        dangerouslySetInnerHTML={{ __html: htmlText }}
+      ></span>
+    </ErrorBoundary>
   );
 };

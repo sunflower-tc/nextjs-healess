@@ -7,8 +7,18 @@ query OrdersQuery($filter: CustomerOrdersFilterInput) {
         id
         number
         order_date
+        invoices {
+          number
+        }
         status
         items {
+          ... on DownloadableOrderItem {
+            downloadable_links {
+              uid
+              title
+              sort_order
+            }
+          }
           product_name
           product_sku
           product_url_key
@@ -51,6 +61,43 @@ query OrdersQuery($filter: CustomerOrdersFilterInput) {
         shipping_method
         payment_methods {
           name
+        }
+        credit_memos {
+          id
+          number
+          total {
+            base_grand_total {
+              currency
+              value
+            }
+            grand_total {
+              currency
+              value
+            }
+            subtotal {
+              currency
+              value
+            }
+            taxes {
+              rate
+              title
+            }
+            total_shipping {
+              currency
+              value
+            }
+            discounts {
+              label
+              amount {
+                currency
+                value
+              }
+            }
+            total_tax {
+              currency
+              value
+            }
+          }
         }
         carrier
         shipments {

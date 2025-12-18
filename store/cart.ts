@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { CartInterface, QuoteInterface } from '@voguish/module-quote';
+import { CartInterface, QuoteInterface } from '@voguish/module-quote/types';
 import { RootState } from 'store';
 import {
   CART_DATA,

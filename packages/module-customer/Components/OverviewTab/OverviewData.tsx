@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 const AccountBoxIcon = dynamic(() => import('@mui/icons-material/AccountBox'));
 type dataType = {
@@ -14,7 +15,7 @@ type dataType = {
 const OverviewData = ({ data }: dataType) => {
   const userData = data?.customer;
   return (
-    <>
+    <ErrorBoundary>
       <Grid
         container
         className="items-center break-all pt-[6px]  gap-2 -xs:gap-5 flex -xs:grid -xs:grid-cols-12"
@@ -30,7 +31,7 @@ const OverviewData = ({ data }: dataType) => {
           <Typography variant="body2">{userData?.email || ''}</Typography>
         </span>
       </Grid>
-    </>
+    </ErrorBoundary>
   );
 };
 export default OverviewData;

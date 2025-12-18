@@ -1,0 +1,5 @@
+mutation SellerBecomePartner($shopUrl: String!, $isSeller: Int!) {
+  sellerBecomePartner(shopUrl: $shopUrl, isSeller: $isSeller) {
+    message
+  }
+}

@@ -3,28 +3,28 @@ import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import IconButton from '@mui/material/IconButton';
 import Typography from '@mui/material/Typography';
-import CustomerAccountData from '@utils/CustomerAccountData';
-import {
-  AddAddressModal,
-  AddressPlaceHolder,
-  DeleteModal,
-  EditaddressModel,
-  NoAddress,
-  useCustomerMutation,
-  useCustomerQuery,
-} from '@voguish/module-customer';
 
-import { Trans, t } from '@lingui/macro';
+import { AddAddressModal } from '@voguish/module-customer/Components/AddressTab/AddAddressModal';
+import { AddressPlaceHolder } from '@voguish/module-customer/Components/AddressTab/AddressPlaceHolder';
+import { DeleteModal } from '@voguish/module-customer/Components/AddressTab/DeleteModal';
+import { EditaddressModel } from '@voguish/module-customer/Components/AddressTab/EditaddressModel';
+import { NoAddress } from '@voguish/module-customer/Components/AddressTab/NoAddress';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
+import { useCustomerQuery } from '@voguish/module-customer/hooks/useCustomerQuery';
+
 import { isValidArray } from '@utils/Helper';
 import GET_CUSTOMER_ADDRESS from '@voguish/module-customer/graphql/CustomerAddress.graphql';
 import CREATE_ADDRESS from '@voguish/module-customer/graphql/mutation/CreateCustomerAddress.graphql';
 import DELETE_ADDRESS from '@voguish/module-customer/graphql/mutation/DeleteAddress.graphql';
 import UPDATE_CUSTOMER_ADDRESS from '@voguish/module-customer/graphql/mutation/UpdateCustomerAddress.graphql';
-import { DeleteIcon, EditIcon } from '@voguish/module-theme';
-import * as React from 'react';
+import {
+  DeleteIcon,
+  EditIcon,
+} from '@voguish/module-theme/components/elements/Icon';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import Sidebar from '../Layout/Sidebar';
-
 const commonStyles = {
   bgcolor: 'background.paper',
   mb: 2,
@@ -70,7 +70,10 @@ const AddressList = () => {
   const [addModal, setAddmodal] = useState<boolean>(false);
   const [
     createCustomerAddress,
-    { data: returnAddresseData /* , error: addAddressError */ },
+    {
+      data: returnAddresseData /* , error: addAddressError */,
+      loading: isLoadingAdd,
+    },
   ] = useCustomerMutation(CREATE_ADDRESS);
 
   const addQueryResponse = returnAddresseData?.createCustomerAddress || null;
@@ -99,13 +102,14 @@ const AddressList = () => {
    */
   const [
     updateCustomerAddress,
-    { data: returnData /*, error: returnError */ },
+    { data: returnData /*, error: returnError */, loading: isLoadingUpdate },
   ] = useCustomerMutation(UPDATE_CUSTOMER_ADDRESS);
 
   const updateResponse = returnData?.updateCustomerAddress || null;
   if (updateResponse) {
     refetch();
   }
+  const { t } = useTranslation('common');
 
   const [mountEditModal, setMountEditModal] = useState({});
   const handleEdit = (addressData: object) => {
@@ -116,17 +120,19 @@ const AddressList = () => {
   };
   const AddressCard = ({ props }: any) => {
     return (
-      <React.Fragment>
+      <ErrorBoundary>
         <Box className="border border-gray-200 border-solid rounded-md">
           <div className="flex justify-between px-2 py-1 border-0 border-b border-gray-200 border-solid">
             <div className="flex items-center px-1 font-medium">
               <Typography
                 variant="caption"
                 className={`${
-                  props?.default_billing ? 'text-green-600' : '  '
+                  props?.default_billing ? 'text-brand' : '  '
                 } uppercase bg-transparent pl-0 font-semibold mt-1`}
               >
-                {props?.default_billing ? t`Default Address` : t`Other Address`}
+                {props?.default_billing
+                  ? t('Default Address')
+                  : t('Other Address')}
               </Typography>
             </div>
             <div className="flex justify-around">
@@ -144,99 +150,112 @@ const AddressList = () => {
             </div>
           </div>
           <div className="px-3 py-2 text-sm">
-            <Typography className="text-sm " variant="body1">
+            <Typography className="text-sm" variant="body1">
               {props?.firstname + ' ' + props?.lastname}
             </Typography>
-            <Typography variant="body1" className="text-sm ">
+            <Typography variant="body1" className="text-sm">
               {props?.company}
             </Typography>
-            <Typography variant="body1" className="text-sm ">
+            <Typography variant="body1" className="text-sm">
               {props?.telephone}
             </Typography>
-            <section className="mt-2 ">
+            <section className="mt-2">
               {props.street.map(
                 (customerStreet: string, streetIndex: number) => (
-                  <span className="text-sm font-medium " key={streetIndex}>
+                  <span className="text-sm font-medium" key={streetIndex}>
                     {customerStreet} {' , '}
                   </span>
                 )
               )}
-              <Typography className="text-sm font-medium " variant="body1">
+              <Typography className="text-sm font-medium" variant="body1">
                 {props?.city + '-' + props?.postcode}
               </Typography>
 
-              <Typography className="text-sm font-medium " variant="body1">
+              <Typography className="text-sm font-medium" variant="body1">
                 {props?.region.region} , {regionNames.of(props?.country_code)}
               </Typography>
-              <Typography className="text-sm font-medium " variant="body1">
-                {t`Tx: ` + props?.telephone}
+              <Typography className="text-sm font-medium" variant="body1">
+                {t('Tx: ') + props?.telephone}
               </Typography>
             </section>
           </div>
         </Box>
-      </React.Fragment>
+      </ErrorBoundary>
     );
   };
   return (
-    <Sidebar>
-      <Grid
-        container
-        sx={{ px: 2, py: 1, ...commonStyles }}
-        justifyContent="space-between"
-        alignItems="center"
-      >
-        <Grid item>
-          <Typography variant="h4" className="text-lg font-semibold uppercase">
-            {CustomerAccountData.AddressPageTitle}
-          </Typography>
-        </Grid>
-        <Grid item>
-          <Button
-            variant="contained"
-            className="rounded-none shadow-none "
-            onClick={() => setAddmodal(true)}
-          >
-            <span className="hidden sm:block">
-              {CustomerAccountData.AddressBtn}
-            </span>
-            <span className="block sm:hidden">
-              <Trans>Add</Trans>
-            </span>
-          </Button>
-        </Grid>
-      </Grid>
-      {loading ? (
-        <AddressPlaceHolder />
-      ) : isValidArray(addresses) ? (
-        <div className="grid grid-cols-12 gap-x-4 gap-y-1">
-          {addresses.map((address: AddressDataType, index: number) => (
-            <Box
-              className="col-span-12 xl:col-span-4 lg:col-span-4 md:col-span-6 "
-              key={index}
+    <ErrorBoundary>
+      {' '}
+      <Sidebar>
+        <Grid
+          container
+          sx={{ px: 2, py: 1, ...commonStyles }}
+          justifyContent="space-between"
+          alignItems="center"
+        >
+          <Grid item>
+            <Typography
+              variant="h4"
+              className="text-lg font-semibold uppercase"
             >
-              <AddressCard props={address} />
-            </Box>
-          ))}
-        </div>
-      ) : (
-        <NoAddress />
-      )}
-      <DeleteModal
-        deleteCustomerAddress={deleteCustomerAddress}
-        deleteDataId={mountDeleteModal}
-        handleClick={() => setMountDeleteModal(0)}
-      />
-      <AddAddressModal
-        showModal={addModal}
-        createCustomerAddress={createCustomerAddress}
-        handleClose={handleClose}
-      />
-      <EditaddressModel
-        showEditModelData={mountEditModal}
-        updateCustomerAddress={updateCustomerAddress}
-        hideModal={() => setMountEditModal({})}
-      />
-    </Sidebar>
+              {t('Address Book')}
+            </Typography>
+          </Grid>
+          <Grid item>
+            <Button
+              variant="contained"
+              className="rounded-none shadow-none !bg-brand"
+              onClick={() => setAddmodal(true)}
+            >
+              <span className="hidden sm:block">{t('Add new address')}</span>
+              <span className="block sm:hidden">{t('Add')}</span>
+            </Button>
+          </Grid>
+        </Grid>
+        {loading ? (
+          <AddressPlaceHolder />
+        ) : isValidArray(addresses) ? (
+          <div className="grid grid-cols-12 gap-4">
+            {addresses.map((address: AddressDataType, index: number) => (
+              <Box
+                className="col-span-12 md:col-span-6 lg:col-span-4 xl:col-span-4"
+                key={index}
+              >
+                <ErrorBoundary>
+                  {' '}
+                  <AddressCard props={address} />
+                </ErrorBoundary>
+              </Box>
+            ))}
+          </div>
+        ) : (
+          <NoAddress />
+        )}
+        <ErrorBoundary>
+          <DeleteModal
+            deleteCustomerAddress={deleteCustomerAddress}
+            deleteDataId={mountDeleteModal}
+            handleClick={() => setMountDeleteModal(0)}
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <AddAddressModal
+            showModal={addModal}
+            createCustomerAddress={createCustomerAddress}
+            handleClose={handleClose}
+            isLoading={isLoadingAdd}
+          />
+        </ErrorBoundary>
+        <ErrorBoundary>
+          <EditaddressModel
+            showEditModelData={mountEditModal}
+            updateCustomerAddress={updateCustomerAddress}
+            hideModal={() => setMountEditModal({})}
+            isLoadingUpdate={isLoadingUpdate}
+          />
+        </ErrorBoundary>
+      </Sidebar>
+    </ErrorBoundary>
   );
 };
 export default AddressList;

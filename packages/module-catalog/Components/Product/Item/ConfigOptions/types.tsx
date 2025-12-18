@@ -1,7 +1,4 @@
-import {
-  ConfigurableVariant,
-  ProductPrice,
-} from '@voguish/module-catalog/types';
+import { ConfigurableVariant } from '@voguish/module-catalog/types';
 export type ConfigurableProductOption = {
   uid: string | number | null | undefined;
   attribute_code: string | number;
@@ -14,20 +11,20 @@ export type ConfigurableProductOption = {
         value: string;
       };
       label: string;
-    }
+    },
   ];
 };
 
 export type ConfigOptionsProps = {
+  compare?: boolean;
   configurableOptions: ConfigurableProductOption[];
   detailsPage?: boolean;
   selectedOptions?: string[];
-  setProductPrice?: (price: ProductPrice) => void;
-  setProductSku?: (sku: string) => void;
   variants?: ConfigurableVariant[];
 };
 
 export type OptionRendererProps = {
+  compare?: boolean;
   name: `selected_options.${number}`;
   index: number;
   option: ConfigurableProductOption;

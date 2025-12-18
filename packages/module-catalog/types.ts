@@ -1,3 +1,5 @@
+import { BundleOptions } from '@voguish/module-quote/types';
+import { Key } from 'react';
 import { ConfigurableProductOption } from './Components/Product/Item/ConfigOptions/types';
 
 /**
@@ -5,18 +7,25 @@ import { ConfigurableProductOption } from './Components/Product/Item/ConfigOptio
  */
 export interface ProductsInterface {
   title?: string;
+  category?: {
+    content?: {
+      html?: string | undefined;
+      status?: boolean | undefined;
+    };
+  };
   showLayeredNavigation?: boolean;
   showToolBar?: boolean;
   showPagination?: boolean;
-  productsInput?: ProductsQueryInput;
   showCount?: boolean;
   openSortby?: boolean;
-  activePageFilter?: string | null;
-  activePageFilterValue?: string | null;
+  products: ProductsResultInterface;
+  aggregations?: AggregationInterface[];
+  aggreLoad?: boolean;
+  sort?: SortFields;
+  selectedCategory?: string;
   search?: string;
-  subCategoryItem?: CategoryItem;
+  loading?: boolean;
 }
-
 /**
  * Page Info
  */
@@ -73,6 +82,7 @@ export type AppliedLayerFilter = {
 export interface ProductsResultInterface {
   items: ProductItemInterface[];
   aggregations: AggregationInterface[];
+  aggragations?: AggregationInterface[];
   applied_filters: AppliedLayerFilter[];
   page_info: PageInfoInterface;
   sort_fields: SortFields;
@@ -106,6 +116,7 @@ interface ProductThumbnail {
   id: string;
   label: string;
   url: string;
+  thumbnail_url: string;
   __typename: string;
 }
 
@@ -138,7 +149,7 @@ export interface ProductPrice {
 /**
  * Price Range
  */
-interface PriceRange {
+export interface PriceRange {
   maximum_price: ProductPrice;
   minimum_price: ProductPrice;
 }
@@ -153,13 +164,104 @@ export type HTMLContent = {
 /**
  * Product Item
  */
+export interface OptionsBundleList {
+  id: string;
+  items: any;
+  product: {
+    name: string;
+
+    price_range: {
+      minimum_price: {
+        regular_price: { value: number; currency: string };
+      };
+    };
+  };
+  uid: string;
+}
+export interface OptionsBundle {
+  option_id: string | undefined;
+  position: Key | null | undefined;
+  id: string;
+  product: ProductItemInterface;
+  uid?: string;
+  title?: string;
+  options?: OptionsBundleList[];
+}
+export interface DownloadableProduct {
+  sample_url?: string;
+  sort_order?: number;
+  title?: string;
+}
+export interface CustomOptions {
+  option_id: number;
+  uid?: string;
+  title: string;
+  __typename:
+    | 'CustomizableRadioOption'
+    | 'CustomizableDropDownOption'
+    | 'CustomizableFileOption'
+    | 'CustomizableMultipleOption'
+    | 'CustomizableCheckboxOption'
+    | 'CustomizableAreaOption'
+    | 'CustomizableFieldOption';
+  sort_order: number;
+  required: boolean;
+  file_value: {
+    file_extension: string;
+    image_size_x: string;
+    image_size_y: string;
+    sku: string;
+    uid: string;
+    sort_order: number;
+    title: string;
+    option_type_id: number;
+    price: number;
+  };
+  inputValue: {
+    max_characters: number;
+    sku: string;
+    uid: string;
+    price_type: string;
+    price: number;
+  };
+  textAreaValue: {
+    max_characters: number;
+    sku: string;
+    uid: string;
+    price_type: string;
+    price: number;
+  };
+  value: {
+    sku: string;
+    uid: string;
+    sort_order: number;
+    title: string;
+    option_type_id: number;
+    price: number;
+  }[];
+}
 export interface ProductItemInterface {
+  downloadable_product_links?: {
+    sort_order: number;
+    sample_url: string;
+    title: string | number;
+  }[];
+  estimated_delivery_time?: string;
+  items?: BundleOptions[];
+  uid: string | number;
   id: string | number;
   name: string;
   loading?: boolean;
   sku: string;
+  options: CustomOptions[];
   url_key: string;
-  __typename: 'SimpleProduct' | 'ConfigurableProduct';
+  __typename:
+    | 'SimpleProduct'
+    | 'ConfigurableProduct'
+    | 'BundleProduct'
+    | 'GroupedProduct'
+    | 'DownloadableProduct'
+    | 'VirtualProduct';
   thumbnail?: ProductThumbnail;
   image?: ProductImage;
   configurable_options: ConfigurableProductOption[];
@@ -176,8 +278,21 @@ export interface ProductItemInterface {
   formattedPrice?: string;
   canonical_url?: string;
   media_gallery?: MediaGallery[];
+  categories: ProductCategory[];
+  attributeValues: ProductAttributesValues[];
   reviews: ProductReviews;
 }
+
+export type ProductAttributesValues = {
+  label: string;
+  value: string;
+};
+
+export type ProductCategory = {
+  name: string;
+  id: string;
+  url_key: string;
+};
 
 export interface ProductImage {
   label: string;
@@ -215,6 +330,7 @@ export type TabsProp = {
 export interface DetailProp {
   product: ProductItemInterface;
   loading?: boolean;
+  quickView?: boolean;
 }
 
 export type ProductReviewRatingValueMetadata = {
@@ -425,6 +541,7 @@ export type ProductsAction = {
 export enum ProductListViewType {
   GRID = 'grid', // eslint-disable-line
   LIST = 'list', // eslint-disable-line
+  TWOGRID = 'twogrid', // eslint-disable-line
 }
 
 /**
@@ -481,9 +598,20 @@ export interface CategoryBreadcrumb {
 }
 
 export interface CategoryItem extends CategoryItemPaths {
+  content?: {
+    html?: string | undefined;
+    status?: boolean | undefined;
+  };
+  children: {
+    url_key: string | undefined;
+    image: string | undefined;
+    name: string;
+    product_count: number;
+  }[];
   name: string;
   description: string;
   uid: string;
+  id?: number;
   breadcrumbs: CategoryBreadcrumb[];
   product_count: number;
   meta_description: string;

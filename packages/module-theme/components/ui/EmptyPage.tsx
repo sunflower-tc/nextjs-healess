@@ -1,25 +1,21 @@
-import { Trans } from '@lingui/macro';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { EmptyPageIcon } from '@voguish/module-theme';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
-import { useRouter } from 'next/router';
+import { EmptyPageIcon } from '../elements/Icon';
 export default function EmptyPage() {
-  const route = useRouter();
-  const onClick = (e: any) => {
-    e.preventDefault();
-    route.back();
-  };
+  const { t } = useTranslation('common');
+
   return (
-    <div className="relative flex flex-col items-center justify-center h-screen max-w-2xl mx-auto mt-28">
+    <div className="relative flex flex-col items-center justify-center h-[60vh] max-w-2xl mx-auto mt-28">
       <div className="h-full gap-4 py-10 mx-auto text-center ">
         <EmptyPageIcon />
         <span className="grid py-6">
           <Typography variant="ErrorHeading" className="-xs:text-lg">
-            <Trans>Oops! There are no products here.</Trans>
+            {t('Oops! There are no products here.')}
           </Typography>
           <Typography variant="ErrorSubHeading" className="-xs:text-base">
-            <Trans>Please discover new products here.</Trans>
+            {t('Please discover new products here.')}
           </Typography>
         </span>
         <Link href="/" className="w-[85%]">
@@ -28,7 +24,7 @@ export default function EmptyPage() {
             className="w-full py-4 rounded-none shadow-none"
             type="submit"
           >
-            <Trans>Go To Home</Trans>
+            {t('Go To Home')}
           </Button>
         </Link>
       </div>

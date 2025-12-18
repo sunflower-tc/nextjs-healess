@@ -1,0 +1,8 @@
+#import "../fragments/_compare_list.graphql"
+mutation RemoveProductsFromCompareList(
+  $input: RemoveProductsFromCompareListInput
+) {
+  removeProductsFromCompareList(input: $input) {
+    ...compareList
+  }
+}

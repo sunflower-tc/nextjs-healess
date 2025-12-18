@@ -1,15 +1,20 @@
 import ArrowRightIcon from '@mui/icons-material/ArrowRight';
 import { PLACEHOLDER_IMG } from '@utils/Constants';
 import { isValidArray } from '@utils/Helper';
-import { Thumbnail } from '@voguish/module-catalog';
+import {
+  MediaGallery,
+  ProductItemInterface,
+} from '@voguish/module-catalog/types';
 import { Autoplay, FreeMode, Thumbs } from 'swiper/modules';
 import { Swiper, SwiperSlide } from 'swiper/react';
 // Import Swiper styles
+import { useAppSelector } from '@store/hooks';
 import { useCallback, useRef, useState } from 'react';
 import 'swiper/css';
 import 'swiper/css/free-mode';
 import 'swiper/css/navigation';
 import 'swiper/css/thumbs';
+import Thumbnail from '../Item/Thumbnail';
 export interface ReactImage {
   originalAlt?: string;
   originalTitle?: string;
@@ -22,10 +27,42 @@ export interface ReactImage {
   thumbnailWidth?: number;
 }
 export function ProductImageGallery(props: {
-  images: ReactImage[];
   name: string;
+  product: ProductItemInterface;
 }) {
-  let { images, name } = props;
+  let { name, product } = props;
+  let currentThumbail = useAppSelector(
+    (state) => state?.storeConfig?.setProduct
+  );
+  const mediaGalleryProduct =
+    product?.__typename === 'ConfigurableProduct'
+      ? currentThumbail?.product
+      : product;
+  let images: ReactImage[] = mediaGalleryProduct?.media_gallery?.map(
+    (image: MediaGallery) => ({
+      original: image.url || PLACEHOLDER_IMG,
+      thumbnail: image?.url,
+      originalAlt: currentThumbail?.name,
+      thumbnailAlt: currentThumbail?.name,
+      originalTitle: currentThumbail?.name,
+      originalWidth: 350,
+      originalHeight: 330,
+      thumbnailHeight: 144,
+      thumbnailWidth: 144,
+    })
+  ) || [
+    {
+      original: currentThumbail?.product?.image?.url || PLACEHOLDER_IMG,
+      thumbnail: currentThumbail?.product?.image?.url,
+      originalAlt: currentThumbail?.product?.name,
+      thumbnailAlt: currentThumbail?.product?.name,
+      originalTitle: currentThumbail?.product?.name,
+      originalWidth: 350,
+      originalHeight: 330,
+      thumbnailHeight: 144,
+      thumbnailWidth: 144,
+    },
+  ];
 
   if (!isValidArray(images)) {
     images = [
@@ -42,6 +79,7 @@ export function ProductImageGallery(props: {
       },
     ];
   }
+
   const [thumbsSwiper, setThumbsSwiper] = useState(null) as any;
   const sliderRef = useRef(null) as any;
 
@@ -54,6 +92,7 @@ export function ProductImageGallery(props: {
     if (!sliderRef.current) return;
     sliderRef.current.swiper.slideNext();
   }, []);
+
   return (
     <div className="product_slider">
       <Swiper
@@ -61,25 +100,20 @@ export function ProductImageGallery(props: {
         spaceBetween={10}
         navigation={false}
         loop={true}
-        autoplay={{
-          delay: 2500,
-          disableOnInteraction: false,
-        }}
         thumbs={{
           swiper: thumbsSwiper && !thumbsSwiper.destroyed ? thumbsSwiper : null,
         }}
         modules={[Autoplay, FreeMode, Thumbs]}
-        className="relative truncate mySwiper2"
+        className="relative truncate border border-solid mySwiper2 border-commonBorder"
       >
         {images.map((item, index: number) => (
           <SwiperSlide
-            className="max-h-[30rem] border border-solid truncate border-commonBorder aspect-square"
+            className="max-h-[30rem] min-h-[20rem] aspect-square"
             key={index * 3 + index + 1}
           >
             <div className="swiper-zoom-container">
               <Thumbnail
                 priority={true}
-                loading="eager"
                 fill
                 className="object-contain object-center rounded-lg aspect-square max-h-fit"
                 alt={`image-${item?.originalAlt || '' + item?.originalTitle} `}
@@ -90,8 +124,9 @@ export function ProductImageGallery(props: {
         ))}
       </Swiper>
       <div
-        className={`flex items-center ${images.length > 1 ? 'justify-between' : 'justify-center'
-          } mt-6`}
+        className={`flex items-center -lg:hidden ${
+          images.length > 1 ? 'justify-between' : 'justify-center'
+        } mt-6`}
       >
         {images.length > 1 && (
           <button
@@ -99,7 +134,7 @@ export function ProductImageGallery(props: {
             className="flex items-center justify-center p-2 bg-white border-0 rounded-full cursor-pointer"
             onClick={handlePrev}
           >
-            <ArrowRightIcon className="text-4xl text-green-500 rotate-180" />
+            <ArrowRightIcon className="text-4xl text-brand rotate-180" />
           </button>
         )}
         <div className="flex min-w-[80%]">
@@ -126,12 +161,12 @@ export function ProductImageGallery(props: {
                 <Thumbnail
                   priority={true}
                   width={70}
-                  loading="eager"
                   className="object-contain p-1 rounded-lg aspect-square first:rtl:mr-0 first:ltr:ml-0"
                   height={70}
-                  alt={`image-${item?.originalAlt ||
+                  alt={`image-${
+                    item?.originalAlt ||
                     '' + index * index + item?.originalTitle
-                    } `}
+                  } `}
                   thumbnail={item?.thumbnail || PLACEHOLDER_IMG}
                 />
               </SwiperSlide>
@@ -144,7 +179,7 @@ export function ProductImageGallery(props: {
             className="flex items-center justify-center bg-white border-0 rounded-full cursor-pointer"
             onClick={handleNext}
           >
-            <ArrowRightIcon className="text-4xl text-green-500" />
+            <ArrowRightIcon className="text-4xl text-brand" />
           </button>
         )}
       </div>

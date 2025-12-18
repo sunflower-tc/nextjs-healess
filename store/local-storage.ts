@@ -14,16 +14,14 @@ export const COUNTRIES = 'countries';
 export const LAST_ORDER_ID = 'last_order_id';
 export const MULTI_CHECKOUT = 'ulti_checkout';
 export const SHIPPING_ADDRESS = 'hipping_address';
-export const COMPARE_LIST = 'ecently_compared_product';
+export const COMPARE_LIST = 'recently_compared_product';
 export const COMPARE_ID = 'compare_list_uid';
 export const IS_GUEST = 'is_guest';
 export const CUSTOMER = 'customer';
 export const IS_VIRTUAL_CART = 'isVirtualCart';
 export const CURRENCY_RATES = 'currency_rates';
-export const DEFAULT_CURRENCY_CODE = 'DEFAULT_CURRENCY_CODE';
-export const IS_AUTO_CURRENCY_SET = 'IS_AUTO_CURRENCY_SET';
-
-
+export const itemsArray = new Array(6).fill(0);
+export const SELECTED_STORE = 'Store';
 /**
  * Set local storage
  *

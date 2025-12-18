@@ -1,16 +1,17 @@
 import { Listbox, Transition } from '@headlessui/react';
-import { Trans } from '@lingui/macro';
 import CheckIcon from '@mui/icons-material/Check';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import { limiter } from '@utils/Constants';
-import { isValidArray } from '@utils/Helper';
-import { PaginationActionType } from '@voguish/module-catalog';
+import { createQueryForLink, isValidArray } from '@utils/Helper';
+import { PaginationActionType } from '@voguish/module-catalog/types';
 import { motion } from 'framer-motion';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { Fragment, useState } from 'react';
-
+import ErrorBoundary from '../ErrorBoundary';
 /**
  * Get Page Number Args
  */
@@ -117,10 +118,25 @@ const Pagination = ({
   pageNumbersToShow = 3,
   changeHandler,
 }: PaginationProps) => {
+  const router = useRouter();
+  const {
+    pathname,
+    query: { urlKey: queries = [] },
+  } = router;
+  const { t } = useTranslation('common');
+
+  const filters = createQueryForLink(queries, '', '', false);
   /**
    * Selected Option state
    */
   const [selectedOption, setSelectedOption] = useState<number>(pageSize);
+
+  const limitIndex = queries.indexOf('limit');
+
+  if (limitIndex !== -1 && Array.isArray(queries)) {
+    const res = queries.filter((_, i) => i == limitIndex + 1);
+    if (selectedOption != Number(res?.[0])) setSelectedOption(Number(res?.[0]));
+  }
 
   if (loadingState) {
     return <PaginationPlaceholder />;
@@ -149,111 +165,171 @@ const Pagination = ({
       }
     };
     if (totalCount <= 0) {
-      return <></>;
+      return <ErrorBoundary></ErrorBoundary>;
     }
 
     return (
-      <>
+      <ErrorBoundary>
         {isValidArray(pageNumbers) && (
-          <Grid className="grid items-center justify-center min-w-full mt-10 sm:flex sm:justify-between gap-y-8">
-            <span className="flex gap-5">
-              {pageNumbers.map((page, index) => (
-                <button
-                  className={`w-11 h-11 flex items-center cursor-pointer hover:shadow-md duration-300 justify-center text-bold text-lg rounded-full border border-solid border-secondary ${currentPage === page
-                    ? 'bg-secondary text-white hover:bg-secondary/90'
-                    : 'bg-white text-black hover:bg-secondary/10'
-                    }`}
-                  onClick={() => {
-                    if (typeof page === 'number') {
-                      changeHandler({
-                        action: PaginationActionType.PAGE,
-                        payload: page,
-                      });
-                    }
-                  }}
-                  key={index}
-                >
-                  {page}
-                </button>
-              ))}
-            </span>
-            {totalCount > pageSize && (
-              <Listbox
-                value={selectedOption}
-                onChange={setLimitSelectionHandler}
-              >
-                {({ open }) => (
-                  <div className="relative mt-1">
-                    <Listbox.Button className="relative text-base border-solid leading-5 w-60 border-commonBorder rounded-md py-2.5 px-3.5 text-slate-700 capitalize tracking-wider font-medium cursor-pointer flex justify-start items-center border-2 -mt-1 -mx-0.5 bg-transparent">
-                      <div className="flex w-full truncate cursor-pointer">
-                        <div className="flex items-center justify-between w-full">
-                          <span className="flex items-center w-4/5 line-clamp-1">
-                            {selectedOption} <Trans>items per page</Trans>
-                          </span>
-                          <motion.div
-                            className="relative py-0 max-h-4 "
-                            initial={{ rotate: 0, marginTop: -7 }}
-                            animate={{
-                              rotate: open ? 180 : 0,
-                              marginTop: open ? 10 : -7,
-                            }}
-                            transition={{ duration: 0.4 }}
-                          >
-                            <KeyboardArrowDownIcon className="py-0" />
-                          </motion.div>
-                        </div>
-                      </div>
-                    </Listbox.Button>
-                    <Transition
-                      as={Fragment}
-                      enterFrom="opacity-0"
-                      enterTo="opacity-100"
-                      enter="transition ease-in duration-200"
-                      leave="transition ease-in duration-200"
-                      leaveFrom="opacity-100"
-                      leaveTo="opacity-0"
-                    >
-                      <Listbox.Options className="absolute w-full mt-1 overflow-auto text-base list-none p-4 flex flex-col gap-2 bg-white rounded-md shadow-xl translate-y-1 max-h-[12.3rem] ring-1 ring-black/5 focus:outline-none sm:text-sm">
-                        {limiter
-                          .filter((item) => item <= totalCount)
-                          ?.map((limit) => (
-                            <Listbox.Option
-                              key={limit}
-                              className={({ active }) =>
-                                `relative cursor-pointer py-0 select-none ${active ? ' text-brand' : 'text-gray-900'
-                                }`
+          <div className="lg:col-span-9 md:col-span-9 col-span-12">
+            <div className="lg:flex md:flex block items-center justify-center min-w-full mt-10 gap-y-8 sm:flex sm:justify-between">
+              <div>
+                <span className="flex gap-5">
+                  {pageNumbers.map((page, index) => (
+                    <span key={`${page}a` + index + `${currentPage}`}>
+                      {currentPage !== page ? (
+                        <ErrorBoundary>
+                          <Link
+                            className={`w-11 h-11 no-underline flex items-center cursor-pointer hover:shadow-md duration-300 justify-center text-bold text-lg rounded-full border border-solid border-secondary ${
+                              currentPage === page
+                                ? 'bg-secondary text-white hover:bg-secondary/90'
+                                : 'bg-white text-black hover:bg-secondary/10'
+                            }`}
+                            onClick={() => {
+                              if (typeof page === 'number') {
+                                changeHandler({
+                                  action: PaginationActionType.PAGE,
+                                  payload: page,
+                                });
                               }
-                              value={limit}
-                            >
-                              {({ selected }) => (
-                                <>
-                                  <span
-                                    className={`block font-medium text-base truncate ${selected ? 'text-brand' : 'text-slate-700'
-                                      }`}
-                                  >
-                                    <span className="flex items-center w-full">
-                                      {limit} <Trans>items per page</Trans>
-                                      {selected && (
-                                        <CheckIcon className="ml-6 text-brand" />
-                                      )}
-                                    </span>
+                            }}
+                            href={{
+                              pathname: pathname,
+                              query: {
+                                urlKey: [
+                                  ...createQueryForLink(
+                                    filters,
+                                    PaginationActionType.PAGE,
+                                    String(page),
+                                    false
+                                  ),
+                                ],
+                              },
+                            }}
+                          >
+                            {page}
+                          </Link>
+                        </ErrorBoundary>
+                      ) : (
+                        <div
+                          className={`w-11 h-11 no-underline flex items-center cursor-pointer hover:shadow-md duration-300 justify-center text-bold text-lg rounded-full border border-solid border-secondary ${
+                            currentPage === page
+                              ? 'bg-secondary text-white hover:bg-secondary/90'
+                              : 'bg-white text-black hover:bg-secondary/10'
+                          }`}
+                        >
+                          {page}
+                        </div>
+                      )}
+                    </span>
+                  ))}
+                </span>
+              </div>
+              <div className="lg:mt-0 md:mt-0 mt-4">
+                {totalCount > pageSize && (
+                  <ErrorBoundary>
+                    <Listbox
+                      value={selectedOption}
+                      onChange={setLimitSelectionHandler}
+                    >
+                      {({ open }) => (
+                        <div className="relative mt-1">
+                          <ErrorBoundary>
+                            <Listbox.Button className="relative -mx-0.5 -mt-1 flex w-60 cursor-pointer items-center justify-start rounded-md border-2 border-solid border-commonBorder bg-transparent px-3.5 py-2.5 text-base font-medium capitalize leading-5 tracking-wider text-slate-700">
+                              <div className="flex w-full truncate cursor-pointer">
+                                <div className="flex items-center justify-between w-full">
+                                  <span className="flex items-center w-4/5 line-clamp-1">
+                                    {selectedOption} {t('items per page')}
                                   </span>
-                                </>
-                              )}
-                            </Listbox.Option>
-                          ))}
-                      </Listbox.Options>
-                    </Transition>
-                  </div>
+                                  <motion.div
+                                    className="relative py-0 max-h-4"
+                                    initial={{ rotate: 0, marginTop: -7 }}
+                                    animate={{
+                                      rotate: open ? 180 : 0,
+                                      marginTop: open ? 10 : -7,
+                                    }}
+                                    transition={{ duration: 0.4 }}
+                                  >
+                                    <KeyboardArrowDownIcon className="py-0" />
+                                  </motion.div>
+                                </div>
+                              </div>
+                            </Listbox.Button>
+                          </ErrorBoundary>
+                          <Transition
+                            as={Fragment}
+                            enterFrom="opacity-0"
+                            enterTo="opacity-100"
+                            enter="transition ease-in duration-200"
+                            leave="transition ease-in duration-200"
+                            leaveFrom="opacity-100"
+                            leaveTo="opacity-0"
+                          >
+                            <Listbox.Options className="absolute mt-1 flex max-h-[12.3rem] w-full translate-y-1 list-none flex-col gap-2 overflow-auto rounded-md bg-white p-4 text-base shadow-xl ring-1 ring-black/5 focus:outline-none sm:text-sm">
+                              {limiter
+                                .filter((item) => item <= totalCount)
+                                ?.map((limit) => (
+                                  <ErrorBoundary key={limit}>
+                                    <Listbox.Option
+                                      className={({ active }) =>
+                                        `relative cursor-pointer py-0 select-none ${
+                                          active
+                                            ? ' text-brand'
+                                            : 'text-gray-900'
+                                        }`
+                                      }
+                                      value={limit}
+                                    >
+                                      {({ selected }) => (
+                                        <Link
+                                          href={{
+                                            pathname: pathname,
+                                            query: {
+                                              urlKey: [
+                                                ...createQueryForLink(
+                                                  filters,
+                                                  PaginationActionType.LIMIT,
+                                                  String(limit),
+                                                  false
+                                                ),
+                                              ],
+                                            },
+                                          }}
+                                        >
+                                          <span
+                                            className={`block font-medium text-base truncate ${
+                                              selected
+                                                ? 'text-brand'
+                                                : 'text-slate-700'
+                                            }`}
+                                          >
+                                            <span className="flex items-center w-full">
+                                              {limit} {t('items per page')}
+                                              {selected && (
+                                                <CheckIcon className="ml-6 text-brand" />
+                                              )}
+                                            </span>
+                                          </span>
+                                        </Link>
+                                      )}
+                                    </Listbox.Option>
+                                  </ErrorBoundary>
+                                ))}
+                            </Listbox.Options>
+                          </Transition>
+                        </div>
+                      )}
+                    </Listbox>
+                  </ErrorBoundary>
                 )}
-              </Listbox>
-            )}
-          </Grid>
+              </div>
+            </div>
+          </div>
         )}
-      </>
+      </ErrorBoundary>
     );
   }
-  return <></>;
+  return <ErrorBoundary></ErrorBoundary>;
 };
 
 /**

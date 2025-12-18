@@ -1,12 +1,11 @@
 import { isValidArray } from '@utils/Helper';
-import { BrandCollectionPlaceHolder } from '@voguish/module-theme/components';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { BrandCollectionPlaceHolder } from '@voguish/module-theme/components/widgets/placeholders/BrandCollectionPlaceHolder';
 import { BannerImage } from '@voguish/module-theme/types/home-page';
 import dynamic from 'next/dynamic';
 const BrandCollectionBanner = dynamic(
   () =>
-    import(
-      '@voguish/module-theme/components/widgets/Banner/BrandCollectionBanner'
-    ),
+    import('@voguish/module-theme/components/widgets/Banner/BrandCollectionBanner'),
   { loading: () => <BrandCollectionPlaceHolder /> }
 );
 
@@ -22,7 +21,7 @@ export default function HomeOfferSection({
   loading: boolean;
 }) {
   return (
-    <>
+    <ErrorBoundary>
       {loading ? (
         <BrandCollectionPlaceHolder />
       ) : (
@@ -30,6 +29,6 @@ export default function HomeOfferSection({
           <BrandCollectionBanner items={brandCollectionBanner} />
         )
       )}
-    </>
+    </ErrorBoundary>
   );
 }

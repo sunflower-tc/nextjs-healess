@@ -1,22 +1,25 @@
 import Clear from '@mui/icons-material/Clear';
-import { SelectChangeEvent } from '@mui/material';
 import Typography from '@mui/material/Typography';
 
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControl from '@mui/material/FormControl';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import Modal from '@mui/material/Modal';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { isValidArray } from '@utils/Helper';
+import { getCategoryFilterQuery, isValidArray } from '@utils/Helper';
 import {
   SortFields,
   SortModal,
   ToolbarActionType,
-} from '@voguish/module-catalog';
-import { Fragment } from 'react';
-
+} from '@packages/module-catalog/types';
+import { SelectChangeEvent } from '@packages/module-customer/Components/OrderTab/Pagination';
+import ErrorBoundary from '@packages/module-theme/components/ErrorBoundary';
+import Modal from '@packages/module-theme/components/Modal';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useTranslation } from 'react-i18next';
+import { useCreateSortFields } from '../Toolbar';
+import { RightIcon } from '@packages/module-theme/components/elements/Icon';
 export const createSortFields = (sortOptions: SortFields) => {
   let options: { value: string; label: string }[] = [];
   sortOptions.options.forEach((option) => {
@@ -45,13 +48,22 @@ export const createSortFields = (sortOptions: SortFields) => {
  * @returns
  */
 const SortbyMobile = (props: SortModal) => {
-  const { open, sortHandler, sortFields, sort, manageToolbarAction } = props;
+  const router = useRouter();
+  const {
+    query: { urlKey: queries = [] },
+  } = router;
+
+  let { open, sortHandler, sortFields, sort, manageToolbarAction } = props;
+  const sortIndex = queries.indexOf('sort');
+  if (sortIndex !== -1 && Array.isArray(queries)) {
+    const res = queries.filter((_, i) => i == sortIndex + 1);
+    sort = res?.[0];
+  }
   /**
    * Handle Toolbar Actions
    * @param event
    */
   const handleChange = (event: SelectChangeEvent) => {
-    // setSortOption(event.target.value as string);
     manageToolbarAction({
       action: ToolbarActionType.SORT,
       payload: event.target.value as string,
@@ -60,77 +72,73 @@ const SortbyMobile = (props: SortModal) => {
 
   let sortFieldsWithValues = null;
 
-  if (sortFields && typeof sortFields !== 'undefined') {
-    sortFieldsWithValues = createSortFields(sortFields);
-  }
+  sortFieldsWithValues = useCreateSortFields(sortFields);
+  const { t } = useTranslation('common');
+
   return (
-    <Fragment>
-      {sortFieldsWithValues && isValidArray(sortFieldsWithValues) ? (
-        <Modal
-          className="lg:hidden"
-          open={open}
-          onClose={sortHandler}
-          aria-labelledby="modal-modal-title"
-          aria-describedby="modal-modal-description"
-        >
-          <>
-            <Box
-              sx={{
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'center',
-                position: 'absolute',
-                top: 50,
-                width: '100%',
-                minHeight: 400,
-              }}
-            >
-              <Box
-                sx={{
-                  margin: 'auto',
-                  width: '90%',
-                  maxHeight: '100%',
-                  bgcolor: 'background.paper',
-                  borderRadius: 2,
-                }}
-              >
-                <Box className="flex items-center justify-between w-full p-5">
-                  <Typography variant="h2">Sort By</Typography>
+    <ErrorBoundary>
+      <div className="lg:hidden">
+        {sortFieldsWithValues && isValidArray(sortFieldsWithValues) ? (
+          <Modal
+            showModal={open}
+            hideModal={sortHandler}
+            title={
+              <ErrorBoundary>
+                <span
+                  className="flex cursor-pointer sm:hidden"
+                  onClick={sortHandler}
+                >
+                  <RightIcon />
+                </span>
+                <div className="flex items-center justify-between w-full">
+                  <Typography variant="h2">{t('Sort By')}</Typography>
                   <Button
                     sx={{ paddingX: 0, minWidth: 0 }}
                     onClick={sortHandler}
-                    className="w-10 h-10 px-0 mx-1 mt-1 rounded-full"
+                    className="hidden w-10 h-10 px-0 mx-1 mt-1 rounded-full sm:flex"
                   >
                     <Clear />
                   </Button>
-                </Box>
-                <Box className="px-5 pb-5">
-                  <FormControl fullWidth>
-                    <RadioGroup
-                      onClick={sortHandler}
-                      aria-labelledby="product-list-sort-field-label"
-                      onChange={handleChange}
-                      value={sort}
-                    >
-                      {sortFieldsWithValues.map((option) => (
+                </div>
+              </ErrorBoundary>
+            }
+          >
+            <ErrorBoundary>
+              <FormControl className="px-5 sm:px-0" fullWidth>
+                <RadioGroup
+                  onClick={sortHandler}
+                  onChange={handleChange}
+                  aria-labelledby="product-list-sort-field-label"
+                  value={sort}
+                >
+                  {sortFieldsWithValues?.map((option) => (
+                    <ErrorBoundary key={option.value}>
+                      <Link
+                        className="no-underline"
+                        href={getCategoryFilterQuery(
+                          router,
+                          'sort',
+                          option.value
+                        )}
+                      >
                         <FormControlLabel
                           key={option.value}
                           value={option.value}
                           control={<Radio size="small" />}
                           label={option.label}
                         />
-                      ))}
-                    </RadioGroup>
-                  </FormControl>
-                </Box>
-              </Box>
-            </Box>
-          </>
-        </Modal>
-      ) : (
-        <></>
-      )}
-    </Fragment>
+                      </Link>
+                    </ErrorBoundary>
+                  ))}
+                </RadioGroup>
+              </FormControl>
+            </ErrorBoundary>
+          </Modal>
+        ) : (
+          <ErrorBoundary></ErrorBoundary>
+        )}
+      </div>
+    </ErrorBoundary>
   );
 };
 export default SortbyMobile;

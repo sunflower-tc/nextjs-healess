@@ -1,4 +1,4 @@
-import { ProductItemInterface } from '@voguish/module-catalog';
+import { ProductItemInterface } from '@voguish/module-catalog/types';
 import { ReactNode } from 'react';
 
 export interface BannerImage {

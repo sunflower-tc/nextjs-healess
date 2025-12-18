@@ -1,4 +1,6 @@
 /** @type {import('tailwindcss').Config} */
+const rtl = require('tailwindcss-rtl');
+
 function withOpacityValue(variable) {
   return ({ opacityValue }) => {
     if (opacityValue === undefined) {
@@ -9,6 +11,7 @@ function withOpacityValue(variable) {
 }
 module.exports = {
   // important: true,
+
   corePlugins: {
     preflight: false,
   },
@@ -17,7 +20,12 @@ module.exports = {
     './packages/**/*.{js,ts,jsx,tsx,mdx}',
     './components/**/*.{js,ts,jsx,tsx,mdx}',
   ],
+  plugins: [rtl],
+
   theme: {
+    fontFamily: {
+      Poppins: ['Poppins'],
+    },
     extend: {
       colors: {
         CheckoutPlaceHolder: '#ADADAD',
@@ -49,12 +57,13 @@ module.exports = {
         iconCheckout: withOpacityValue('color-iconCheckout'),
         closeIconColor: '#B5B5B5',
         error: '#E85115',
-        link: '#39b38a',
+        link: '#115E59',
         reviewText: '#64687a',
         textShopping: '#191919',
         hoverButton: '#27775c',
         checkoutBorder: '#DCDCDC',
         black: '#000',
+        inputBorder: '#D7DFE2',
       },
 
       screens: {
@@ -90,10 +99,6 @@ module.exports = {
         price: '1.5rem',
         description: '0.875rem',
       },
-      fontFamily: {
-        sans: ['Poppins', 'Arial', 'Helvetica', 'sans-serif'], // 覆盖默认 sans
-      },
     },
   },
-  plugins: [],
 };

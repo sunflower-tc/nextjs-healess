@@ -1,7 +1,7 @@
-import { Trans } from '@lingui/macro';
 import Typography from '@mui/material/Typography';
 import { getFormattedPrice, isValidArray } from '@utils/Helper';
-
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 export const CartTotals = ({ quote }: any) => {
   /**
    * Fetching Shipping Amount
@@ -24,10 +24,10 @@ export const CartTotals = ({ quote }: any) => {
    */
   const taxPrice = isValidArray(quote?.prices?.applied_taxes || null)
     ? quote?.prices?.applied_taxes.reduce(
-      (previousTax: any, currentTax: any) =>
-        previousTax?.amount?.value || 0 + currentTax?.amount?.value || 0,
-      0
-    )
+        (previousTax: any, currentTax: any) =>
+          previousTax?.amount?.value || 0 + currentTax?.amount?.value || 0,
+        0
+      )
     : 0;
 
   /**
@@ -43,9 +43,9 @@ export const CartTotals = ({ quote }: any) => {
    */
   const subTotal = quote?.prices?.subtotal_excluding_tax?.value
     ? getFormattedPrice(
-      quote.prices.subtotal_excluding_tax.value,
-      quote.prices.subtotal_excluding_tax.currency
-    )
+        quote.prices.subtotal_excluding_tax.value,
+        quote.prices.subtotal_excluding_tax.currency
+      )
     : getFormattedPrice(0, 'USD');
 
   /**
@@ -53,15 +53,17 @@ export const CartTotals = ({ quote }: any) => {
    */
 
   const discounts = quote?.prices?.discounts || [];
+  const { t } = useTranslation('common');
+
   return (
-    <>
-      <div className="w-full px-2.5 mx-auto space-y-7 ">
+    <ErrorBoundary>
+      <div className="w-full px-2.5 mx-auto space-y-7">
         <div className="flex justify-between ">
           <Typography
             variant="CartItemPrice"
             className="font-medium text-black leading-normal lg:leading-[1.45rem]"
           >
-            <Trans>Subtotal :</Trans>
+            {t('Subtotal :')}
           </Typography>
           <Typography
             variant="CartItemPrice"
@@ -76,7 +78,7 @@ export const CartTotals = ({ quote }: any) => {
             variant="CartItemPrice"
             className="font-medium text-black leading-normal lg:leading-[1.45rem]"
           >
-            <Trans>Shipping :</Trans>
+            {t('Shipping :')}
           </Typography>
           <Typography
             variant="CartItemPrice"
@@ -93,8 +95,7 @@ export const CartTotals = ({ quote }: any) => {
                 variant="CartItemPrice"
                 className="grid font-medium text-black leading-normal lg:leading-[1.45rem]"
               >
-                <Trans>Discount :</Trans>
-                <span>({discount.label})</span>
+                <span>({discount.label}) :</span>
               </Typography>
               <Typography
                 variant="CartItemPrice"
@@ -111,9 +112,9 @@ export const CartTotals = ({ quote }: any) => {
         <div className="flex justify-between">
           <Typography
             variant="CartItemPrice"
-            className="font-medium text-black leading-normal lg:leading-[1.45rem]"
+            className="font-medium text-black mx-px leading-normal lg:leading-[1.45rem]"
           >
-            <Trans>Tax :</Trans>
+            {t('Tax :')}
           </Typography>
           <Typography
             variant="CartItemPrice"
@@ -123,7 +124,7 @@ export const CartTotals = ({ quote }: any) => {
           </Typography>
         </div>
       </div>
-    </>
+    </ErrorBoundary>
   );
 };
 

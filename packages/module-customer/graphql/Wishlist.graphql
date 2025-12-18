@@ -10,6 +10,7 @@ query WishlistQuery($currentPage: Int, $pageSize: Int) {
           quantity
           product {
             id
+            sku
             url_key
             name
             price_range {

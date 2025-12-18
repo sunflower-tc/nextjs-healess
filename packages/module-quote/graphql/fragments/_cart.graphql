@@ -1,4 +1,4 @@
-#import "./_money.graphql"
+#import "@voguish/module-catalog/graphql/fragments/_money.graphql"
 
 fragment cart on Cart {
   id
@@ -23,6 +23,7 @@ fragment cart on Cart {
     product {
       name
       sku
+      stock_status
       description {
         html
       }
@@ -34,10 +35,51 @@ fragment cart on Cart {
         label
       }
     }
+    ... on DownloadableCartItem {
+      links {
+        title
+        price
+        sort_order
+      }
+      samples {
+        title
+        sort_order
+        sample_url
+      }
+    }
+    ... on SimpleCartItem {
+      customizable_options {
+        label
+        sort_order
+        values {
+          label
+
+          price {
+            type
+            units
+            value
+          }
+        }
+      }
+    }
     ... on ConfigurableCartItem {
       configurable_options {
         option_label
         value_label
+      }
+    }
+
+    ... on BundleCartItem {
+      bundle_options {
+        uid
+        label
+        type
+        values {
+          id
+          label
+          price
+          quantity
+        }
       }
     }
     prices {

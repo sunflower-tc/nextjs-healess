@@ -4,5 +4,6 @@ query CustomerQuery {
     lastname
     middlename
     email
+    customer_token_lifetime
   }
 }

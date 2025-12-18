@@ -1,42 +1,54 @@
 import styled from '@emotion/styled';
-import { Trans } from '@lingui/macro';
-import { Drawer } from '@mui/material';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Divider from '@mui/material/Divider';
-import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { getFormattedPrice, isValidArray } from '@utils/Helper';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
-import { Fragment } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 import { EmptyCart } from './EmptyCart';
+import Drawer from '@mui/material/Drawer';
+import LaunchIcon from '@mui/icons-material/Launch';
+import Clear from '@mui/icons-material/Clear';
+import { useEffect, useState } from 'react';
+import { CartItemSkeleton } from '@voguish/module-marketplace/Components/Placeholder';
+import { useRouter } from 'next/router';
 export interface CartType {
   toggleDrawer?: Function | any;
   cartOpen?: boolean | any;
   cartItems?: [];
 }
-const LaunchIcon = dynamic(() => import('@mui/icons-material/Launch'));
-
-const CartTotals = dynamic(() => import('./CartTotal'));
+const CartTotals = dynamic(() => import('./CartTotal'), { ssr: false });
 const CartDiscount = dynamic(() => import('./CartDiscount'));
-const CartItem = dynamic(() => import('./CartItem'));
-const AppliedCoupons = dynamic(() => import('./AppliedCoupons'));
-const Clear = dynamic(() => import('@mui/icons-material/Clear'));
-
-export function Cart({ toggleDrawer, cartOpen }: CartType) {
+const CartItem = dynamic(() => import('./CartItem'), {
+  loading: () => <CartItemSkeleton />,
+  ssr: false,
+});
+const AppliedCoupons = dynamic(() => import('./AppliedCoupons'), {
+  ssr: false,
+});
+export default function Cart({ toggleDrawer, cartOpen }: CartType) {
+  const { t } = useTranslation('common');
+  const [loading, setLoader] = useState(true);
   /**
    * Fetching cart date from redux
    */
-  const quote = useSelector((state: RootState) => state.cart?.quote || null);
+  const quote = useSelector((state: RootState) => state?.cart?.quote || null);
   const grandTotal = quote?.prices?.grand_total?.value
     ? getFormattedPrice(
-      quote.prices.grand_total.value,
-      quote.prices.grand_total.currency
-    )
-    : getFormattedPrice(0, 'USD');
+        quote.prices.grand_total.value,
+        quote.prices.grand_total.currency
+      )
+    : getFormattedPrice(0);
+
+  useEffect(() => {
+    setTimeout(() => {
+      setLoader(false);
+    }, 600);
+  }, []);
 
   /**
    * Cart Items
@@ -50,143 +62,132 @@ export function Cart({ toggleDrawer, cartOpen }: CartType) {
       marginTop: theme.spacing(2),
     },
   }));
-  const list = () => (
-    <Box
-      className="overflow-x-hidden "
-      sx={{
-        width: { xs: '99vw', sm: '98vw', md: 550 },
-        minWidth: { xs: '99vw', sm: '98vw', md: 550 },
-      }}
-      role="presentation"
+  const router = useRouter();
+  const { locale } = router;
+  return (
+    <Drawer
+      transitionDuration={200}
+      anchor={locale === 'ar' ? 'left' : 'right'}
+      open={cartOpen.left || cartOpen?.right}
+      onClose={() => toggleDrawer(false)}
     >
-      <Grid
-        className="px-8 py-6 border-0 border-b border-solid border-commonBorder"
-        sx={{
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          width: '100%',
-        }}
-      >
-        <Typography variant="h2">
-          <Trans>Shopping Cart</Trans>
-        </Typography>
-        <Button
-          sx={{ minWidth: 0, px: 0 }}
-          className="w-10 h-10 text-xs border border-solid rounded-full shadow-none text-closeIconColor border-closeIconColor"
-          onClick={toggleDrawer(false)}
-        >
-          <Clear />
-        </Button>
-      </Grid>
-
-      <>
-        {!isValidArray(cartItems) ? (
-          <>
-            <EmptyCart />
-          </>
-        ) : (
-          <div className="border-0 border-solid border-y border-commonBorder">
-            {cartItems.map((item, index) => (
-              <div
-                key={item.cartItemId}
-                className={`relative p-5 mx-2 ${index > 0 && 'border-t'
-                  } border-commonBorder border-solid border-0`}
-              >
-                <CartItem
-                  onClick={toggleDrawer(false)}
-                  cartItem={item}
-                  showAddToActions={true}
-                />
-              </div>
-            ))}
+      <div className="relative w-screen max-w-xl bg-white pointer-events-auto h-[100vh] !overflow-y-auto">
+        <div className="fixed w-full top-0 z-20 bg-white border-0 border-b border-solid border-gray-100  !mt-0">
+          {' '}
+          <div className="flex items-center justify-between max-w-xl px-4 py-4">
+            <Typography variant="h2">{t('Shopping Cart')}</Typography>
+            <Button
+              sx={{ minWidth: 0, px: 0 }}
+              className="w-10 h-10 text-xs border border-solid rounded-full shadow-none border-closeIconColor text-closeIconColor"
+              onClick={toggleDrawer(false)}
+            >
+              <Clear />
+            </Button>
           </div>
-        )}
-        {isValidArray(cartItems) && (
-          <div className="w-full px-4">
-            <CartDiscount appliedCoupons={quote?.applied_coupons} />
-          </div>
-        )}
-        {isValidArray(cartItems) && (
-          <div className="px-2 py-10 border-0 border-b border-solid border-b-commonBorder">
-            <div className="px-2.5">
-              <CartTotals quote={quote} />
-            </div>
-            <div className="flex flex-col items-center justify-center min-w-full gap-4 pt-6">
-              <div className="px-2.5 flex justify-start w-full">
-                {quote?.applied_coupons &&
-                  isValidArray(quote?.applied_coupons) > 0 && (
-                    <AppliedCoupons appliedCoupons={quote?.applied_coupons} />
-                  )}
-              </div>
-              <div className="flex items-start justify-between w-full px-6">
-                <Typography variant="h3" className="font-bold">
-                  <Trans>Total :</Trans>
-                </Typography>
-                <Typography variant="h3" className="-mr-1 font-bold">
-                  {grandTotal}
-                </Typography>
-              </div>
-            </div>
-          </div>
-        )}
-
-        <div className="flex flex-col items-center justify-center min-w-full gap-4 py-8">
-          {isValidArray(cartItems) && (
+        </div>
+        <ErrorBoundary>
+          {loading ? (
+            [1, 2, 3].map((s) => <CartItemSkeleton key={s} />)
+          ) : (
             <>
-              <Link
-                href="/checkout/cart"
-                className="w-[85%] mb-3 hover:underline hover:decoration-brand hover:underline-offset-2"
-              >
-                <Button
-                  onClick={toggleDrawer(false)}
-                  variant="text"
-                  className="flex w-full rounded-none hover:bg-transparent "
-                >
-                  <Trans>Proceed To Cart Page</Trans>{' '}
-                  <LaunchIcon className="pl-2" />
-                </Button>
-              </Link>
-              <Link href="/checkout" className="w-[85%]">
-                <Button
-                  onClick={toggleDrawer(false)}
-                  variant="contained"
-                  className="w-full rounded-none shadow-none"
-                >
-                  <Trans>Checkout</Trans>
-                </Button>
-              </Link>
-              <Root>
-                <Divider>
-                  <Trans>or</Trans>
-                </Divider>
-              </Root>
-              <Link href="/" className="w-[85%]">
-                <Button
-                  onClick={toggleDrawer(false)}
-                  variant="outlined"
-                  className="w-full text-center text-black border-black rounded-none"
-                >
-                  <Trans>Back To Shopping</Trans>
-                </Button>
-              </Link>
+              {!isValidArray(cartItems) ? (
+                <ErrorBoundary>
+                  <EmptyCart onClose={toggleDrawer(false)} />
+                </ErrorBoundary>
+              ) : (
+                <div className="w-full mt-20 overflow-y-auto border-0 border-b border-solid border-gray-200">
+                  {cartItems.map((item, index) => (
+                    <div
+                      key={item.cartItemId}
+                      className={`relative py-4 lg:px-7 md:px-6 px-5 ${
+                        index > 0 && 'border-t'
+                      } border-gray-100 border-solid border-0`}
+                    >
+                      <CartItem
+                        onClick={toggleDrawer(false)}
+                        cartItem={item}
+                        showAddToActions={true}
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </>
           )}
-        </div>
-      </>
-    </Box>
-  );
 
-  return (
-    <Fragment>
-      <Drawer
-        anchor="right"
-        className="z-[999999]"
-        open={cartOpen['right']}
-        onClose={toggleDrawer(false)}
-      >
-        {list()}
-      </Drawer>
-    </Fragment>
+          {isValidArray(cartItems) && (
+            <div className="w-full px-4">
+              <CartDiscount appliedCoupons={quote?.applied_coupons} />
+            </div>
+          )}
+          {isValidArray(cartItems) && (
+            <div className="px-2 py-10 border-0 border-b border-solid border-b-gray-200">
+              <div className="px-2.5">
+                <CartTotals quote={quote} />
+              </div>
+              <div className="flex flex-col items-center justify-center min-w-full gap-4 pt-6">
+                <div className="flex w-full justify-start px-2.5">
+                  {quote?.applied_coupons &&
+                    isValidArray(quote?.applied_coupons) > 0 && (
+                      <AppliedCoupons appliedCoupons={quote?.applied_coupons} />
+                    )}
+                </div>
+                <div className="flex items-start justify-between w-full px-6">
+                  <Typography variant="h3" className="font-bold">
+                    {t('Total :')}
+                  </Typography>
+                  <Typography variant="h3" className="-mr-1 font-bold">
+                    {grandTotal}
+                  </Typography>
+                </div>
+              </div>
+            </div>
+          )}
+
+          <div className="flex flex-col items-center justify-center min-w-full gap-4 py-8">
+            {isValidArray(cartItems) && (
+              <ErrorBoundary>
+                <Link
+                  href="/checkout/cart"
+                  className="mb-3 w-[85%] hover:underline hover:decoration-brand hover:underline-offset-2"
+                >
+                  <Button
+                    onClick={toggleDrawer(false)}
+                    variant="text"
+                    className="flex w-full rounded-none hover:bg-transparent"
+                  >
+                    {t('Proceed To Cart Page')}{' '}
+                    <LaunchIcon className="ltr:pl-2 rtl:pr-2" />
+                  </Button>
+                </Link>
+                <Link href="/checkout" className="w-[85%]">
+                  <Button
+                    onClick={toggleDrawer(false)}
+                    variant="contained"
+                    className="w-full rounded-none shadow-none"
+                  >
+                    {' '}
+                    {t('Checkout')}
+                  </Button>
+                </Link>
+                <Root>
+                  <Divider>{t('or')}</Divider>
+                </Root>
+                <Link href="/" className="w-[85%]">
+                  <Button
+                    onClick={toggleDrawer(false)}
+                    variant="outlined"
+                    className="w-full text-center text-black border-black rounded-none"
+                  >
+                    {' '}
+                    {t('Back To Shopping')}
+                  </Button>
+                </Link>
+              </ErrorBoundary>
+            )}
+          </div>
+        </ErrorBoundary>
+      </div>
+    </Drawer>
   );
 }

@@ -1,4 +1,5 @@
-import { FC, Fragment, ReactNode } from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { FC, ReactNode } from 'react';
 import styles from './Tabs.module.css';
 
 type TabContentData = {
@@ -24,9 +25,9 @@ export const TabContent: FC<TabContentData> = ({
 }) => {
   if (activeTab === tabListId) {
     return (
-      <Fragment>
+      <ErrorBoundary>
         <section className={`${styles.tab__content}`}>{children}</section>
-      </Fragment>
+      </ErrorBoundary>
     );
   } else {
     return null;

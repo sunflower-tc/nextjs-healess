@@ -1,6 +1,7 @@
-import { Trans } from '@lingui/macro';
 import Chip from '@mui/material/Chip';
 import Typography from '@mui/material/Typography';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import { useRemoveCouponFromCart } from '../../hooks/cart-handler';
 export const AppliedCoupons = ({ appliedCoupons }: [] | any) => {
   /**
@@ -12,25 +13,30 @@ export const AppliedCoupons = ({ appliedCoupons }: [] | any) => {
   const removeCoupon = () => {
     removeCouponHandler();
   };
+  const { t } = useTranslation('common');
+
   return (
-    <span className="flex flex-col min-w-full gap-3 px-3 pb-6">
-      <Typography
-        variant="CartItemPrice"
-        className="font-medium text-black leading-normal lg:leading-[1.45rem]"
-      >
-        {' '}
-        <Trans>Applied Coupon Code</Trans>
-      </Typography>
-      {appliedCoupons.map((coupon: { code: string }) => (
-        <Chip
-          key={coupon.code}
-          className="max-w-fit"
-          label={coupon?.code}
-          variant="outlined"
-          onDelete={removeCoupon}
-        />
-      ))}
-    </span>
+    <ErrorBoundary>
+      <span className="flex flex-col min-w-full gap-3 px-3 py-6">
+        <Typography
+          variant="CartItemPrice"
+          className="font-medium text-black leading-normal lg:leading-[1.45rem]"
+        >
+          {' '}
+          {t('Applied Coupon Code')}
+        </Typography>
+        {appliedCoupons.map((coupon: { code: string }) => (
+          <ErrorBoundary key={coupon.code}>
+            <Chip
+              className="max-w-fit rtl:px-3"
+              label={coupon?.code}
+              variant="outlined"
+              onDelete={removeCoupon}
+            />
+          </ErrorBoundary>
+        ))}
+      </span>
+    </ErrorBoundary>
   );
 };
 

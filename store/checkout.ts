@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import { isValidArray, isValidObject } from '@utils/Helper';
-import { CustomerAddress } from '@voguish/module-customer';
-import { CartAddressInterface } from '@voguish/module-quote';
+import { CustomerAddress } from '@voguish/module-customer/types';
+import { CartAddressInterface } from '@voguish/module-quote/types';
 import { RootState } from 'store';
 import {
   CHECKOUT_DATA,

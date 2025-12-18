@@ -4,11 +4,15 @@ import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { FEEDS_FRACTION } from '@utils/Constants';
-import { ProductReviewRatingMetadata } from '@voguish/module-catalog';
+import { AUTHORIZED, FEEDS_FRACTION } from '@utils/Constants';
+import { ProductReviewRatingMetadata } from '@voguish/module-catalog/types';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
+import ErrorBoundary from '../../ErrorBoundary';
 import { ProductReviewForm } from './ProductReviewForm';
+import { useSession } from 'next-auth/react';
+import Router from 'next/router';
 interface FormProp {
   sku: string;
   reviewSummary: number;
@@ -31,12 +35,15 @@ export default function FormSection({
   sku,
 }: FormProp) {
   const [open, setOpen] = useState(false);
+  const { status } = useSession();
 
   const openForm = () => {
     setOpen(!open);
   };
+  const { t } = useTranslation('common');
+
   return (
-    <>
+    <ErrorBoundary>
       <Stack direction="row" columnGap="2rem" className="pb-8">
         <Stack>
           <Box sx={{ position: 'relative', display: 'inline-flex' }}>
@@ -63,7 +70,6 @@ export default function FormSection({
               }}
             >
               <StarRoundedIcon
-                //   use direct color for Star icon
                 sx={{ fontSize: '3.875rem', color: '#FFC930' }}
               />
             </Box>
@@ -75,17 +81,22 @@ export default function FormSection({
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
             {((reviewSummary || 0) / FEEDS_FRACTION).toFixed(1)}
-            &nbsp; out of 5
+            &nbsp; {t('out of 5')}
           </Typography>
           <Typography pt="0.25rem" pb="0.5rem" variant="body2">
-            Based on {reviewCount} reviews
+            {t('Based on')} {reviewCount} {t('reviews')}
           </Typography>
+
           <Button
             className=" rounded-[unset] -md:max-w-fit px-3 -md:py-3.5 py-3 gap-3 flex items-center w-full border-secondary text-secondary font-semibold"
             variant="outlined"
-            onClick={openForm}
+            onClick={() =>
+              status === AUTHORIZED
+                ? openForm()
+                : Router.push('/customer/account/login')
+            }
           >
-            Add your review
+            {t('Add your review')}
           </Button>
           <ProductReviewForm
             ratingsFields={ratingsFields}
@@ -96,6 +107,6 @@ export default function FormSection({
           />
         </Stack>
       </Stack>
-    </>
+    </ErrorBoundary>
   );
 }

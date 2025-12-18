@@ -1,0 +1,8 @@
+#import "../fragments/_cart.graphql"
+mutation AddVirtualProductsToCart($input: AddVirtualProductsToCartInput) {
+  addVirtualProductsToCart(input: $input) {
+    cart {
+      ...cart
+    }
+  }
+}

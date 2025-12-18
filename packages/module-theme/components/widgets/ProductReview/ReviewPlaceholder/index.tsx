@@ -3,9 +3,9 @@ import CardHeader from '@mui/material/CardHeader';
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
-import React from 'react';
+import { Fragment } from 'react';
 
-export default function Index() {
+export default function ReviewIndexPlaceHolder() {
   return (
     <Grid className="flex flex-col-reverse justify-between md:flex-row border-neutral-800">
       <Grid gap={2} className="w-full md:w-2/3" maxHeight={900}>
@@ -50,11 +50,11 @@ export default function Index() {
         />
         <Skeleton sx={{ height: 190 }} animation="wave" variant="rectangular" />
         <CardContent>
-          <React.Fragment>
+          <Fragment>
             <Skeleton animation="wave" height={30} width={300} />
             <Skeleton animation="wave" height={20} width={300} />
             <Skeleton animation="wave" height={20} width={300} />
-          </React.Fragment>
+          </Fragment>
         </CardContent>
       </Grid>
     </Grid>

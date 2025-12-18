@@ -1,16 +1,14 @@
-import { Trans, t } from '@lingui/macro';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import CustomerAccountData from '@utils/CustomerAccountData';
-import { showToast } from '@utils/Helper';
 import UPDATE_CUSTOMER from '@voguish/module-customer/graphql/mutation/UpdateCustomer.graphql';
-import { useCustomerMutation } from '@voguish/module-customer/hooks';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import InputField from '@voguish/module-theme/components/ui/Form/Elements/Input';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import { FieldValues, useForm } from 'react-hook-form';
-
+import { ButtonMui } from '@packages/module-theme/components/ui/ButtonMui';
 const ArrowBackIcon = dynamic(() => import('@mui/icons-material/ArrowBack'));
 
 const commonStyles = {
@@ -38,13 +36,15 @@ interface ProfileInputType {
   is_seller?: boolean;
 }
 const EditForm = ({ handleClick, userinfoData }: EditFormType) => {
-  const [updateCustomer] = useCustomerMutation(UPDATE_CUSTOMER);
+  const [updateCustomer, { loading }] = useCustomerMutation(UPDATE_CUSTOMER);
+  const { t } = useTranslation('common');
 
   const {
     register,
     handleSubmit,
     formState: { errors },
   } = useForm<ProfileInputType>({ defaultValues: userinfoData?.customer });
+  const { showToast } = useToast();
 
   const profileUpdate = (data: FieldValues) => {
     const validFormdata = {
@@ -63,7 +63,7 @@ const EditForm = ({ handleClick, userinfoData }: EditFormType) => {
       .then(() => {
         showToast({
           type: 'success',
-          message: t`profile updaete successfully`,
+          message: t('profile updated successfully'),
         });
         handleClick(false);
       })
@@ -92,96 +92,86 @@ const EditForm = ({ handleClick, userinfoData }: EditFormType) => {
         >
           <ArrowBackIcon
             onClick={() => handleClick(false)}
-            className="cursor-pointer hover:text-brand"
+            className="cursor-pointer hover:text-brand rtl:rotate-180"
             sx={{
               fontSize: 25,
             }}
           />
 
           <Typography variant="h4" sx={{ mx: 1, flexGrow: 1 }} component="div">
-            <Trans>Edit Profile</Trans>
+            {' '}
+            {t('Edit Profile')}
           </Typography>
-          <Button
+          <ButtonMui
             className="rounded-none shadow-none bg-brand"
             variant="contained"
             type="submit"
+            isLoading={loading}
           >
-            <span className="hidden sm:block">
-              {CustomerAccountData.buttonLabel}
-            </span>
-            <span className="block sm:hidden">
-              <Trans>Submit</Trans>
-            </span>
-          </Button>
+            <span className="hidden sm:block">{t('Save Changes')}</span>
+            <span className="block sm:hidden">{t('Submit')}</span>
+          </ButtonMui>
         </Grid>
 
         <Grid sx={{ p: 2 }} className="min-w-full" spacing={2}>
           <Grid sm={6} xs={12} item>
-            <label htmlFor="firstname">
-              <Trans>First Name</Trans>
-            </label>
+            <label htmlFor="firstname">{t('First Name')}</label>
             <InputField
               className="mt-0 mb-1"
               type="text"
-              placeHolder={t`First Name`}
+              placeHolder={t('First Name')}
               error={!!errors?.firstname?.message}
               helperText={errors?.firstname?.message || ''}
               {...register('firstname', {
-                required: t`* First Name is required`,
+                required: t('* First Name is required'),
               })}
             />
           </Grid>
           <Grid sm={6} xs={12} item>
-            <label htmlFor="lastname">
-              <Trans>Last Name</Trans>
-            </label>
+            <label htmlFor="lastname">{t('Last Name')}</label>
             <InputField
               className="mt-0 mb-1"
               type="text"
-              placeHolder={t`Last Name`}
+              placeHolder={t('Last Name')}
               error={!!errors?.lastname?.message}
               helperText={errors?.lastname?.message || ''}
               {...register('lastname', {
-                required: t`* lastname is required`,
+                required: t('* lastname is required'),
               })}
             />
             <input type="hidden" {...register('is_seller')} defaultValue={0} />
           </Grid>
           <Grid sm={6} xs={12} item>
-            <label htmlFor="email">
-              <Trans>Email</Trans>
-            </label>
+            <label htmlFor="email">{t('Email')}</label>
             <InputField
               className="mt-0 mb-1"
               type="text"
-              placeHolder={t`Email`}
+              placeHolder={t('Email')}
               error={!!errors?.email?.message}
               helperText={errors?.email?.message || ''}
               {...register('email', {
-                required: t`* Email is required`,
+                required: t('* Email is required'),
                 pattern: {
                   value: /^[a-z0-9._%+-]+@[a-z0-9.-]+\.[a-z]{2,4}$/,
-                  message: t`Please enter a valid email`,
+                  message: t('Please enter a valid email'),
                 },
               })}
             />
           </Grid>
           <Grid item sm={6} xs={12}>
-            <label htmlFor="password">
-              <Trans>Password</Trans>
-            </label>
+            <label htmlFor="password">{t('Password')}</label>
             <InputField
               className="mt-0 mb-1"
-              placeHolder={t`Password`}
+              placeHolder={t('Password')}
               type="password"
               error={!!errors?.password?.message}
               helperText={errors?.password?.message || ''}
               {...register('password', {
-                required: t`* Password is required`,
+                required: t('* Password is required'),
                 pattern: {
                   value:
                     /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/,
-                  message: t`Please enter a valid Password`,
+                  message: t('Please enter a valid Password'),
                 },
               })}
             />

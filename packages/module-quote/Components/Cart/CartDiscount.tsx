@@ -1,21 +1,39 @@
-import { Trans, t } from '@lingui/macro';
 import Box from '@mui/material/Box';
-import Button from '@mui/material/Button';
-import React from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { ButtonMui } from '@voguish/module-theme/components/ui/ButtonMui';
+import { useTranslation } from 'next-i18next';
 import { useForm } from 'react-hook-form';
 import { useApplyCoupon } from '../../hooks/cart-handler';
-
 export const CartDiscount = ({ appliedCoupons }: [] | any) => {
-  const { register, handleSubmit } = useForm();
-  const { applyCouponHandler } = useApplyCoupon();
-  const applyCoupon = (data: object | any, event: any) => {
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors },
+  } = useForm();
+  const { applyCouponHandler, isInProcess } = useApplyCoupon();
+  const applyCoupon = (data: any, event: any) => {
     event.preventDefault();
-    applyCouponHandler(data.couponCode);
+    applyCouponHandler(data.couponCode, (errorMsg: string) => {
+      setError(
+        'couponCode',
+        {
+          type: 'manual',
+          message: errorMsg as string,
+        },
+        {
+          shouldFocus: true,
+        }
+      );
+    });
   };
+  console.log(errors);
+  const { t } = useTranslation('common');
+
   return (
-    <React.Fragment>
+    <ErrorBoundary>
       {!appliedCoupons && (
-        <React.Fragment>
+        <ErrorBoundary>
           <Box className="flex flex-col w-full">
             <Box className="max-w-[100%] px-2.5 mt-3">
               <form
@@ -23,38 +41,46 @@ export const CartDiscount = ({ appliedCoupons }: [] | any) => {
                 onSubmit={handleSubmit(applyCoupon)}
               >
                 <div className="flex items-center w-full">
-                  <div className="flex-grow w-full ">
+                  <div className=" w-full">
                     <label className="text-base font-normal text-secondary">
-                      <Trans>Apply Coupon Code</Trans>
+                      {t('Apply Coupon Code')}
                     </label>
-                    <div className="flex flex-row items-center w-full gap-3 mt-1 md:gap-5">
-                      <input
-                        id="coupon"
-                        type="text"
-                        autoComplete="text"
-                        placeholder={t`Enter discount code : 'Test'`}
-                        {...register('couponCode', {
-                          required: t`%1 is required.`,
-                        })}
-                        className="placeholder:text-[#ADADAD] min-w-[70%]  px-4 py-[0.6rem] flex-1 text-base leading-6 border-transparent outline-[#E7E7E7] focus:outline-brand outline-1 outline"
-                      />
-                      <Button
-                        className="bg-brand shadow-none rounded-none shadow-[unset] w-full py-[0.65rem] px-6 border-transparent"
+                    <div className="grid grid-cols-12 w-full gap-3 mt-1 md:gap-5">
+                      <div className=" col-span-9 relative">
+                        <input
+                          id="coupon"
+                          type="text"
+                          autoComplete="text"
+                          // eslint-disable-next-line quotes
+                          placeholder={t("Coupon : 'WELCOME'")}
+                          {...register('couponCode')}
+                          required
+                          className="placeholder:text-[#ADADAD] w-full  px-4 py-[0.6rem] flex-1 text-base leading-6 border-transparent outline-[#E7E7E7] focus:outline-brand outline-1 outline"
+                        />
+                        {errors?.couponCode && (
+                          <span className="whitespace-nowrap left-0 text-red-500 text-xs absolute -bottom-[20px]">
+                            {errors?.couponCode?.message as string}
+                          </span>
+                        )}
+                      </div>
+                      <ButtonMui
+                        isLoading={isInProcess || false}
+                        className="bg-brand   col-span-3 shadow-none rounded-none shadow-[unset] py-[0.65rem] px-6 border-transparent"
                         color="primary"
                         variant="contained"
                         type="submit"
                       >
-                        <Trans>Apply</Trans>
-                      </Button>
+                        {t('Apply')}
+                      </ButtonMui>
                     </div>
                   </div>
                 </div>
               </form>
             </Box>
           </Box>
-        </React.Fragment>
+        </ErrorBoundary>
       )}
-    </React.Fragment>
+    </ErrorBoundary>
   );
 };
 

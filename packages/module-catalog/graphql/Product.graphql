@@ -4,13 +4,15 @@
 query ProductQuery($filters: ProductAttributeFilterInput) {
   products(filter: $filters) {
     items {
-      id: uid
+      uid
       description {
         html
       }
+
       image {
         url
       }
+
       thumbnail {
         id: url
         url
@@ -27,7 +29,6 @@ query ProductQuery($filters: ProductAttributeFilterInput) {
       canonical_url
       meta_keyword
       name
-      only_x_left_in_stock
       price_range {
         ...price_range
       }
@@ -42,6 +43,60 @@ query ProductQuery($filters: ProductAttributeFilterInput) {
         html
       }
       url_key
+      ... on DownloadableProduct {
+        downloadable_product_links {
+          price
+          sample_url
+          sort_order
+          title
+          uid
+        }
+      }
+      ... on GroupedProduct {
+        items {
+          position
+          product {
+            name
+            url_key
+            image {
+              url
+            }
+            sku
+            price_range {
+              ...price_range
+            }
+          }
+          qty
+        }
+      }
+      ... on BundleProduct {
+        items {
+          uid
+          sku
+          type
+          title
+          option_id
+          options {
+            label
+            position
+            product {
+              name
+              url_key
+              image {
+                url
+              }
+              price_range {
+                ...price_range
+              }
+            }
+            price
+            price_type
+            quantity
+            id
+            uid
+          }
+        }
+      }
       ... on ConfigurableProduct {
         configurable_options {
           ...configurable_options

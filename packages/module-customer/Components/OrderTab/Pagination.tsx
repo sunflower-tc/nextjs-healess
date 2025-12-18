@@ -1,5 +1,3 @@
-import { Trans } from '@lingui/macro';
-import { SelectChangeEvent } from '@mui/material';
 import FormControl from '@mui/material/FormControl';
 import InputLabel from '@mui/material/InputLabel';
 import MenuItem from '@mui/material/MenuItem';
@@ -7,11 +5,14 @@ import Select from '@mui/material/Select';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { useState } from 'react';
-
+import { useTranslation } from 'next-i18next';
+import { ChangeEvent, useState } from 'react';
 /**
  * Get Page Number Args
  */
+export type SelectChangeEvent<Value = string> =
+  | (Event & { target: { value: Value; name: string } })
+  | ChangeEvent<HTMLInputElement>;
 interface GetPageNumbersArgs {
   currentPage: number;
   pageSize: number;
@@ -66,6 +67,7 @@ const Pagination = ({
    * Selected Option state
    */
   const [selectedOption, setSelectedOption] = useState<number>(pageSize);
+  const { t } = useTranslation('common');
 
   if (loadingState) {
     return <PaginationPlaceholder />;
@@ -107,16 +109,16 @@ const Pagination = ({
           rowGap={{ xs: 1, md: 0 }}
         >
           <Typography>
-            {totalCount} <Trans>Items</Trans>
+            {totalCount} {t('Item')}
           </Typography>
         </Stack>
 
         <FormControl className="flex h-[2.5rem]">
-          <InputLabel className="z-[999] " id="pagination-label">
-            <Trans>Select Page Limit</Trans>
+          <InputLabel className="z-[999]" id="pagination-label">
+            {t('Select Page Limit')}
           </InputLabel>
           <Select
-            className="borderCustom "
+            className="borderCustom"
             labelId="pagination-label"
             id="demo-simple-select"
             size="small"
@@ -130,8 +132,8 @@ const Pagination = ({
                 className="mx-3 my-1.5 w-[90%] rounded-md"
                 value={limit}
               >
-                <Trans>Show</Trans> {limit}
-                <Trans>per page</Trans>
+                {' '}
+                {t('Show')} {limit} {t('per page')}
               </MenuItem>
             ))}
           </Select>

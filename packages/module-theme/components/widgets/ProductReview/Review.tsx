@@ -3,18 +3,18 @@ import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
+
+import RATINGS_QUERY from '@voguish/module-catalog/graphql/ProductRatings.graphql';
 import {
   ProductItemInterface,
   ProductReviewRatingsMetadata,
   ReviewBreakdown,
-} from '@voguish/module-catalog';
-import RATINGS_QUERY from '@voguish/module-catalog/graphql/ProductRatings.graphql';
-import ReviewPlaceholder from './ReviewPlaceholder';
-
-import dynamic from 'next/dynamic';
-const ReviewProgress = dynamic(() => import('./ReviewProgress'));
-const ReviewsList = dynamic(() => import('./ReviewsList'));
-const FormSection = dynamic(() => import('./FormSection'));
+} from '@voguish/module-catalog/types';
+import ErrorBoundary from '../../ErrorBoundary';
+import FormSection from './FormSection';
+import ReviewIndexPlaceHolder from './ReviewPlaceholder';
+import ReviewProgress from './ReviewProgress';
+import ReviewsList from './ReviewsList';
 export const Review = ({ product }: { product: ProductItemInterface }) => {
   const { data, loading } =
     useQuery<ProductReviewRatingsMetadata>(RATINGS_QUERY);
@@ -47,15 +47,13 @@ export const Review = ({ product }: { product: ProductItemInterface }) => {
     });
   }
   return (
-    <>
+    <ErrorBoundary>
       {loading ? (
-        <ReviewPlaceholder />
+        <ReviewIndexPlaceHolder />
       ) : (
         <Grid
-          className="max-w-[98vw]"
+          className="max-w-[98vw] flex ltr:md:flex-row flex-col-reverse rtl:md:flex-row-reverse -md:justify-center"
           container
-          display="flex -md:justify-center"
-          flexDirection={{ xs: 'column-reverse', md: 'row' }}
           rowGap={3}
         >
           <ReviewsList reviews={reviewItems} />
@@ -92,7 +90,7 @@ export const Review = ({ product }: { product: ProductItemInterface }) => {
           </Grid>
         </Grid>
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 

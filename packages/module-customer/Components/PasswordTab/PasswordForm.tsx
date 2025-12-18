@@ -1,20 +1,25 @@
-import { Trans, t } from '@lingui/macro';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import CustomerAccountData from '@utils/CustomerAccountData';
-import { showToast } from '@utils/Helper';
-import { useCustomerMutation } from '@voguish/module-customer';
+import {
+  checkLength,
+  containAlphabet,
+  containNumber,
+  containSymbol,
+} from '@utils/Helper';
 import UPDATE_PASSWORD from '@voguish/module-customer/graphql/mutation/updatePassword.graphql';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import InputField from '@voguish/module-theme/components/ui/Form/Elements/Input';
+import { useTranslation } from 'next-i18next';
 import { FieldValues, useForm } from 'react-hook-form';
 import {
   SuccessIcon,
   WarnIcon,
 } from '../../../module-theme/components/elements/Icon';
 import Sidebar from '../Layout/Sidebar';
-
+import { ButtonMui } from '@packages/module-theme/components/ui/ButtonMui';
 const commonstyle = {
   border: '1px solid',
   borderRadius: 1,
@@ -29,6 +34,8 @@ const iconStyle = {
 };
 const PasswordForm = () => {
   const [changeCustomerPassword] = useCustomerMutation(UPDATE_PASSWORD);
+  const { showToast } = useToast();
+  const { t } = useTranslation('common');
 
   const {
     register,
@@ -41,27 +48,11 @@ const PasswordForm = () => {
    * Code Password validation
    */
   const watchPassword = watch();
-  function containSymbol(newPassword: string) {
-    return /[!@#$%^&*>.<]/.test(newPassword);
-  }
-  function containAlphabet(newPassword: string) {
-    return /[A-Z]/.test(newPassword);
-  }
-  function containNumber(newPassword: string) {
-    return /[0-9]/.test(newPassword);
-  }
-  function checkLength(newPassword: string) {
-    if (newPassword?.length >= 8) {
-      return true;
-    } else {
-      return false;
-    }
-  }
 
   const setPassword = (data: FieldValues) => {
     if (data.cPassword !== data.newPassword) {
       showToast({
-        message: t`new Password & Confirm is not same`,
+        message: t('New Password & Confirm is not same'),
         type: 'error',
       });
     } else {
@@ -78,7 +69,7 @@ const PasswordForm = () => {
         .then(() => {
           showToast({
             type: 'success',
-            message: t`Password updaete successfully`,
+            message: t('Password updated successfully'),
           });
         })
         .catch((err) => {
@@ -107,10 +98,10 @@ const PasswordForm = () => {
                   className="font-semibold"
                   sx={{ mx: 1, flexGrow: 1 }}
                 >
-                  {CustomerAccountData.ResetPasswordTitle}
+                  {t('Reset Your Password')}
                 </Typography>
-                <Button
-                  className="bg-brand rounded-[unset]"
+                <ButtonMui
+                  className="rounded-[unset] bg-brand"
                   variant="contained"
                   type="submit"
                   sx={{
@@ -120,13 +111,9 @@ const PasswordForm = () => {
                     flexGrow: 1,
                   }}
                 >
-                  <span className="hidden sm:block">
-                    {CustomerAccountData.buttonLabel}
-                  </span>
-                  <span className="block sm:hidden">
-                    <Trans>Save</Trans>
-                  </span>
-                </Button>
+                  <span className="hidden sm:block">{t('Save Changes')}</span>
+                  <span className="block sm:hidden"> {t('Save')}</span>
+                </ButtonMui>
               </Box>
             </Grid>
           </Grid>
@@ -137,57 +124,57 @@ const PasswordForm = () => {
             sx={{ px: 2, pt: 2 }}
           >
             <Grid item lg={6} sm={12} xs={12}>
-              <label htmlFor="currentPassword">
-                <Trans>Current Password</Trans>
-              </label>
+              <label htmlFor="currentPassword">{t('Current Password')}</label>
               <InputField
                 className="mt-0 mb-1 leading-0"
-                placeHolder={t`Old password`}
+                placeHolder={t('Old password')}
                 type="password"
                 error={!!errors?.currentPassword?.message}
                 helperText={errors?.currentPassword?.message || ''}
                 {...register('currentPassword', {
-                  required: t`* Current Password is required`,
+                  pattern: {
+                    value:
+                      /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/,
+                    message: t('Please enter a valid Password'),
+                  },
+
+                  required: t('* Current Password is required'),
                 })}
               />
-              <label htmlFor="newPassword">
-                <Trans>New Password</Trans>
-              </label>
+              <label htmlFor="newPassword">{t('New Password')}</label>
               <InputField
-                placeHolder={t`New password`}
+                placeHolder={t('New password')}
                 type="password"
-                className="mt-0 mb-1 "
+                className="mt-0 mb-1"
                 error={!!errors?.newPassword?.message}
                 helperText={errors?.newPassword?.message || ''}
                 {...register('newPassword', {
-                  required: t`* New Password is required`,
+                  required: t('* New Password is required'),
                   pattern: {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/,
-                    message: t`Please enter a valid Password`,
+                    message: t('Please enter a valid Password'),
                   },
                 })}
               />
-              <label htmlFor="cPassword">
-                <Trans>Re-enter Password</Trans>
-              </label>
+              <label htmlFor="cPassword">{t('Re-enter Password')}</label>
               <InputField
-                placeHolder={t`Re-enter Password`}
+                placeHolder={t('Re-enter Password')}
                 type="password"
-                className="mt-0 mb-1"
+                className="mt-0 mb-1.5"
                 error={!!errors?.cPassword?.message}
                 helperText={errors?.cPassword?.message || ''}
                 {...register('cPassword', {
-                  required: t`* Re-enter Password is required`,
+                  required: t('* Re-enter Password is required'),
                   pattern: {
                     value:
                       /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#$%^&*_=+-]).{8,12}$/,
-                    message: t`Please enter a valid Password`,
+                    message: t('Please enter a valid Password'),
                   },
                 })}
               />
             </Grid>
-            <Grid item lg={5} sm={12} className="-md:w-full">
+            <Grid item lg={5} sm={12} className="my-6 -md:w-full">
               <Box
                 sx={{
                   borderRadius: 1,
@@ -195,16 +182,16 @@ const PasswordForm = () => {
                   borderColor: 'themeAdditional.borderColor',
                   p: 2,
                   pt: 1,
-                  my: 0.65,
                   pb: 1.95,
                 }}
               >
                 <Typography
                   variant="h3"
                   component="h3"
-                  sx={{ color: '#07bc0c', py: 1 }}
+                  className="!text-brand"
+                  sx={{ py: 1 }}
                 >
-                  <Trans>Password Must contain</Trans>
+                  {t('Password Must contain')}
                 </Typography>
                 <Box component="div" sx={iconStyle}>
                   {containAlphabet(watchPassword?.newPassword) ? (
@@ -214,7 +201,8 @@ const PasswordForm = () => {
                   )}
 
                   <Typography variant="body2" sx={{ px: 1 }}>
-                    <Trans>At least one uppercase (A-Z)</Trans>
+                    {' '}
+                    {t('At least one uppercase (A-Z)')}
                   </Typography>
                 </Box>
                 <Box sx={iconStyle}>
@@ -224,7 +212,7 @@ const PasswordForm = () => {
                     <WarnIcon />
                   )}
                   <Typography variant="body2" sx={{ px: 1 }}>
-                    <Trans>At least one integer (0-9)</Trans>
+                    {t('At least one integer (0-9)')}
                   </Typography>
                 </Box>
                 <Box component="div" sx={iconStyle}>
@@ -234,7 +222,7 @@ const PasswordForm = () => {
                     <WarnIcon />
                   )}
                   <Typography variant="body2" sx={{ px: 1 }}>
-                    <Trans>At least 1 symbol</Trans>
+                    {t('At least 1 symbol')}
                   </Typography>
                 </Box>
                 <Box component="div" sx={iconStyle}>
@@ -244,7 +232,7 @@ const PasswordForm = () => {
                     <WarnIcon />
                   )}
                   <Typography variant="body2" sx={{ px: 1 }}>
-                    <Trans>At least 8 characters</Trans>
+                    {t('At least 8 characters')}
                   </Typography>
                 </Box>
               </Box>

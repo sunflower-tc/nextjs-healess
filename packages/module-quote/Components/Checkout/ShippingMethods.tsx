@@ -1,8 +1,12 @@
-import { t } from '@lingui/macro';
 import FormHelperText from '@mui/material/FormHelperText';
 import Grid from '@mui/material/Grid';
 import { CheckoutStepShipMethods } from '@voguish/module-quote/types';
-import { IRadioOptions, RadioFieldElement } from '@voguish/module-theme';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import {
+  IRadioOptions,
+  RadioFieldElement,
+} from '@voguish/module-theme/components/ui/Form/Elements';
+import { useTranslation } from 'next-i18next';
 import { FieldValues, FormProvider, useForm } from 'react-hook-form';
 import { useSetShippingMethodOnCart } from '../../hooks';
 import FormActions from './FormActions';
@@ -14,12 +18,14 @@ const ShippingMethods = ({
   selectedShippingMethod,
   handleNext,
 }: CheckoutStepShipMethods) => {
+  const { t } = useTranslation('common');
+
   /**
    * Apply shipping hook
    * ! Callback function need to coupon code and cartId and quantity.
    */
   const { setShippingMethodsHandler, isInProcess } =
-    useSetShippingMethodOnCart();
+    useSetShippingMethodOnCart(handleNext);
 
   const selectedShipping = selectedShippingMethod?.carrier_code
     ? `${selectedShippingMethod?.carrier_code}__${selectedShippingMethod?.method_code}`
@@ -47,7 +53,6 @@ const ShippingMethods = ({
           { carrier_code: methods[0], method_code: methods[1] },
         ],
       });
-      handleNext();
     }
   };
 
@@ -61,31 +66,33 @@ const ShippingMethods = ({
       })) || [];
 
   return (
-    <FormProvider {...methods}>
-      <form onSubmit={handleSubmit(selectShipping)}>
-        <FormWrapper>
-          <Grid
-            className="items-center border-neutral-800"
-            sx={{ 'div:last-child': { display: 'grid' } }}
-            justifyContent={{ md: 'space-between' }}
-          >
-            <RadioFieldElement
-              name="shippingMethod"
-              required
-              options={shippingMethods}
-            />
-          </Grid>
-          <FormHelperText>
-            {errors?.shippingMethod?.message || ''}
-          </FormHelperText>
-        </FormWrapper>
-        <FormActions
-          stepLabel={t`Return to shipping address`}
-          process={isInProcess}
-          handlePrev={handlePrev}
-        />
-      </form>
-    </FormProvider>
+    <ErrorBoundary>
+      <FormProvider {...methods}>
+        <form onSubmit={handleSubmit(selectShipping)}>
+          <FormWrapper>
+            <Grid
+              className="items-center border-neutral-800"
+              sx={{ 'div:last-child': { display: 'grid' } }}
+              justifyContent={{ md: 'space-between' }}
+            >
+              <RadioFieldElement
+                name="shippingMethod"
+                required
+                options={shippingMethods}
+              />
+            </Grid>
+            <FormHelperText>
+              {errors?.shippingMethod?.message || ''}
+            </FormHelperText>
+          </FormWrapper>
+          <FormActions
+            stepLabel={t('Return to shipping address')}
+            process={isInProcess}
+            handlePrev={handlePrev}
+          />
+        </form>
+      </FormProvider>
+    </ErrorBoundary>
   );
 };
 export default ShippingMethods;

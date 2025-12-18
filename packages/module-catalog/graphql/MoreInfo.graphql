@@ -1,0 +1,14 @@
+query MoreInfo($filters: ProductAttributeFilterInput) {
+  products(filter: $filters) {
+    items {
+      uid
+      attributeValues(attributeCode: []) {
+        label
+        code
+        value
+        visible_on_front
+      }
+      name
+    }
+  }
+}

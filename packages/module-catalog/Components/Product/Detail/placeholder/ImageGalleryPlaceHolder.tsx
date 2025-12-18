@@ -1,18 +1,20 @@
-import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
-import Stack from '@mui/material/Stack';
 export function ImageGalleryPlaceHolder() {
   return (
-    <>
-      <Stack gap={1} maxHeight={900} className="-mt-20">
-        <Skeleton animation="wave" height={800} />
-        <Grid className="flex justify-center -mt-28" gap={1}>
-          <Skeleton animation="wave" height={100} width={100} />
-          <Skeleton animation="wave" height={100} width={100} />
-          <Skeleton animation="wave" height={100} width={100} />
-        </Grid>
-      </Stack>
-    </>
+    <div className="w-full max-w-5xl mx-auto p-4 space-y-6">
+      {/* Main image placeholder */}
+      <div className="w-full aspect-[4/3] rounded-lg animate-pulse bg-neutral-300" />
+
+      {/* Thumbnails - responsive flex row that wraps */}
+      <div className="flex flex-wrap justify-center gap-4">
+        {[...Array(3)].map((_, idx) => (
+          <div
+            key={idx}
+            className="w-[70px] sm:w-[80px] md:w-[100px] aspect-square rounded-lg animate-pulse bg-neutral-300"
+          />
+        ))}
+      </div>
+    </div>
   );
 }
+
 export default ImageGalleryPlaceHolder;

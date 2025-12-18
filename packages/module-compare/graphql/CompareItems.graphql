@@ -1,0 +1,53 @@
+#import "@voguish/module-catalog/graphql/fragments/_price_range.graphql"
+#import "@voguish/module-catalog/graphql/fragments/_configurable_options.graphql"
+query CustomerCompareQuery {
+  customer {
+    email
+    compare_list {
+      attributes {
+        code
+        label
+      }
+      items {
+        product {
+          id: uid
+          description {
+            html
+          }
+          image {
+            url
+          }
+          thumbnail {
+            id: url
+            url
+            label
+          }
+          name
+          only_x_left_in_stock
+          price_range {
+            ...price_range
+          }
+          rating_summary
+          review_count
+          uid
+          sku
+          stock_status
+          short_description {
+            html
+          }
+          url_key
+          ... on ConfigurableProduct {
+            configurable_options {
+              ...configurable_options
+            }
+            variants {
+              ...variants
+            }
+          }
+        }
+      }
+      item_count
+      uid
+    }
+  }
+}

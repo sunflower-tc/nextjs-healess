@@ -6,6 +6,7 @@ query FooterLinks {
       uid
       type
       title
+      open_new_tab
       url_key
     }
   }

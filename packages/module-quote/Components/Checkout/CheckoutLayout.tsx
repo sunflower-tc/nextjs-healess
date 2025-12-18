@@ -1,12 +1,13 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import React from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { ReactNode } from 'react';
 
 /**
  * ICheckoutLayout Interface
  */
 export interface ICheckoutLayout {
-  children: React.ReactNode;
+  children: ReactNode;
 }
 
 /**
@@ -16,23 +17,21 @@ export interface ICheckoutLayout {
  */
 export const CheckoutLayout = ({ children }: ICheckoutLayout) => {
   return (
-    <>
-      <>
-        <Grid component="main" mb={8}>
-          <Grid item xs={false} sm={12} md={7}>
-            <Box
-              sx={{
-                m: 0,
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center',
-              }}
-            >
-              {children}
-            </Box>
-          </Grid>
+    <ErrorBoundary>
+      <Grid component="main" mb={8}>
+        <Grid item xs={false} sm={12} md={7}>
+          <Box
+            sx={{
+              m: 0,
+              display: 'flex',
+              flexDirection: 'column',
+              alignItems: 'center',
+            }}
+          >
+            {children}
+          </Box>
         </Grid>
-      </>
-    </>
+      </Grid>
+    </ErrorBoundary>
   );
 };

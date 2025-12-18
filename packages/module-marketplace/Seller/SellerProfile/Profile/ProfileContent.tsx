@@ -1,9 +1,7 @@
-import { Trans, t } from '@lingui/macro';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { TabPlaceHolder, TabsProp } from '@voguish/module-catalog';
-import { IProfileProps } from '@voguish/module-marketplace';
-import { HTMLRenderer } from '@voguish/module-theme';
+import { HTMLRenderer } from '@voguish/module-theme/components/HTMLRenderer';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 const DropdownsCard = dynamic(
   () => import('@voguish/module-theme/components/ui/MobileViewDropdown')
@@ -15,16 +13,19 @@ const AllProductGrid = dynamic(() => import('../AllProductGrid'));
 const TabLayout = dynamic(
   () => import('@voguish/module-theme/components/widgets/Tab')
 );
-const PlaceHolder = dynamic(
-  () =>
-    import(
-      '@voguish/module-catalog/Components/Product/Detail/placeholder/PlaceHolder'
-    )
-);
+
+import { PlaceHolder } from '@voguish/module-catalog/Components/Product/Detail/placeholder/PlaceHolder';
+import TabPlaceHolder from '@voguish/module-catalog/Components/Product/Detail/placeholder/TabPlaceHolder';
+import { TabsProp } from '@voguish/module-catalog/types';
+import { IProfileProps } from '@voguish/module-marketplace/type';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+
 const Review = dynamic(
   () => import('@voguish/module-marketplace/Components/Reviews/Review')
 );
 const Content = (props: IProfileProps) => {
+  const { t } = useTranslation('common');
+
   const {
     id,
     rating,
@@ -33,18 +34,20 @@ const Content = (props: IProfileProps) => {
     contactNumber,
     email,
     loading,
+    products,
   } = props;
 
   const items: TabsProp[] = [
     {
       id: 1,
-      name: t`All Products`,
+      name: t('All Products'),
       render: () => {
         return (
           <div className="py-4">
             <AllProductGrid
+              products={products}
               sellerId={String(id)}
-              title={t`Sellers collection`}
+              title={t('Sellers collection')}
             />
           </div>
         );
@@ -52,12 +55,13 @@ const Content = (props: IProfileProps) => {
     },
     {
       id: 2,
-      name: t`Related Added Products`,
+      name: t('Related Added Products'),
       render: () => {
         return (
           <div className="py-4">
             <AllProductGrid
-              title={t`Recently Added`}
+              products={products}
+              title={t('Recently Added')}
               sellerId={String(id)}
               pageSize={3}
               showPagination={false}
@@ -68,7 +72,7 @@ const Content = (props: IProfileProps) => {
     },
     {
       id: 3,
-      name: t`Reviews`,
+      name: t('Reviews'),
       render: () => {
         return (
           <div className="py-4">
@@ -79,7 +83,7 @@ const Content = (props: IProfileProps) => {
     },
     {
       id: 4,
-      name: t`Return Policy`,
+      name: t('Return Policy'),
       render: () => {
         return (
           <div className="py-4">
@@ -88,7 +92,7 @@ const Content = (props: IProfileProps) => {
                 <HTMLRenderer htmlText={returnPolicy}></HTMLRenderer>
               </Typography>
             ) : (
-              <NoDataFound text={t`No Return Policy Found`} />
+              <NoDataFound text={t('No Return Policy Found')} />
             )}
           </div>
         );
@@ -96,7 +100,7 @@ const Content = (props: IProfileProps) => {
     },
     {
       id: 5,
-      name: t`Shipping Policy`,
+      name: t('Shipping Policy'),
       render: () => {
         return (
           <div className="py-4">
@@ -105,7 +109,7 @@ const Content = (props: IProfileProps) => {
                 <HTMLRenderer htmlText={shippingPolicy}></HTMLRenderer>
               </Typography>
             ) : (
-              <NoDataFound text={t`No Shipping Policy Found`} />
+              <NoDataFound text={t('No Shipping Policy Found')} />
             )}
           </div>
         );
@@ -113,19 +117,16 @@ const Content = (props: IProfileProps) => {
     },
     {
       id: 6,
-      name: t`Seller Contact`,
+      name: t('Seller Contact'),
       render: () => {
         return (
           <div className="py-4">
+            <Typography variant="body2">{t('Phone :')} </Typography>
             <Typography variant="body2">
-              <Trans>Phone :</Trans>{' '}
+              {t('Mobile :')} {contactNumber}
             </Typography>
             <Typography variant="body2">
-              <Trans>Mobile :</Trans>
-              {contactNumber}
-            </Typography>
-            <Typography variant="body2">
-              <Trans>Email :</Trans> {email}
+              {t('Email :')} {email}
             </Typography>
           </div>
         );
@@ -134,24 +135,26 @@ const Content = (props: IProfileProps) => {
   ];
 
   return (
-    <>
-      <span className=" -lg:hidden">
+    <ErrorBoundary>
+      <span className="-lg:hidden">
         {loading ? <TabPlaceHolder /> : <TabLayout items={items} />}
       </span>
       <span className="lg:hidden">
         {loading ? <PlaceHolder /> : <MobileViewTab items={items} />}
       </span>
-    </>
+    </ErrorBoundary>
   );
 };
 
 function MobileViewTab({ items }: { items: TabsProp[] }) {
   return (
-    <Grid className="w-full">
-      {items.map((item) => (
-        <DropdownsCard key={item.id} item={item} extraClass="text-left" />
-      ))}
-    </Grid>
+    <ErrorBoundary>
+      <Grid className="w-full">
+        {items.map((item) => (
+          <DropdownsCard key={item.id} item={item} extraClass="text-left" />
+        ))}
+      </Grid>
+    </ErrorBoundary>
   );
 }
 export default Content;

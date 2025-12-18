@@ -1,5 +1,5 @@
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   AvailablePaymentMethods,
   AvailableShippingMethod,
@@ -20,7 +20,7 @@ export type CheckoutStepTabs =
 export type CheckoutStep = {
   index: CheckoutStepTabs;
   label: string;
-  content: React.ReactNode;
+  content: ReactNode;
 };
 
 export interface CheckoutStepProps {
@@ -37,6 +37,7 @@ export interface CheckoutStepShipAddress extends CheckoutStepProps {
   addresses: any;
   token: string;
   selectedShippingAddress: CartAddressInput;
+  loading: boolean;
   refetchAddress: (
     variables?: Partial<OperationVariables> | undefined //eslint-disable-line
   ) => Promise<ApolloQueryResult<any>>;
@@ -62,6 +63,7 @@ export interface CheckoutStepReview extends CheckoutStepProps {
   selectedShippingMethod: SelectedShippingMethod;
   selectedPaymentMethod: SelectedPaymentMethod;
   token: string;
+  selectedBillingAddress: CartAddressInterface;
   isVirtual?: boolean;
 }
 

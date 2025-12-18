@@ -1,17 +1,17 @@
-import { Trans } from '@lingui/macro';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Chip from '@mui/material/Chip';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import CustomerAccountData from '@utils/CustomerAccountData';
 import { getFormattedDate, getFormattedPrice } from '@utils/Helper';
-import {
-  NoOrderProduct,
-  OrderPlaceHolder,
-  useCustomerQuery,
-} from '@voguish/module-customer';
+
+import { NoOrderProduct } from '@voguish/module-customer/Components/OrderTab/NoOrderProduct';
+import { OrderPlaceHolder } from '@voguish/module-customer/Components/OrderTab/OrderPlaceHolder';
+import { useCustomerQuery } from '@voguish/module-customer/hooks/useCustomerQuery';
+
 import GET_ORDER from '@voguish/module-customer/graphql/CustomerOrderProduct.graphql';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { useState } from 'react';
@@ -57,10 +57,11 @@ const OrderProduct = () => {
     variables: { currentPage: 1, pageSize: pageSize },
   });
   const total_order = data?.customer?.orders?.total_count;
-  const customrtOrders = data?.customer?.orders.items;
+  const orders = data?.customer?.orders.items;
   const managePagination = ({ payload }: payloadActionType) => {
     setPageSize(payload);
   };
+  const { t } = useTranslation('common');
 
   return (
     <Sidebar>
@@ -76,19 +77,15 @@ const OrderProduct = () => {
           }}
         >
           <Typography variant="h4" className="font-semibold">
-            {CustomerAccountData.OrderPageTitle}
+            {t('Order History')}
           </Typography>
         </Grid>
 
-        <Grid
-          item
-          gap={2}
-          className="grid w-full lg:grid-cols-2 xl:grid-cols-3"
-        >
+        <Grid item className="grid w-full gap-4 lg:grid-cols-2 xl:grid-cols-3">
           {loading ? (
             <OrderPlaceHolder placeHolders={placeHolders} />
-          ) : customrtOrders?.length > 0 ? (
-            customrtOrders?.map((item: CustomerItemDataType, index: number) => (
+          ) : orders?.length > 0 ? (
+            orders?.map((item: CustomerItemDataType, index: number) => (
               <Grid
                 item
                 xs={12}
@@ -110,15 +107,14 @@ const OrderProduct = () => {
                         fontWeight="600"
                         className="flex gap-0.5"
                       >
-                        <Trans>Order No.</Trans>{' '}
-                        <span> {' ' + item.number}</span>
+                        {t('Order No.')} <span> {' #' + item.number}</span>
                       </Typography>
                     </Grid>
                   </Grid>
                   <Grid className="flex justify-between">
                     <Grid item sm={9} xs={6} sx={{ px: 1, pb: 1 }}>
                       <Typography variant="body2" display="inline">
-                        {getFormattedDate(item.order_date)}
+                        {getFormattedDate(item.order_date, 'dd/mm/yyyy')}
                       </Typography>
                       <Typography variant="body2" className="mt-2 mb-1">
                         {getFormattedPriceValue(item?.total)}
@@ -144,7 +140,7 @@ const OrderProduct = () => {
                     borderColor: 'themeAdditional.borderColor',
                   }}
                 >
-                  <Grid className="absolute top-4 right-2" item sm={3} xs={6}>
+                  <Grid className="absolute right-2 top-4" item sm={3} xs={6}>
                     <Box
                       component="div"
                       display="flex"
@@ -160,7 +156,7 @@ const OrderProduct = () => {
                   <Grid
                     p={1}
                     ml={2}
-                    className="flex "
+                    className="flex"
                     item
                     gap={2}
                     justifyContent="flex-end "
@@ -171,13 +167,13 @@ const OrderProduct = () => {
 
                     <Grid>
                       <Button
-                        className="rounded-none my-1 mt-[5px] shadow-none"
+                        className="my-1 mt-[5px] !h-12 !bg-brand rounded-none shadow-none"
                         size="small"
                         component={Link}
                         variant="contained"
                         href={`/sales/order/${item?.number}`}
                       >
-                        <Trans>View Order</Trans>
+                        {t('View Order')}
                       </Button>
                     </Grid>
                   </Grid>
@@ -198,13 +194,15 @@ const OrderProduct = () => {
             borderColor: 'themeAdditional.borderColor',
           }}
         >
-          <Pagination
-            pageSize={5}
-            currentPage={1}
-            changeHandler={managePagination}
-            loadingState={loading}
-            totalCount={total_order || 0}
-          />
+          <ErrorBoundary>
+            <Pagination
+              pageSize={5}
+              currentPage={1}
+              changeHandler={managePagination}
+              loadingState={loading}
+              totalCount={total_order || 0}
+            />
+          </ErrorBoundary>
         </Grid>
       </Grid>
     </Sidebar>
