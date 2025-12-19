@@ -1,5 +1,7 @@
-import { AdyenCheckout, Card, Dropin } from '@adyen/adyen-web';
-import '@adyen/adyen-web/styles/adyen.css';
+
+// @ts-ignore
+import AdyenCheckout from '@adyen/adyen-web';
+import '@adyen/adyen-web/dist/adyen.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getAdyenCountryCode, getAdyenLocal, showToast } from '@utils/Helper';
 import { useRouter } from 'next/router';
@@ -71,11 +73,17 @@ export default function AdyenCardPayWrapper() {
       console.log('configuration', configuration)
       const checkout: any = await AdyenCheckout(configuration);
       console.log('checkout', checkout)
-      // const cardComponent: any = checkout.create('card').mount(aydenRef.current);
+      const cardComponent: any = checkout.create('card').mount(aydenRef.current);
 
-      const dropin = new Dropin(checkout, {
-        paymentMethodComponents: [Card],// Only needed with tree-shakable npm package
-      }).mount('#adyenpay-button-container')
+      // const dropin = new Dropin(checkout, {
+      //   paymentMethodComponents: [Card],// Only needed with tree-shakable npm package
+      // }).mount('#adyenpay-button-container')
+
+      // const checkout = await AdyenCheckout(configuration);
+      //   const cardComponent: any = checkout
+      //     .create('card')
+      //     .mount(aydenRef.value);
+
 
       // cardComponent.value = cardComponent;
     } catch (error) {
