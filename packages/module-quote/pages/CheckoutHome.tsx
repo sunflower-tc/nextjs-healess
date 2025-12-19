@@ -15,7 +15,7 @@ import Containers from '@voguish/module-theme/components/ui/Container';
 import { getSession } from 'next-auth/react';
 import dynamic from 'next/dynamic';
 import Router from 'next/router';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 const OrderSummary = dynamic(
@@ -72,9 +72,9 @@ const CheckoutHome = () => {
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
 
   // for develop payment
-  // useEffect(() => {
-  //   setActiveStep(3)
-  // }, [])
+  useEffect(() => {
+    setActiveStep(3)
+  }, [])
 
   if (!isValidObject(quote) || !isValidArray(quote?.items)) {
     return <EmptyCart />;
