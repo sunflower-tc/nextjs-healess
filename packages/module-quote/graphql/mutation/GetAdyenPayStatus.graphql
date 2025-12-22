@@ -1,0 +1,8 @@
+query getAdyenPaymentStatus($orderNumber: String!, $cartId: String!) {
+  adyenPaymentStatus(orderNumber: $orderNumber, cartId: $cartId) {
+    isFinal
+    resultCode
+    additionalData
+    action
+  }
+}

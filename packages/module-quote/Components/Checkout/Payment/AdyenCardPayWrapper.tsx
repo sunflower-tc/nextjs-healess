@@ -1,30 +1,56 @@
-
-// @ts-ignore
 import AdyenCheckout from '@adyen/adyen-web';
 import '@adyen/adyen-web/dist/adyen.css';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getAdyenCountryCode, getAdyenLocal, showToast } from '@utils/Helper';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useRef, useState } from 'react';
+import { useSelector } from 'react-redux';
+import { RootState } from 'store';
+import { usePlaceOrderFromAdyen } from '~packages/module-quote/hooks';
 
 export default function AdyenCardPayWrapper() {
   const { locale } = useRouter();
   const aydenRef = useRef<any>(null);
-
+  const cardComponent = useRef();
   const [isLoading, setIsLoading] = useState(true);
-
-  const handleAdditionalDetails = () => {
-
+  const quote = useSelector((state: RootState) => state.cart?.quote || null);
+  const { placeOrderFromAdyenHandler, isInProcess } = usePlaceOrderFromAdyen()
+  const handleAdditionalDetails = (state: any, component: any) => {
+    console.log('----  handleAdditionalDetails', state.data);
   }
-  const handleOnChange = () => {
-
+  const handleOnChange = (state: any, component: any) => {
+    cardComponent.current = component;
   }
-  const onSubmit = () => {
-
+  const onSubmit = (state: any) => {
+    console.log('---- Adyen onSubmit state:', state);
+    handlePlaceOrder(JSON.stringify(state.data));
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const handleServerResponse = (result: any, component: any) => {
     // Intentionally left blank: handle payment result if needed
+    console.log('---- Adyen handleServerResponse state  result:', result);
+    console.log('---- Adyen handleServerResponse state component:', component);
+  }
+
+  const handlePlaceOrder = async (cardDetails: any) => {
+    console.log('----handlePlaceOrder ', cardDetails)
+    if (quote?.id) {
+      const path = '/thank-you';
+      const stateData = JSON.parse(cardDetails);
+      const ccType = stateData.paymentMethod.brand;
+
+      const params = {
+        cart_id: quote.id,
+        cc_type: ccType,
+        guestEmail: quote.email,
+        code: 'adyen_cc',
+        return_url: 'https://localhost:3000/thank-you',
+        stateData: cardDetails,
+      };
+      console.log('params', params);
+      const data = await placeOrderFromAdyenHandler(params);
+      console.log('data', data);
+    }
   }
 
   const initiateCheckout = async () => {
@@ -34,9 +60,11 @@ export default function AdyenCardPayWrapper() {
       const configuration: any = {
         locale: locale && getAdyenLocal(locale) || 'en_US',
         countryCode: locale && getAdyenCountryCode(locale) || 'GB',
-        environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
+        // environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
+        environment: 'live',
         showPayButton: true,
-        clientKey: process.env.NEXT_PUBLIC_ADYEN_CLIENT_KEY,
+        // clientKey: process.env.NEXT_PUBLIC_ADYEN_CLIENT_KEY,
+        clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4',
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
         },
@@ -50,6 +78,7 @@ export default function AdyenCardPayWrapper() {
           // paymentStore.addPaymentDetailsError(error);
         },
         onPaymentCompleted: (result: any, component: any) => {
+          console.log(`--- [onPaymentCompleted result: ${result}`);
           handleServerResponse(result, component);
         },
         paymentMethodsConfiguration: {

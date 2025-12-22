@@ -4,9 +4,10 @@ import {
 } from '@voguish/module-customer';
 import CreateNihaopay from '@voguish/module-quote/graphql/mutation/CreateNihaopayToken.graphql';
 import CreatePaypalToken from '@voguish/module-quote/graphql/mutation/CreatePaypalToken.graphql';
+import PlaceOrderFromAdyen from '@voguish/module-quote/graphql/mutation/PlaceOrderFromAdyen.graphql';
 import SetPayPalPaymentMethodOnCart from '@voguish/module-quote/graphql/mutation/SetPayPalPaymentMethodOnCart.graphql';
 import { useState } from 'react';
-import { CreateNihaopayTokenInput, CreatePaypalTokenInput, SetPayPalPaymentMethodOnCartInput } from '../types';
+import { CreateNihaopayTokenInput, CreatePaypalTokenInput, PlaceOrderFromAdyenInput, SetPayPalPaymentMethodOnCartInput } from '../types';
 
 
 /**
@@ -37,7 +38,9 @@ export const useCreateNihaopayToken = () => {
 
   return { createNihaopayTokenHandler, isInProcess };
 };
-
+/**
+ * Create paypal Token handler
+ */
 export const useCreatePaypayToken = () => {
   const [isInProcess, setIsInProcess] = useState(false);
   const [createPaypalToken] = useCustomerMutation(CreatePaypalToken);
@@ -62,6 +65,9 @@ export const useCreatePaypayToken = () => {
 
   return { createPaypalTokenHandler, isInProcess };
 }
+/**
+ * set paypal pay method to cart
+ */
 export const useSetPayPalPaymentMethodOnCart = () => {
   const [isInProcess, setIsInProcess] = useState(false);
   const [setPayPalPaymentMethodOnCart] = useCustomerMutation(SetPayPalPaymentMethodOnCart);
@@ -85,4 +91,34 @@ export const useSetPayPalPaymentMethodOnCart = () => {
   };
 
   return { setPayPalPaymentMethodOnCartHandler, isInProcess };
+}
+
+/**
+ * placeOrder by adyen
+ */
+
+export const usePlaceOrderFromAdyen = () => {
+  const [isInProcess, setIsInProcess] = useState(false);
+  const [placeOrderFromAdyen] = useCustomerMutation(PlaceOrderFromAdyen);
+  const placeOrderFromAdyenHandler = async (input: PlaceOrderFromAdyenInput) => {
+    setIsInProcess(true);
+
+    try {
+      const { data } = await placeOrderFromAdyen({ variables: input });
+
+      setIsInProcess(false);
+      if (!data?.placeOrder) {
+        showToast({ message: 'Request timed out. Please try again.', type: 'error' });
+        return;
+      }
+      return data.placeOrder;
+    } catch (error: any) {
+      setIsInProcess(false);
+      showToast({ message: error.message, type: 'error' });
+      throw error;
+    }
+  };
+
+  return { placeOrderFromAdyenHandler, isInProcess };
+
 }

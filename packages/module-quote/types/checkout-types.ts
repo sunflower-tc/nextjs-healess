@@ -169,3 +169,12 @@ export interface SetPayPalPaymentMethodOnCartInput {
   token: string;
 }
 
+export interface PlaceOrderFromAdyenInput {
+  cart_id: string;
+  code: string;
+  cc_type: string;
+  return_url: string;
+  guestEmail?: string;
+  stateData: string;
+}
+
