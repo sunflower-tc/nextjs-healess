@@ -30,6 +30,20 @@ export default function AdyenCardPayWrapper() {
     // Intentionally left blank: handle payment result if needed
     console.log('---- Adyen handleServerResponse state  result:', result);
     console.log('---- Adyen handleServerResponse state component:', component);
+    const SUCCESS_CODE = ['Authorised', 'Received', 'PresentToShopper'];
+
+
+    if (result.action) {
+      console.log('*** Got Res Action ***:', JSON.parse(result.action));
+      component.handleAction(JSON.parse(result.action));
+    } else if (
+      result.isFinal && SUCCESS_CODE.includes(result.resultCode)
+    ) {
+      showToast({ message: 'Congratualations! You have paid it successfully!', type: 'success' });
+      // setCart(null);
+      // $vsf.$magento.config.state.removeCartId();
+      // await loadCart();
+    }
   }
 
   const handlePlaceOrder = async (cardDetails: any) => {
@@ -44,7 +58,7 @@ export default function AdyenCardPayWrapper() {
         cc_type: ccType,
         guestEmail: quote.email,
         code: 'adyen_cc',
-        return_url: 'https://localhost:3000/thank-you',
+        return_url: `https://${window.location.hostname}${path}`,
         stateData: cardDetails,
       };
       console.log('params', params);
