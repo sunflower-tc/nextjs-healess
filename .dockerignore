@@ -17,7 +17,8 @@ dist
 .DS_Store
 *.pem
 .env*.local
-.env
+# Allow .env.production for build-time environment variables
+# .env
 
 # Debug
 npm-debug.log*
