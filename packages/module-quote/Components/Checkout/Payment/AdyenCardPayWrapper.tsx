@@ -32,7 +32,6 @@ export default function AdyenCardPayWrapper() {
     console.log('---- Adyen handleServerResponse state component:', component);
     const SUCCESS_CODE = ['Authorised', 'Received', 'PresentToShopper'];
 
-
     if (result.action) {
       console.log('*** Got Res Action ***:', JSON.parse(result.action));
       component.handleAction(JSON.parse(result.action));

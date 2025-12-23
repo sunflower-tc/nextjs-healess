@@ -1,0 +1,31 @@
+version: '3.8'
+
+services:
+  nextjs-app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+      args:
+        # Build-time environment variables
+        NEXT_PUBLIC_ADYEN_CLIENT_KEY: ${NEXT_PUBLIC_ADYEN_CLIENT_KEY}
+        MAGENTO_ENDPOINT: ${MAGENTO_ENDPOINT}
+        NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE: ${NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE}
+        NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+        NEXTAUTH_URL: ${NEXTAUTH_URL}
+    ports:
+      - "3000:3000"
+    environment:
+      # Runtime environment variables
+      NODE_ENV: production
+      MAGENTO_ENDPOINT: ${MAGENTO_ENDPOINT}
+      NEXT_PUBLIC_ADYEN_CLIENT_KEY: ${NEXT_PUBLIC_ADYEN_CLIENT_KEY}
+      NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE: ${NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE}
+      NEXTAUTH_SECRET: ${NEXTAUTH_SECRET}
+      NEXTAUTH_URL: ${NEXTAUTH_URL}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "wget", "--quiet", "--tries=1", "--spider", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
