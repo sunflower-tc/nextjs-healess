@@ -39,7 +39,7 @@ COPY .env.production* ./
 # Set NODE_ENV for Next.js to read .env.production automatically
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
-
+ENV NEXTAUTH_URL=https://mx.unineed.com/
 # Build the application
 # Next.js will automatically read .env.production when NODE_ENV=production
 RUN npm run build
