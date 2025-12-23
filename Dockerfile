@@ -32,32 +32,16 @@ COPY lingui.config.js ./
 # Using npm install instead of npm ci to handle lockfile mismatches
 RUN npm install --ignore-scripts --no-audit
 
-# Copy source code and .env.production (Next.js will read it automatically)
+# Copy source code and .env.production
 COPY . .
 COPY .env.production* ./
 
-# Build arguments for environment variables (can override .env.production)
-ARG NEXT_PUBLIC_ADYEN_CLIENT_KEY
-ARG MAGENTO_ENDPOINT
-ARG NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE
-ARG NEXTAUTH_SECRET
-ARG NEXTAUTH_URL
-
-# Set environment variables for build
-# If build args are provided, they will override .env.production values
-# If not provided, Next.js will automatically read from .env.production when NODE_ENV=production
-ENV NEXT_PUBLIC_ADYEN_CLIENT_KEY=$NEXT_PUBLIC_ADYEN_CLIENT_KEY
-ENV MAGENTO_ENDPOINT=$MAGENTO_ENDPOINT
-ENV NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE=$NEXT_SERVER_MAGENTO_DEFAULT_STORE_CODE
-ENV NEXTAUTH_SECRET=$NEXTAUTH_SECRET
-ENV NEXTAUTH_URL=$NEXTAUTH_URL
+# Set NODE_ENV for Next.js to read .env.production automatically
 ENV NODE_ENV=production
 ENV NEXT_TELEMETRY_DISABLED=1
 
-# Note: Next.js will automatically read .env.production when NODE_ENV=production
-# Build args (if provided) will take precedence over .env.production values
-
 # Build the application
+# Next.js will automatically read .env.production when NODE_ENV=production
 RUN npm run build
 
 # ============================================
