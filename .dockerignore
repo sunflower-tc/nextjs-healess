@@ -76,10 +76,8 @@ README.md
 *.tmp
 *.temp
 
-# Package manager locks (will be generated)
-package-lock.json
-yarn.lock
-pnpm-lock.yaml
+# Note: package-lock.json should NOT be ignored as it's required for npm ci
+# yarn.lock and pnpm-lock.yaml can be ignored if not using those package managers
 
 # Ignore locale source files (will be compiled during build)
 locale/**/*.po
