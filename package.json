@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev",
     "build": "NODE_ENV=production lingui extract && lingui compile && next build",
-    "start": "next start",
+    "start": "node .next/standalone/server.js",
     "lint": "next lint && ./node_modules/.bin/eslint .",
     "format": "prettier --write .",
     "compile": "lingui compile"
