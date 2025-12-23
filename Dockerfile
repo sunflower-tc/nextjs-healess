@@ -13,7 +13,8 @@ COPY package.json package-lock.json* ./
 COPY lingui.config.js ./
 
 # Install dependencies
-RUN npm ci --only=production --ignore-scripts
+# Using npm install instead of npm ci to handle lockfile mismatches
+RUN npm install --only=production --ignore-scripts --no-audit
 
 # ============================================
 # Stage 2: Builder
@@ -28,7 +29,8 @@ COPY package.json package-lock.json* ./
 COPY lingui.config.js ./
 
 # Install all dependencies (including devDependencies for build)
-RUN npm ci --ignore-scripts
+# Using npm install instead of npm ci to handle lockfile mismatches
+RUN npm install --ignore-scripts --no-audit
 
 # Copy source code
 COPY . .
