@@ -19,8 +19,8 @@ const Home = ({ pageData }: { pageData: HomePageData }) => {
 };
 
 const pageProps: PageOptions = {
-  title: i18n._(t`Home Page - Voguish`),
-  description: i18n._(t`Welcome to Voguish Theme`),
+  title: i18n._(t`Home Page`),
+  description: i18n._(t`Welcome to Theme`),
   showBreadcrumb: false,
 };
 
