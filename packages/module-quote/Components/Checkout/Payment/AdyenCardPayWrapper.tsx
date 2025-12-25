@@ -34,54 +34,106 @@ export default function AdyenCardPayWrapper() {
     cardComponent.current = component;
   }
   const handleAdditionalDetails = async (state: any, component: any) => {
-    console.log('----  handleAdditionalDetails', state.data);
+    console.log('----  handleAdditionalDetails TRIGGERED', state);
+    console.log('----  handleAdditionalDetails state.data:', state.data);
+    console.log('----  handleAdditionalDetails component:', component);
+
     const paramData = state.data;
     cardComponent.current = component;
-    if (quote?.id) {
+
+    if (!quote?.id) {
+      console.error('handleAdditionalDetails: Quote ID is missing');
+      showToast({ message: 'Cart is missing. Please refresh the page.', type: 'error' });
+      return;
+    }
+
+    try {
       const request = { ...paramData, orderId: order.current?.order_number };
-      const { data: { adyenPaymentDetails }, errors } = await getAdyenPaymentDetails({
+      console.log('handleAdditionalDetails request:', request);
+
+      const result = await getAdyenPaymentDetails({
         variables: {
           payload: JSON.stringify(request),
-          cartId: quote?.id,
+          cartId: quote.id,
         },
       });
-      console.log('handleAdditionalDetails data', adyenPaymentDetails)
-      console.log('handleAdditionalDetails errors', errors)
+
+      console.log('handleAdditionalDetails result:', result);
+
+      const adyenPaymentDetails = result?.data?.adyenPaymentDetails;
+      const errors = result?.errors || [];
+
+      console.log('handleAdditionalDetails data', adyenPaymentDetails);
+      console.log('handleAdditionalDetails errors', errors);
+
       setAdyenPaymentDetails(adyenPaymentDetails);
+
       if (errors && errors.length > 0) {
         setAdyenError(errors[0]);
         showToast({ message: errors[0]?.message, type: 'error' });
         return;
       }
+
+      if (!adyenPaymentDetails) {
+        console.error('handleAdditionalDetails: No payment details returned');
+        showToast({ message: 'No payment details received. Please try again.', type: 'error' });
+        return;
+      }
+
       if (order.current?.order_number) {
         handleServerResponse(adyenPaymentDetails, component);
+      } else {
+        console.warn('handleAdditionalDetails: order_number is missing');
       }
+    } catch (error: any) {
+      console.error('handleAdditionalDetails error:', error);
+      setAdyenError(error);
+      showToast({
+        message: error?.message || 'Error processing payment details. Please try again.',
+        type: 'error'
+      });
     }
   }
   const handlePlaceOrder = async (cardDetails: any) => {
     console.log('----handlePlaceOrder ', cardDetails)
     if (quote?.id) {
-      const path = '/thank-you';
-      const stateData = JSON.parse(cardDetails);
-      const ccType = stateData.paymentMethod.brand;
-      const params = {
-        cart_id: quote.id,
-        cc_type: ccType,
-        guestEmail: quote.email,
-        code: 'adyen_cc',
-        return_url: `https://${window.location.hostname}${path}`,
-        stateData: cardDetails,
-      };
-      console.log('params', params);
-      const data = await placeOrderFromAdyenHandler(params);
-      console.log('data', data);
-      if (data?.order) {
-        order.current = data.order;
-        if (data.order?.order_number) {
-          setAdyenPaymentDetails(data.order?.adyen_payment_status)
-          handleServerResponse(data.order?.adyen_payment_status, cardComponent.current);
+      try {
+        const path = '/thank-you';
+        const stateData = JSON.parse(cardDetails);
+        const ccType = stateData.paymentMethod.brand;
+        const params = {
+          cart_id: quote.id,
+          cc_type: ccType,
+          guestEmail: quote.email,
+          code: 'adyen_cc',
+          return_url: `https://${window.location.hostname}${path}`,
+          stateData: cardDetails,
+        };
+        console.log('params', params);
+        const data = await placeOrderFromAdyenHandler(params);
+        console.log('data', data);
+        if (data?.order) {
+          order.current = data.order;
+          if (data.order?.order_number) {
+            setAdyenPaymentDetails(data.order?.adyen_payment_status)
+            handleServerResponse(data.order?.adyen_payment_status, cardComponent.current);
+          } else {
+            console.warn('Order created but order_number is missing');
+          }
+        } else {
+          console.error('No order data returned from placeOrderFromAdyenHandler');
+          showToast({ message: 'Failed to place order. Please try again.', type: 'error' });
         }
+      } catch (error: any) {
+        console.error('Error in handlePlaceOrder:', error);
+        showToast({
+          message: error?.message || 'Failed to place order. Please try again.',
+          type: 'error'
+        });
       }
+    } else {
+      console.error('Quote ID is missing');
+      showToast({ message: 'Cart is missing. Please refresh the page.', type: 'error' });
     }
   }
   const onSubmit = (state: any) => {
@@ -94,15 +146,36 @@ export default function AdyenCardPayWrapper() {
     console.log('---- Adyen handleServerResponse state  result:', result);
     console.log('---- Adyen handleServerResponse state component:', component);
     const SUCCESS_CODE = ['Authorised', 'Received', 'PresentToShopper'];
-    if (result.action) {
-      console.log('*** Got Res Action ***:', JSON.parse(result.action));
-      component.handleAction(JSON.parse(result.action));
-    } else if (result.isFinal && SUCCESS_CODE.includes(result.resultCode)) {
+
+    if (result?.action) {
+      try {
+        // result.action 可能是字符串或对象
+        let actionData = result.action;
+        if (typeof actionData === 'string') {
+          actionData = JSON.parse(actionData);
+        }
+        console.log('*** Got Res Action ***:', actionData);
+        console.log('*** Calling component.handleAction ***');
+
+        // 确保 component 存在且有 handleAction 方法
+        if (component && typeof component.handleAction === 'function') {
+          component.handleAction(actionData);
+        } else {
+          console.error('Component or handleAction method is missing', component);
+          showToast({ message: 'Payment component error. Please try again.', type: 'error' });
+        }
+      } catch (error) {
+        console.error('Error parsing or handling action:', error);
+        showToast({ message: 'Error processing payment action. Please try again.', type: 'error' });
+      }
+    } else if (result?.isFinal && SUCCESS_CODE.includes(result.resultCode)) {
       showToast({ message: 'Congratualations! You have paid it successfully!', type: 'success' });
       console.log('redirect Thank you')
       // setCart(null);
       // $vsf.$magento.config.state.removeCartId();
       // await loadCart();
+    } else {
+      console.warn('Unexpected result format:', result);
     }
   }
   const initiateCheckout = async () => {
@@ -115,7 +188,6 @@ export default function AdyenCardPayWrapper() {
         // environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
         environment: 'live',
         showPayButton: true,
-        // clientKey: process.env.NEXT_PUBLIC_ADYEN_CLIENT_KEY,
         clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4',
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
@@ -153,8 +225,17 @@ export default function AdyenCardPayWrapper() {
         }
       };
       const checkout: any = await AdyenCheckout(configuration);
-      const cardComponent: any = checkout.create('card').mount(aydenRef.current);
-      cardComponent.current = cardComponent;
+
+      // 创建 card component 时，确保 onAdditionalDetails 也在 card 配置中
+      const cardConfig: any = {
+        onAdditionalDetails: handleAdditionalDetails,
+        onChange: handleOnChange,
+      };
+
+      const cardComponentInstance: any = checkout.create('card', cardConfig).mount(aydenRef.current);
+      cardComponent.current = cardComponentInstance;
+
+      console.log('Card component created:', cardComponentInstance);
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       showToast({ message: errorMessage, type: 'error' });
@@ -168,7 +249,8 @@ export default function AdyenCardPayWrapper() {
 
   useEffect(() => {
     initiateCheckout()
-      .catch(() => {
+      .catch((error) => {
+        console.log('init effect catch error', error)
         // Errors are already handled in initiateCheckout
       })
       .finally(() => {
@@ -184,9 +266,12 @@ export default function AdyenCardPayWrapper() {
         </div>
       )}
       <div ref={aydenRef} id='adyenpay-button-container' />
-      <Stack direction="row" className="bg-red-100 p-2 round-sm mt-2 text-red-400">
-        <InfoOutlined />
-        <Typography>[paymentRefused] Unable to place order: The payment is REFUSED.</Typography>
-      </Stack>
+      {
+        errors && <Stack direction="row" className="bg-red-100 p-2 round-sm mt-2 text-red-400">
+          <InfoOutlined />
+          <Typography>[paymentRefused] {errors.message}.</Typography>
+        </Stack>
+      }
+
     </Fragment>)
 } 
