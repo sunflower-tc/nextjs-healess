@@ -18,6 +18,7 @@
     "allowSyntheticDefaultImports": true,
     "paths": {
       "~*": ["./*"],
+      "@/*": ["./*"],
       "@utils/*": ["./utils/*"],
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],

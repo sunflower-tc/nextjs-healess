@@ -178,3 +178,20 @@ export interface PlaceOrderFromAdyenInput {
   stateData: string;
 }
 
+export interface AdyenOrder {
+  order_number: string;
+  cart_id: string;
+  adyen_payment_status: AydenPayResultDataType;
+}
+
+export type AydenPayResultDataType = {
+  isFinal: boolean;
+  resultCode: string;
+  additionalData: any;
+  action: any;
+};
+export interface AdyenPaymentState {
+  adyenPaymentDetails: AydenPayResultDataType,
+  error: string | null,
+}
+

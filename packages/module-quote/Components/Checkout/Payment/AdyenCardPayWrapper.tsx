@@ -1,57 +1,67 @@
 import AdyenCheckout from '@adyen/adyen-web';
 import '@adyen/adyen-web/dist/adyen.css';
+import Box from '@mui/material/Box';
 import CircularProgress from '@mui/material/CircularProgress';
 import { getAdyenCountryCode, getAdyenLocal, showToast } from '@utils/Helper';
+import {
+  useCustomerMutation
+} from '@voguish/module-customer';
+import GetAdyenPayDetailGQL from '@voguish/module-quote/graphql/mutation/GetAdyenPayDetail.graphql';
+import { usePlaceOrderFromAdyen } from '@voguish/module-quote/hooks';
+import { AdyenOrder } from '@voguish/module-quote/types';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
-import { usePlaceOrderFromAdyen } from '~packages/module-quote/hooks';
+
 
 export default function AdyenCardPayWrapper() {
   const { locale } = useRouter();
   const aydenRef = useRef<any>(null);
+  const order = useRef<AdyenOrder>({} as AdyenOrder);
   const cardComponent = useRef();
   const [isLoading, setIsLoading] = useState(true);
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
-  const { placeOrderFromAdyenHandler, isInProcess } = usePlaceOrderFromAdyen()
-  const handleAdditionalDetails = (state: any, component: any) => {
-    console.log('----  handleAdditionalDetails', state.data);
-  }
+  const { placeOrderFromAdyenHandler, isInProcess } = usePlaceOrderFromAdyen();
+  const [getAdyenPaymentDetails, { loading: adyenDetailsLoading }] = useCustomerMutation(GetAdyenPayDetailGQL);
+
+  const [errors, setAdyenError] = useState<any>();
+  const [adyenPaymentDetails, setAdyenPaymentDetails] = useState<any>();
+
   const handleOnChange = (state: any, component: any) => {
     cardComponent.current = component;
   }
-  const onSubmit = (state: any) => {
-    console.log('---- Adyen onSubmit state:', state);
-    handlePlaceOrder(JSON.stringify(state.data));
-  }
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
-  const handleServerResponse = (result: any, component: any) => {
-    // Intentionally left blank: handle payment result if needed
-    console.log('---- Adyen handleServerResponse state  result:', result);
-    console.log('---- Adyen handleServerResponse state component:', component);
-    const SUCCESS_CODE = ['Authorised', 'Received', 'PresentToShopper'];
-
-    if (result.action) {
-      console.log('*** Got Res Action ***:', JSON.parse(result.action));
-      component.handleAction(JSON.parse(result.action));
-    } else if (
-      result.isFinal && SUCCESS_CODE.includes(result.resultCode)
-    ) {
-      showToast({ message: 'Congratualations! You have paid it successfully!', type: 'success' });
-      // setCart(null);
-      // $vsf.$magento.config.state.removeCartId();
-      // await loadCart();
+  const handleAdditionalDetails = async (state: any, component: any) => {
+    console.log('----  handleAdditionalDetails', state.data);
+    const paramData = state.data;
+    cardComponent.current = component;
+    if (quote?.id) {
+      const request = { ...paramData, orderId: order.current?.order_number };
+      const { data: { adyenPaymentDetails }, errors } = await getAdyenPaymentDetails({
+        variables: {
+          payload: JSON.stringify(request),
+          cartId: quote?.id,
+        },
+      });
+      console.log('handleAdditionalDetails data', adyenPaymentDetails)
+      console.log('handleAdditionalDetails errors', errors)
+      setAdyenPaymentDetails(adyenPaymentDetails);
+      if (errors && errors.length > 0) {
+        setAdyenError(errors[0]);
+        showToast({ message: errors[0]?.message, type: 'error' });
+        return;
+      }
+      if (order.current?.order_number) {
+        handleServerResponse(adyenPaymentDetails, component);
+      }
     }
   }
-
   const handlePlaceOrder = async (cardDetails: any) => {
     console.log('----handlePlaceOrder ', cardDetails)
     if (quote?.id) {
       const path = '/thank-you';
       const stateData = JSON.parse(cardDetails);
       const ccType = stateData.paymentMethod.brand;
-
       const params = {
         cart_id: quote.id,
         cc_type: ccType,
@@ -63,8 +73,38 @@ export default function AdyenCardPayWrapper() {
       console.log('params', params);
       const data = await placeOrderFromAdyenHandler(params);
       console.log('data', data);
+      if (data?.order) {
+        order.current = data.order;
+        if (data.order?.order_number) {
+          setAdyenPaymentDetails(data.order?.adyen_payment_status)
+          handleServerResponse(data.order?.adyen_payment_status, cardComponent.current);
+        }
+      }
     }
   }
+  const onSubmit = (state: any) => {
+    console.log('---- Adyen onSubmit state:', state);
+    handlePlaceOrder(JSON.stringify(state.data));
+  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
+  const handleServerResponse = (result: any, component: any) => {
+    // Intentionally left blank: handle payment result if needed
+    console.log('---- Adyen handleServerResponse state  result:', result);
+    console.log('---- Adyen handleServerResponse state component:', component);
+    const SUCCESS_CODE = ['Authorised', 'Received', 'PresentToShopper'];
+    if (result.action) {
+      console.log('*** Got Res Action ***:', JSON.parse(result.action));
+      component.handleAction(JSON.parse(result.action));
+    } else if (result.isFinal && SUCCESS_CODE.includes(result.resultCode)) {
+      showToast({ message: 'Congratualations! You have paid it successfully!', type: 'success' });
+      console.log('redirect Thank you')
+      // setCart(null);
+      // $vsf.$magento.config.state.removeCartId();
+      // await loadCart();
+    }
+  }
+
+
 
   const initiateCheckout = async () => {
     console.log('init local', locale && getAdyenLocal(locale))
@@ -112,22 +152,9 @@ export default function AdyenCardPayWrapper() {
           },
         }
       };
-      console.log('configuration', configuration)
       const checkout: any = await AdyenCheckout(configuration);
-      console.log('checkout', checkout)
       const cardComponent: any = checkout.create('card').mount(aydenRef.current);
-
-      // const dropin = new Dropin(checkout, {
-      //   paymentMethodComponents: [Card],// Only needed with tree-shakable npm package
-      // }).mount('#adyenpay-button-container')
-
-      // const checkout = await AdyenCheckout(configuration);
-      //   const cardComponent: any = checkout
-      //     .create('card')
-      //     .mount(aydenRef.value);
-
-
-      // cardComponent.value = cardComponent;
+      cardComponent.current = cardComponent;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       showToast({ message: errorMessage, type: 'error' });
@@ -135,6 +162,9 @@ export default function AdyenCardPayWrapper() {
       console.error('Invalid data for payments', error);
     }
   };
+  console.log('adyen-errors', errors)
+  console.log('adyen- adyenPaymentDetails', adyenPaymentDetails)
+
 
   useEffect(() => {
     initiateCheckout()
@@ -154,5 +184,6 @@ export default function AdyenCardPayWrapper() {
         </div>
       )}
       <div ref={aydenRef} id='adyenpay-button-container' />
+      <Box></Box>
     </Fragment>)
 }
