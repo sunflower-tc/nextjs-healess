@@ -1,7 +1,9 @@
 import AdyenCheckout from '@adyen/adyen-web';
 import '@adyen/adyen-web/dist/adyen.css';
-import Box from '@mui/material/Box';
+import { InfoOutlined } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
+import Stack from '@mui/material/Stack';
+import Typography from '@mui/material/Typography';
 import { getAdyenCountryCode, getAdyenLocal, showToast } from '@utils/Helper';
 import {
   useCustomerMutation
@@ -103,9 +105,6 @@ export default function AdyenCardPayWrapper() {
       // await loadCart();
     }
   }
-
-
-
   const initiateCheckout = async () => {
     console.log('init local', locale && getAdyenLocal(locale))
     console.log('init ADYEN_CLIENT_KEY', process.env.ADYEN_CLIENT_KEY)
@@ -126,9 +125,10 @@ export default function AdyenCardPayWrapper() {
         onSubmit,
         onError: (error: any, component: any) => {
           // eslint-disable-next-line no-console
+          console.log('---- onError ', error);
           console.error(error.name, error.message, component);
+          setAdyenError(error)
           showToast({ message: error.message, type: 'error' });
-          // paymentStore.addPaymentDetailsError(error);
         },
         onPaymentCompleted: (result: any, component: any) => {
           console.log(`--- [onPaymentCompleted result: ${result}`);
@@ -184,6 +184,9 @@ export default function AdyenCardPayWrapper() {
         </div>
       )}
       <div ref={aydenRef} id='adyenpay-button-container' />
-      <Box></Box>
+      <Stack direction="row" className="bg-red-100 p-2 round-sm mt-2 text-red-400">
+        <InfoOutlined />
+        <Typography>[paymentRefused] Unable to place order: The payment is REFUSED.</Typography>
+      </Stack>
     </Fragment>)
-}
+} 
