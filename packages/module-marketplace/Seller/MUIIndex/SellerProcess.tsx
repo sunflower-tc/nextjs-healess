@@ -3,7 +3,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
-import { BannerThumbnail, IMPProcess } from '@voguish/module-marketplace';
+import { BannerThumbnail } from '@voguish/module-marketplace/Components/BannerThumbnail';
+import { IMPProcess } from '@voguish/module-marketplace/type';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 const SellerProcess = ({
   processData,
   label,
@@ -13,7 +15,7 @@ const SellerProcess = ({
 }) => {
   const muiTheme = useTheme();
   return (
-    <>
+    <ErrorBoundary>
       {processData && (
         <Box
           display="flex"
@@ -73,7 +75,7 @@ const SellerProcess = ({
           </Grid>
         </Box>
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 export default SellerProcess;

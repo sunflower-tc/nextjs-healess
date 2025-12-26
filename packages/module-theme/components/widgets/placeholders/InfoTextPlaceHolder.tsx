@@ -1,27 +1,19 @@
-import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
 export function InfoTextPlaceHolder({
   extraClasses,
 }: {
   extraClasses?: string;
 }) {
   return (
-    <Grid gap={1} maxHeight={70} maxWidth="100%">
-      <Skeleton
-        animation="wave"
-        height={20}
-        className={`flex items-center max-w-xl ${extraClasses}`}
+    <div className="grid gap-2.5 w-full">
+      <div
+        className={`flex h-5 animate-pulse bg-gray-300 w-full rounded-md items-center max-w-xl ${extraClasses}`}
       />
-      <Skeleton
-        animation="wave"
-        height={20}
-        className={`flex items-center max-w-3xl ${extraClasses}`}
+      <div
+        className={`flex h-3 animate-pulse bg-gray-300 w-full rounded-md items-center max-w-3xl ${extraClasses}`}
       />
-      <Skeleton
-        animation="wave"
-        height={20}
-        className={`flex items-center max-w-3xl ${extraClasses}`}
+      <div
+        className={`flex h-3 animate-pulse bg-gray-300 w-full rounded-md items-center max-w-3xl ${extraClasses}`}
       />
-    </Grid>
+    </div>
   );
 }

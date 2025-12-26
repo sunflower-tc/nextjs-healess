@@ -1,6 +1,5 @@
 import { createTheme, responsiveFontSizes } from '@mui/material/styles';
-import { Poppins } from 'next/font/google';
-import React from 'react';
+import { CSSProperties } from 'react';
 import 'typeface-poppins';
 
 declare module '@mui/material/styles' {
@@ -13,24 +12,24 @@ declare module '@mui/material/styles' {
 }
 declare module '@mui/material/styles' {
   interface TypographyVariants {
-    filter: React.CSSProperties;
-    OverallRating: React.CSSProperties;
-    ProcessStep: React.CSSProperties;
-    ProfileName: React.CSSProperties;
-    CartItemPrice: React.CSSProperties;
-    ErrorHeading: React.CSSProperties;
-    ErrorSubHeading: React.CSSProperties;
+    filter: CSSProperties;
+    OverallRating: CSSProperties;
+    ProcessStep: CSSProperties;
+    ProfileName: CSSProperties;
+    CartItemPrice: CSSProperties;
+    ErrorHeading: CSSProperties;
+    ErrorSubHeading: CSSProperties;
   }
 
   // allow configuration using `createTheme`
   interface TypographyVariantsOptions {
-    filter?: React.CSSProperties;
-    OverallRating: React.CSSProperties;
-    ProcessStep: React.CSSProperties;
-    ProfileName: React.CSSProperties;
-    CartItemPrice: React.CSSProperties;
-    ErrorHeading: React.CSSProperties;
-    ErrorSubHeading: React.CSSProperties;
+    filter?: CSSProperties;
+    OverallRating: CSSProperties;
+    ProcessStep: CSSProperties;
+    ProfileName: CSSProperties;
+    CartItemPrice: CSSProperties;
+    ErrorHeading: CSSProperties;
+    ErrorSubHeading: CSSProperties;
   }
 }
 
@@ -63,11 +62,6 @@ declare module '@mui/material/styles' {
   }
 }
 
-export const poppins = Poppins({
-  weight: ['100', '200', '300', '400', '500', '600', '700', '800', '900'],
-  subsets: ['latin'],
-});
-
 let theme = createTheme({
   components: {
     MuiButton: {
@@ -78,8 +72,10 @@ let theme = createTheme({
           fontWeight: '600',
           boxShadow: 'unset',
           borderRadius: '0',
+          verticalAlign: 'none',
         },
         contained: {
+          verticalAlign: 'none',
           paddingBlock: '0.8125rem',
         },
       },
@@ -122,7 +118,7 @@ let theme = createTheme({
 
   palette: {
     primary: {
-      main: '#39b38a',
+      main: '#115E59',
       dark: '#277d60',
       light: '#5cd97f',
       contrastText: '#ffffff',
@@ -149,8 +145,7 @@ let theme = createTheme({
     },
   },
   typography: {
-    fontFamily: poppins.style.fontFamily,
-
+    fontFamily: 'Poppins',
     h6: {
       fontSize: '2rem',
     },

@@ -6,13 +6,12 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { clearCart } from '@store/cart';
 import { removeCheckoutData } from '@store/checkout';
-import { getAdyenCountryCode, getAdyenLocal, showToast } from '@utils/Helper';
-import {
-  useCustomerMutation
-} from '@voguish/module-customer';
+import { getAdyenCountryCode, getAdyenLocal } from '@utils/Helper';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
 import GetAdyenPayDetailGQL from '@voguish/module-quote/graphql/mutation/GetAdyenPayDetail.graphql';
 import { usePlaceOrderFromAdyen } from '@voguish/module-quote/hooks';
 import { AdyenOrder } from '@voguish/module-quote/types';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import { useRouter } from 'next/router';
 import { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -20,6 +19,7 @@ import { RootState } from 'store';
 
 export default function AdyenCardPayWrapper() {
   const { locale } = useRouter();
+  const { showToast } = useToast();
   const aydenRef = useRef<any>(null);
   const order = useRef<AdyenOrder>({} as AdyenOrder);
   const cardComponent = useRef();

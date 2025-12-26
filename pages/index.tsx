@@ -1,68 +1,93 @@
-import { i18n } from '@lingui/core';
-import { t } from '@lingui/macro';
+import { LRUCache } from '@utils/ LRUCache';
 import { graphqlRequest } from '@utils/Fetcher';
-import { isValidObject } from '@utils/Helper';
+import { getLocalStore, isValidObject } from '@utils/Helper';
+import STORE_LIST from '@voguish/module-catalog/graphql/StoreList.query.graphql';
 import HOME_PAGE_QUERY from '@voguish/module-theme/graphql/home.graphql';
 import { PageOptions } from '@voguish/module-theme/page';
 import HomePage from '@voguish/module-theme/pages/Home';
 import { HomePageData } from '@voguish/module-theme/types/home-page';
-import { LRUCache } from '~utils/LRUCache';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
-const homePageCache = new LRUCache<HomePageData>(50, 5);
+const homePageCache = new LRUCache<any>(50, 5);
 
 const Home = ({ pageData }: { pageData: HomePageData }) => {
   return (
-    <div className="4xl:max-w-[160.5rem] w-full mx-auto">
+    <div className="mx-auto w-full 4xl:max-w-[160.5rem]">
       <HomePage pageData={pageData} />
     </div>
   );
 };
 
-const pageProps: PageOptions = {
-  title: i18n._(t`Home Page`),
-  description: i18n._(t`Welcome to Theme`),
-  showBreadcrumb: false,
-};
-
-Home.pageOptions = pageProps;
 export default Home;
 
-export async function getServerSideProps() {
-  const cacheKey = 'homepage_data';
+export async function getServerSideProps({ locale }: { locale: string }) {
+  const pageProps: PageOptions = {
+    title: 'Home Page - Voguish',
+    description: 'Welcome to Voguish Theme',
+    showBreadcrumb: false,
+  };
 
   try {
-    // Check cache first
+    const cacheKey = `homepage_${locale}`;
     const cachedData = homePageCache.get(cacheKey);
+
     if (cachedData) {
       return {
         props: {
-          pageData: cachedData,
+          ...(await serverSideTranslations(locale, ['common'])),
+          pageOptions: pageProps,
+          pageData: cachedData.pageData,
         },
       };
     }
-
-    // Fetch fresh data
-    const data = await graphqlRequest({
-      query: HOME_PAGE_QUERY,
+    const storeListResponse = await graphqlRequest({
+      query: STORE_LIST,
       variables: {},
-      options: {
-        fetchPolicy: 'network-only',
-      },
+      fetchPolicy: 'network-only',
+      nextFetchPolicy: 'cache-first',
     });
-
-    if (!isValidObject(data)) {
+    const stores = storeListResponse?.availableStores || [];
+    const selectedStore = getLocalStore(stores, locale);
+    if (!selectedStore) {
+      console.warn(`No store found for locale: ${locale}`);
       return { notFound: true };
     }
 
-    // Cache the result
-    homePageCache.set(cacheKey, data);
+    const homePageResponse = await graphqlRequest({
+      query: HOME_PAGE_QUERY,
+      variables: {},
+      options: {
+        context: {
+          headers: {
+            store: selectedStore,
+          },
+        },
+        fetchPolicy: 'network-only',
+        nextFetchPolicy: 'cache-first',
+      },
+    });
+
+    const pageData = homePageResponse;
+
+    homePageCache.set(cacheKey, {
+      pageData,
+    });
+
+    if (!isValidObject(pageData)) {
+      return { notFound: true };
+    }
 
     return {
       props: {
-        pageData: data,
+        ...(await serverSideTranslations(locale, ['common'])),
+        pageOptions: pageProps,
+        pageData,
       },
     };
-  } catch {
-    return { notFound: true };
+  } catch (error) {
+    console.error('Home page query error : ', error);
+    return {
+      notFound: true,
+    };
   }
 }

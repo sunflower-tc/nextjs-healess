@@ -1,0 +1,9 @@
+#import "./fragments/_simple_product.graphql"
+
+query SimpleProduct($filters: ProductAttributeFilterInput) {
+  products(filter: $filters) {
+    items {
+      ...simple_product
+    }
+  }
+}

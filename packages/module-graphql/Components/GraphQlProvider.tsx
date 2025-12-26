@@ -1,6 +1,6 @@
 import { ApolloProvider } from '@apollo/client';
 import { useApollo } from '@lib/apollo-client';
-import React from 'react';
+import { ReactNode } from 'react';
 
 /**
  * GraphQl Container to wrap the page inside GraphQL provider
@@ -12,7 +12,7 @@ const GraphQlProvider = ({
   children,
 }: {
   pageProps: any;
-  children: React.ReactNode;
+  children: ReactNode;
 }) => {
   const apolloClient = useApollo(pageProps.initialApolloState);
   return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>;

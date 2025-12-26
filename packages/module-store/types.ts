@@ -27,6 +27,7 @@ export interface CountriesQueryResult {
 }
 
 export interface StoreConfigInterface {
+  setOpenCart?: boolean;
   base_currency_code?: string;
   base_url?: string;
   catalog_default_sort_by?: string;
@@ -64,4 +65,5 @@ export interface StoreConfigInterface {
   currentStore?: any;
   countries?: Country[];
   currentCurrency?: any;
+  setProduct?: object | any;
 }

@@ -33,6 +33,5 @@ query StoreConfig {
     title_separator
     title_suffix
     welcome
-    customer_token_lifetime
   }
 }

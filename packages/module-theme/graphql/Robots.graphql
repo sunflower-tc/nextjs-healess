@@ -1,0 +1,6 @@
+query Robots {
+  searchEngineRobots {
+    defaultRobots
+    customInstructions
+  }
+}

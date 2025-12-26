@@ -1,16 +1,17 @@
 import { isValidArray } from '@utils/Helper';
-import { Placeholder } from '@voguish/module-catalog';
+import Placeholder from '@voguish/module-catalog/Components/Product/Item/Placeholder';
 import Slider from '@voguish/module-catalog/Components/Product/Slider';
 import dynamic from 'next/dynamic';
-import { InfoTextPlaceHolder } from '../placeholders';
+import ErrorBoundary from '../../ErrorBoundary';
+import { InfoTextPlaceHolder } from '../placeholders/InfoTextPlaceHolder';
 
 const Info = dynamic(() => import('../../elements/Info'));
 const FeatureProducts = ({ data, loading }: { data: any; loading: any }) => {
   return (
     <div className="pb-4">
-      <>
+      <ErrorBoundary>
         {loading ? (
-          <InfoTextPlaceHolder extraClasses="mx-auto " />
+          <InfoTextPlaceHolder extraClasses="mx-auto" />
         ) : (
           isValidArray(data?.productList) && (
             <span className="max-w-xl mx-auto text-center">
@@ -40,16 +41,16 @@ const FeatureProducts = ({ data, loading }: { data: any; loading: any }) => {
             </span>
           </div>
         ) : isValidArray(data?.productList) ? (
-          <>
+          <ErrorBoundary>
             <Slider
               extraClass="explore-product"
               product={data?.productList || []}
             />
-          </>
+          </ErrorBoundary>
         ) : (
           ''
         )}
-      </>
+      </ErrorBoundary>
     </div>
   );
 };

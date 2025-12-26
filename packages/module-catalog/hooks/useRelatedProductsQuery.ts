@@ -1,14 +1,16 @@
 import { useQuery } from '@apollo/client';
-import { showToast } from '@utils/Helper';
+import PRODUCTS_QUERY from '@voguish/module-catalog/graphql/RelatedProducts.graphql';
 import {
   RelatedProductsListInterface,
   RelatedProductsQueryInput,
-} from '@voguish/module-catalog';
-import PRODUCTS_QUERY from '@voguish/module-catalog/graphql/RelatedProducts.graphql';
+} from '@voguish/module-catalog/types';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 
 export const useRelatedProductsQuery = (
   queryVariable?: RelatedProductsQueryInput
 ) => {
+  const { showToast } = useToast();
+
   const {
     sku,
     pageSize = 9,

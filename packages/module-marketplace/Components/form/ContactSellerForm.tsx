@@ -1,16 +1,14 @@
-import { useMutation } from '@apollo/client';
-import { Trans, t } from '@lingui/macro';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-// import { common } from '@mui/material/colors';
-import { showToast } from '@utils/Helper';
+import Grid from '@mui/material/Grid';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
 import CONTACT_SELLER from '@voguish/module-marketplace/graphql/mutation/ContactSeller.graphql';
+import { RightIcon } from '@voguish/module-theme/components/elements/Icon';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import Modal from '@voguish/module-theme/components/Modal';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import InputField from '@voguish/module-theme/components/ui/Form/Elements/Input';
-import { useSession } from 'next-auth/react';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
-import React from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
 const RotateRight = dynamic(() => import('@mui/icons-material/RotateRight'));
 
@@ -23,24 +21,18 @@ const SellerContactForm = ({
   handleClose: any;
   open: boolean;
 }) => {
-  const { data: session } = useSession();
-  const token = session?.user?.token;
-  const [contactSeller, { error }] = useMutation(CONTACT_SELLER, {
-    context: {
-      headers: {
-        // To pass session token
-        Authorization: `Bearer ${token}`,
-      },
-    },
-  });
+  const [contactSeller, { error }] = useCustomerMutation(CONTACT_SELLER);
+  const { t } = useTranslation('common');
+
   const {
     register,
     reset,
     handleSubmit,
     formState: { errors, isSubmitting },
   } = useForm();
+  const { showToast } = useToast();
 
-  const registerUser = (data: FieldValues) => {
+  const contactSellerForm = (data: FieldValues) => {
     contactSeller({
       variables: {
         subject: data['subject'],
@@ -60,7 +52,10 @@ const SellerContactForm = ({
       })
       .catch(() => {
         if (error) {
-          showToast({ message: error.message, type: 'error' });
+          showToast({
+            message: `${error?.message || JSON.stringify(error)}`,
+            type: 'error',
+          });
         }
       });
   };
@@ -69,89 +64,88 @@ const SellerContactForm = ({
     reset();
   };
   return (
-    <React.Fragment>
+    <ErrorBoundary>
       <Modal
-        open={open}
-        className="flex items-center justify-center"
-        onClose={onClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+        showModal={open}
+        hideModal={onClose}
+        title={
+          <ErrorBoundary>
+            {' '}
+            <span
+              className="flex cursor-pointer sm:hidden"
+              onClick={() => {
+                onClose();
+              }}
+            >
+              <RightIcon />
+            </span>{' '}
+            {t('Contact Seller')}{' '}
+          </ErrorBoundary>
+        }
       >
-        <Box className="p-10 bg-white">
-          <Box
-            component="form"
-            className="flex flex-col gap-6 h-fit"
-            noValidate
-            onSubmit={handleSubmit(registerUser)}
-            sx={{ width: '100%' }}
-          >
-            <Typography variant="h2">
-              <Trans>Contact Seller</Trans>
-            </Typography>
-            <div className="flex flex-col gap-2.5">
-              <InputField
-                label={t`Subject`}
-                type="text"
-                placeHolder="Enter Subject"
-                error={errors?.subject?.message ? true : false}
-                helperText={errors?.subject ? errors?.subject?.message : ''}
-                {...register('subject', {
-                  required: t`* Subject is required`,
-                })}
-              />
+        <form
+          className="h-full mt-4 -sm:mb-4 -sm:px-6"
+          onSubmit={handleSubmit(contactSellerForm)}
+        >
+          <div className="flex flex-col gap-2.5">
+            <InputField
+              label={t('Subject')}
+              type="text"
+              placeHolder={t('Enter Subject')}
+              error={errors?.subject?.message ? true : false}
+              helperText={errors?.subject ? errors?.subject?.message : ''}
+              {...register('subject', {
+                required: t('* Subject is required'),
+              })}
+            />
 
-              <InputField
-                label={t`Query`}
-                type="text"
-                multiline={true}
-                maxRows={3}
-                className="h-auto"
-                minRows={3}
-                placeHolder="Enter Query"
-                error={errors?.query?.message ? true : false}
-                helperText={errors?.query ? errors?.query?.message : ''}
-                {...register('query', {
-                  required: t`* Query is required`,
-                })}
-              />
-            </div>
-            <div className="flex items-center justify-end flex-1 gap-4 pt-2.5">
+            <InputField
+              label={t('Query')}
+              type="text"
+              multiline={true}
+              maxRows={3}
+              className="h-auto"
+              minRows={3}
+              placeHolder={t('Enter Query')}
+              error={errors?.query?.message ? true : false}
+              helperText={errors?.query ? errors?.query?.message : ''}
+              {...register('query', {
+                required: t('* Query is required'),
+              })}
+            />
+          </div>
+          <Grid className="flex items-center justify-end gap-6 sm:py-4 -sm:mt-8">
+            <Button
+              className="float-left hidden w-32 rounded-[unset] border border-solid border-darkGreyBackground text-darkGreyBackground hover:border-darkBackground hover:bg-darkBackground hover:text-white sm:flex md:float-right md:w-40 lg:float-right lg:w-40 xl:float-right xl:w-40"
+              variant="outlined"
+              onClick={onClose}
+            >
+              {t('Cancel')}
+            </Button>
+            {isSubmitting ? (
               <Button
-                className="text-center text-black border-black rounded-none max-w-fit"
-                variant="outlined"
-                type="reset"
-                onClick={onClose}
-                sx={{ px: 6, py: 1.2 }}
+                className="w-full rounded-[unset] shadow-[unset] sm:w-32 md:w-40 lg:w-40 xl:w-40"
+                variant="contained"
+                type="submit"
               >
-                <Trans>Cancel</Trans>
+                <span className="flex items-center h-full ltr:pr-2 rtl:pl-2">
+                  <RotateRight className="w-5 h-5 animate-spin" />
+                </span>
+                {t('Sending...')}
               </Button>
-              {isSubmitting ? (
-                <Button
-                  className="bg-brand rounded-[unset] max-w-fit"
-                  variant="contained"
-                  type="submit"
-                  sx={{ px: 6, py: 1.2 }}
-                >
-                  <span className="flex items-center h-full pr-2">
-                    <RotateRight className="w-5 h-5 animate-spin" />
-                  </span>
-                  <Trans>Submitting your Query...</Trans>
-                </Button>
-              ) : (
-                <Button
-                  className="bg-brand rounded-[unset] max-w-fit"
-                  variant="contained"
-                  type="submit"
-                  sx={{ px: 6, py: 1.2 }}
-                >
-                  <Trans>Submit</Trans>
-                </Button>
-              )}
-            </div>
-          </Box>
-        </Box>
+            ) : (
+              <Button
+                className="w-full rounded-[unset] shadow-[unset] sm:w-32 md:w-40 lg:w-40 xl:w-40"
+                variant="contained"
+                type="submit"
+              >
+                {t('Submit')}
+              </Button>
+            )}
+          </Grid>
+        </form>
       </Modal>
-    </React.Fragment>
+    </ErrorBoundary>
   );
 };
 export default SellerContactForm;

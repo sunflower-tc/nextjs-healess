@@ -1,0 +1,23 @@
+query ProductsQuery($search: String, $filters: ProductAttributeFilterInput) {
+  products(search: $search, filter: $filters) {
+    total_count
+    aggregations {
+      attribute_code
+      label
+      count
+      options {
+        count
+        label
+        value
+      }
+    }
+
+    sort_fields {
+      default
+      options {
+        label
+        value
+      }
+    }
+  }
+}

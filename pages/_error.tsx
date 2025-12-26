@@ -1,9 +1,9 @@
-import { i18n } from '@lingui/core';
-import { Trans, t } from '@lingui/macro';
 import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
-import { PageOptions, ServerErrorIcon } from '@voguish/module-theme';
+import { ServerErrorIcon } from '@voguish/module-theme/components/elements/Icon';
 import Containers from '@voguish/module-theme/components/ui/Container';
+import { PageOptions } from '@voguish/module-theme/page';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 function Error(statusCode: string | number) {
@@ -12,6 +12,7 @@ function Error(statusCode: string | number) {
     e.preventDefault();
     route.back();
   };
+  const { t } = useTranslation('common');
 
   return (
     <Containers>
@@ -19,11 +20,11 @@ function Error(statusCode: string | number) {
         <div className="h-full gap-4 py-10 mx-auto text-center ">
           <ServerErrorIcon />
           <span className="grid py-6">
-            <Typography variant="ErrorHeading"><Trans>500 Error!</Trans></Typography>
+            <Typography variant="ErrorHeading">500 Error! </Typography>
             <Typography variant="ErrorSubHeading">
               {statusCode
-                ? <Trans>An error {statusCode} occurred on server</Trans>
-                : <Trans>An error occurred on client</Trans>}
+                ? `An error ${statusCode} occurred on server`
+                : 'An error occurred on client'}
             </Typography>
           </span>
           <span className="w-[85%]">
@@ -32,7 +33,8 @@ function Error(statusCode: string | number) {
               variant="contained"
               className="w-full py-4"
             >
-              <Trans>Go Back</Trans>
+              {' '}
+              {t('Go Back')}
             </Button>
           </span>
           <Link href="/" className="w-[85%]">
@@ -42,7 +44,8 @@ function Error(statusCode: string | number) {
               className="w-full py-4 mx-auto my-10"
               type="submit"
             >
-              <Trans>Go To Home</Trans>
+              {' '}
+              {t('Go To Home')}
             </Button>
           </Link>
         </div>
@@ -59,6 +62,6 @@ Error.getInitialProps = (res: any, err: any) => {
 export default Error;
 
 const pageProps: PageOptions = {
-  title: i18n._(t`An error occurred`),
+  title: 'An error occurred',
 };
 Error.pageOptions = pageProps;

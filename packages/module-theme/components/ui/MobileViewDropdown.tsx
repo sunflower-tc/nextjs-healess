@@ -1,22 +1,27 @@
 import { TabsProp } from '@voguish/module-catalog/types';
+import ErrorBoundary from '../ErrorBoundary';
 
 interface CardProps {
   item: TabsProp;
   extraClass?: string;
 }
-export default function DropdownsCard({ extraClass, item }: CardProps) {
-  return (
-    <details
-      className={`${extraClass} group outline-none cursor-pointer -sm:max-w-[98vw] w-full mx-auto -sm:px-1.5`}
-      open
-    >
-      <summary className="flex items-center justify-between py-2 font-semibold border-t-0 border-b border-solid border-x-0 border-colorBorder rotate">
-        {item.name}
-      </summary>
 
-      <div className="pt-0 pb-2 -mt-4 transition duration-500 ease-in-out transform opacity-0 group-open:translate-y-2 group-open:opacity-100">
-        {item.render()}
+export default function DropdownsCard({ extraClass = '', item }: CardProps) {
+  return (
+    <ErrorBoundary>
+      <div className="!overflow-x-hidden">
+        <details
+          className={`group cursor-pointer w-full max-w-full sm:max-w-screen-sm md:max-w-screen-md lg:max-w-screen-lg xl:max-w-screen-xl px-0 sm:px-6 lg:px-8 mx-auto ${extraClass}`}
+          open
+        >
+          <summary className="flex items-center border-l-0 border-r-0 border-t-0 justify-between py-3 border-b border-solid border-b-gray-100 text-base sm:text-lg md:text-xl font-semibold border-b border-gray-300 hover:text-black transition-colors duration-200">
+            {item.name}
+          </summary>
+          <div className="w-full  pt-2 transition-all duration-500 ease-in-out transform opacity-0 group-open:opacity-100 group-open:translate-y-1">
+            <div className="w-full !overflow-hidden">{item.render()}</div>
+          </div>
+        </details>
       </div>
-    </details>
+    </ErrorBoundary>
   );
 }

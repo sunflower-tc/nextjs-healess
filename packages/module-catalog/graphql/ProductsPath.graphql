@@ -1,6 +1,6 @@
 query ProductsPathQuery(
   $filters: ProductAttributeFilterInput
-  $pageSize: Int = 300
+  $pageSize: Int = 1200
 ) {
   products(filter: $filters, pageSize: $pageSize) {
     items {

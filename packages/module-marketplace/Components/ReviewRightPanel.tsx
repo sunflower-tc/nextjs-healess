@@ -1,21 +1,19 @@
 import { useQuery } from '@apollo/client';
-import { Trans } from '@lingui/macro';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
-import { useToken } from '@voguish/module-customer';
-import {
-  FilteredArrays,
-  ISellerReviewsItems,
-  RatingPlaceholder,
-} from '@voguish/module-marketplace';
+import { useToken } from '@voguish/module-customer/hooks/useToken';
 import SELLER_REVIEWS_QUERY from '@voguish/module-marketplace/graphql/SellerReviews.graphql';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import { FilteredArrays, ISellerReviewsItems } from '../type';
+import { RatingPlaceholder } from './Reviews/Placeholder';
 const StarRoundedIcon = dynamic(
   () => import('@mui/icons-material/StarRounded')
 );
@@ -33,9 +31,10 @@ const LinearProgressWithLabel = ({
   arrayLength: number;
 }) => {
   const progressValue = (value / arrayLength) * 100;
+
   return (
     <Box sx={{ display: 'flex', alignItems: 'center' }}>
-      <Box sx={{ width: { xs: '88%', sm: '90%' }, mr: 1.5 }}>
+      <Box sx={{ width: { xs: '88%', sm: '90%' }, mx: 1.5 }}>
         <LinearProgress variant="determinate" value={progressValue} />
       </Box>
       <Box sx={{ width: 3 }}>
@@ -101,14 +100,14 @@ const OverallRating = ({
         totalRating === 100
           ? 5
           : totalRating >= 80
-          ? 4
-          : totalRating >= 60
-          ? 3
-          : totalRating >= 40
-          ? 2
-          : totalRating >= 20
-          ? 1
-          : null;
+            ? 4
+            : totalRating >= 60
+              ? 3
+              : totalRating >= 40
+                ? 2
+                : totalRating >= 20
+                  ? 1
+                  : null;
 
       if (ratingKey !== null) {
         const index = 5 - ratingKey;
@@ -116,9 +115,9 @@ const OverallRating = ({
       }
     });
   }
-
+  const { t } = useTranslation('common');
   return (
-    <>
+    <ErrorBoundary>
       {loading && (
         <Grid
           pt={{ xs: '0rem', md: '3rem' }}
@@ -134,9 +133,7 @@ const OverallRating = ({
       )}
 
       <Stack pb={{ xs: '1rem', sm: '2rem', md: '2rem' }}>
-        <Typography variant="OverallRating">
-          <Trans>Overall Rating</Trans>
-        </Typography>
+        <Typography variant="OverallRating">{t('Overall Rating')}</Typography>
       </Stack>
       <Stack
         direction="row"
@@ -174,11 +171,11 @@ const OverallRating = ({
             variant="body1"
             sx={{ borderBottom: 1, borderColor: 'divider' }}
           >
-            {totalRating} out of 5
+            {totalRating} {t('out of 5')}
           </Typography>
           <Typography pt="0.25rem" pb="0.5rem" variant="body2">
-            <Trans>Based on</Trans> {ratingData?.getSellerReview.total_count}{' '}
-            <Trans>reviews</Trans>
+            {t('Based on')} {ratingData?.getSellerReview.total_count}{' '}
+            {t('reviews')}
           </Typography>
 
           <Button
@@ -186,7 +183,7 @@ const OverallRating = ({
             variant="outlined"
             onClick={addReviewHandler}
           >
-            <Trans>Add your review</Trans>
+            {t('Add your review')}
           </Button>
         </Stack>
       </Stack>
@@ -217,8 +214,10 @@ const OverallRating = ({
           </Stack>
         ))}
       </Stack>
-      <AddReviewForm open={open} setOpen={setOpen} submitReview={id} />
-    </>
+      <ErrorBoundary>
+        <AddReviewForm open={open} setOpen={setOpen} submitReview={id} />
+      </ErrorBoundary>
+    </ErrorBoundary>
   );
 };
 export default OverallRating;

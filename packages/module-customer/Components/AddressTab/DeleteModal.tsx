@@ -1,13 +1,14 @@
 import Button from '@mui/material/Button';
-import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { useEffect, useState } from 'react';
 
-import { Trans, t } from '@lingui/macro';
-import { showToast } from '@utils/Helper';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import Modal from '@voguish/module-theme/components/Modal';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
+import { useTranslation } from 'next-i18next';
 type DeleteModalType = {
   deleteDataId?: number | undefined;
   handleClick: Function;
@@ -18,14 +19,18 @@ export const DeleteModal = ({
   handleClick,
   deleteCustomerAddress,
 }: DeleteModalType) => {
-  const [status, setSatus] = useState(false);
+  const { t } = useTranslation('common');
+
+  const [status, setStatus] = useState(false);
   useEffect(() => {
     if (deleteDataId) {
-      setSatus(true);
+      setStatus(true);
     } else {
-      setSatus(false);
+      setStatus(false);
     }
   }, [deleteDataId]);
+
+  const { showToast } = useToast();
 
   const deleteAddress = () => {
     deleteCustomerAddress({
@@ -34,7 +39,7 @@ export const DeleteModal = ({
       .then(() => {
         showToast({
           type: 'success',
-          message: t`Address deleted successfully`,
+          message: t('Address deleted successfully'),
         });
         handleClick();
       })
@@ -44,29 +49,37 @@ export const DeleteModal = ({
       });
   };
   return (
-    <div>
-      <Dialog
-        open={status}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          <Trans>Confirm Removal</Trans>
+    <ErrorBoundary>
+      <Modal showModal={status} panelClass="!mx-4 rounded-lg !min-h-full">
+        <DialogTitle id="alert-dialog-title" className="p-2">
+          {t('Confirm Removal')}
         </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            <Trans>Are you sure you wish to remove this address?</Trans>
+        <DialogContent className="p-0 m-0 mb-3">
+          <DialogContentText
+            className="px-2.5 m-0"
+            id="alert-dialog-description"
+          >
+            {t('Are you sure you wish to remove this address?')}
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={deleteAddress}>
-            <Trans>Confirm</Trans>
+        <DialogActions className="lg:pb-0 md:pb-0 pb-4 mb-0">
+          <Button
+            variant="outlined"
+            className="lg:h-12 md:h-12 h-10 mr-2"
+            onClick={deleteAddress}
+          >
+            {t('Confirm')}
           </Button>
-          <Button onClick={() => handleClick()} autoFocus>
-            <Trans>Cancel</Trans>
+          <Button
+            variant="contained"
+            className="lg:h-12 md:h-12 h-10 "
+            onClick={() => handleClick()}
+            autoFocus
+          >
+            {t('Cancel')}
           </Button>
         </DialogActions>
-      </Dialog>
-    </div>
+      </Modal>
+    </ErrorBoundary>
   );
 };

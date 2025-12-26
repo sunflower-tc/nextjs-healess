@@ -1,8 +1,10 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
-import { PlaceHolder, useCustomerQuery } from '@voguish/module-customer';
+import { PlaceHolder } from '@voguish/module-customer/Components/OverviewTab/PlaceHolder';
+import { useCustomerQuery } from '@voguish/module-customer/hooks/useCustomerQuery';
 
 import GET_CUSTOMER from '@voguish/module-customer/graphql/Customer.graphql';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Sidebar from '../Layout/Sidebar';
@@ -37,18 +39,18 @@ const UserInfo = () => {
         <Grid container>
           <Grid item xs={12}>
             {overView && overView ? (
-              <>
+              <ErrorBoundary>
                 <Box component="div" sx={{ ...commonStyles }}>
                   <span className="relative w-full">
                     <CreateIcon
                       onClick={handleClick}
-                      className="absolute border border-solid cursor-pointer right-1 top-1 p-0.5 rounded-sm hover:text-brand"
+                      className="absolute border border-solid cursor-pointer rtl:left-1 ltr:right-1 top-1 p-0.5 rounded-sm hover:text-brand"
                     />
                     <OverviewData data={data} />
                   </span>
                 </Box>
                 <TabButton />
-              </>
+              </ErrorBoundary>
             ) : (
               <EditProfile
                 formData={data?.customer}

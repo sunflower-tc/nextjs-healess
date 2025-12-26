@@ -1,18 +1,19 @@
-import { t } from '@lingui/macro';
 import CircularProgress from '@mui/material/CircularProgress';
 import { CreateOrderActions, CreateOrderData, loadScript, OnApproveData, PayPalScriptOptions } from '@paypal/paypal-js';
 import { clearCart } from '@store/cart';
 import { removeCheckoutData } from '@store/checkout';
 import { PAYPAL_CLIENT_ID } from '@utils/Constants';
-import { getPaypalCurrency, showToast } from '@utils/Helper';
-import { useToken } from '@voguish/module-customer';
+import { getPaypalCurrency } from '@utils/Helper';
 import { useCreatePaypayToken, usePlaceOrder, useSetPayPalPaymentMethodOnCart } from '@voguish/module-quote/hooks';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
+import { useTranslation } from 'next-i18next';
 import { useRouter } from 'next/router';
 import { Fragment, useCallback, useEffect, useId, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 
 export default function PaypalWrapper() {
+  const { showToast } = useToast();
   const containerId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const isInitializedRef = useRef(false);
@@ -20,11 +21,11 @@ export default function PaypalWrapper() {
   const router = useRouter();
   const { locale } = useRouter();
   const dispatch = useDispatch();
-  const token = useToken()
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
   const { createPaypalTokenHandler } = useCreatePaypayToken();
   const { setPayPalPaymentMethodOnCartHandler } = useSetPayPalPaymentMethodOnCart()
   const { placeOrderHandler, isInProcess } = usePlaceOrder();
+  const { t } = useTranslation('common');
 
   const createOrder = useCallback(
     // eslint-disable-next-line @typescript-eslint/no-unused-vars

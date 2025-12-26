@@ -1,33 +1,39 @@
 import { useQuery } from '@apollo/client';
-import { Trans } from '@lingui/macro';
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { isValidArray, isValidObject } from '@utils/Helper';
 import SELLER_LIST_QUERY from '@voguish/module-marketplace/graphql/SellersList.graphql';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Containers from '@voguish/module-theme/components/ui/Container';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import { Items } from '../type';
 import { Placeholder } from './Placeholder';
 const StoreItem = dynamic(() => import('./StoreItem'));
-
 const StoreList = () => {
   const { loading, error, data } = useQuery(SELLER_LIST_QUERY, {
     variables: {
       filter: { is_seller: { eq: '1' } },
     },
   });
+  const { t } = useTranslation('common');
 
-  if (error) return <p>Error! {error.message}</p>;
+  if (error)
+    return (
+      <p>
+        {t('Error')}! {`${error?.message || JSON.stringify(error)}`}
+      </p>
+    );
 
   const placeHolder = new Array(12).fill(0);
 
   return (
     <Containers>
       {
-        <>
+        <ErrorBoundary>
           <Typography variant="h4" mb={4}>
-            <Trans>All Sellers</Trans>
+            {t('All Sellers')}
           </Typography>
           <div className="grid grid-cols-2 gap-4 md:grid-cols-3 place-content-stretch xl:grid-cols-4 2xl:grid-cols-5 lg:gap-6 xl:gap-8">
             {loading &&
@@ -47,7 +53,7 @@ const StoreList = () => {
                 </div>
               ))}
           </div>
-        </>
+        </ErrorBoundary>
       }
     </Containers>
   );

@@ -1,10 +1,10 @@
-import {
-  ProductItemInterface,
-  ProductPrice,
-} from '@voguish/module-catalog/types';
+import { ProductItemInterface } from '@voguish/module-catalog/types';
 
 export interface AddToCartProps {
   product: ProductItemInterface;
-  setProductPrice: (price: ProductPrice) => void;
-  setProductSku: (sku: string) => void;
+  optionValue: {
+    id: number;
+    value_string: string;
+  }[];
+  sku?: string;
 }

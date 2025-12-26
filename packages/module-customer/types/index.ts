@@ -207,6 +207,7 @@ export interface ProductLinksInterface {
 }
 
 export interface Money {
+  currency: string;
   value: number;
 }
 

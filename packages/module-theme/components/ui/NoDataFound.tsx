@@ -1,30 +1,31 @@
-import { Trans, t } from '@lingui/macro';
-import { Button } from '@mui/material';
+import Button from '@mui/material/Button';
 import Typography from '@mui/material/Typography';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
-import { NoData } from '../elements';
-
+import { NoData } from '../elements/Icon';
 export interface INODataFound {
   text?: string;
 }
 
 export default function NoDataFound({ text }: INODataFound) {
+  const { t } = useTranslation('common');
+
   return (
     <span className="flex flex-col items-center justify-center py-5 space-y-2">
       <NoData />
       <Typography variant="ErrorHeading" component="h2">
-        {text ? text : t`No Data Found`}
+        {text ? text : t('No Data Found')}
       </Typography>
       <Typography variant="ErrorSubHeading" className="-xs:text-base">
-        <Trans>No return, No Exchange - All Sales Final.</Trans>
+        {t('No return, No Exchange - All Sales Final.')}
       </Typography>
-      <Link href="/">
+      <Link href="/" passHref>
         <Button
           variant="contained"
           className="w-full py-[13px] px-[38px]  rounded-none shadow-none"
           type="submit"
         >
-          <Trans>Go To Home</Trans>
+          {t('Go To Home')}
         </Button>
       </Link>
     </span>

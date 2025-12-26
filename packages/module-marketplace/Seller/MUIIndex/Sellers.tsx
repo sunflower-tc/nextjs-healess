@@ -1,19 +1,22 @@
-import { Trans } from '@lingui/macro';
-
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import ImageList from '@mui/material/ImageList';
 import ImageListItem from '@mui/material/ImageListItem';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
-import { BannerThumbnail, Thumbnail } from '@voguish/module-marketplace';
+import { BannerThumbnail } from '@voguish/module-marketplace/Components/BannerThumbnail';
+import { Thumbnail } from '@voguish/module-marketplace/Components/LogoThumbnail';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
 import Link from 'next/link';
 
 const Sellers = (props: { sellers: ISellers[] }) => {
   const { sellers } = props;
   const items = sellers.slice(0, 3);
+  const { t } = useTranslation('common');
+
   return (
-    <>
+    <ErrorBoundary>
       {isValidArray(items) && (
         <Grid className="grid items-center w-full gap-6 px-0 sm:grid-cols-2 lg:grid-cols-3">
           {items.map((store) => (
@@ -37,7 +40,7 @@ const Sellers = (props: { sellers: ISellers[] }) => {
                       key={product.id}
                       rows={
                         (index === 0 && store.products.length === 3) ||
-                          store.products.length !== 3
+                        store.products.length !== 3
                           ? 2
                           : 1
                       }
@@ -95,14 +98,15 @@ const Sellers = (props: { sellers: ISellers[] }) => {
                         {store.shopTitle}
                       </Typography>
                       <Typography variant="body1">
-                        {store.sellerProductCount} <Trans>Products</Trans>
+                        {store.sellerProductCount} {t('Products')}
                       </Typography>
                       <Link
                         className="text-lg font-semibold no-underline cta text-brand"
                         href={`/marketplace/seller/profile/shop/${store.profileurl}`}
                       >
                         <span className=" hover-underline-animation">
-                          <Trans>View Seller</Trans>
+                          {' '}
+                          {t('View Seller')}
                         </span>
                       </Link>
                     </Grid>
@@ -113,7 +117,7 @@ const Sellers = (props: { sellers: ISellers[] }) => {
           ))}
         </Grid>
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 export default Sellers;

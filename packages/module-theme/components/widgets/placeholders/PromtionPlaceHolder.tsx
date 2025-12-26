@@ -1,27 +1,16 @@
-import Skeleton from '@mui/material/Skeleton';
+import Containers from '../../ui/Container';
 
 export function PromtionPlaceHolder() {
   return (
-    <div className="grid md:gap-2 md:grid-cols-2">
-      <Skeleton
-        animation="wave"
-        sx={{ height: { xs: 290, md: 600 }, marginBlock: 0, paddingBlock: 0 }}
-        className="flex items-start -mt-20 md:-my-36"
-      />
-      <div className="grid md:gap-2 md:-my-[4.2rem]">
-        <Skeleton
-          animation="wave"
-          sx={{ marginBlock: 0, paddingBlock: 0 }}
-          height={290}
-          className="flex items-start -md:-mt-28"
-        />
-        <Skeleton
-          animation="wave"
-          sx={{ marginBlock: 0, paddingBlock: 0 }}
-          height={290}
-          className="flex items-start -md:-mt-28 md:-mt-32"
-        />
+    <Containers className="w-full">
+      <div className="grid gap-4 md:grid-cols-2">
+        <div className="h-[290px] md:h-[600px] w-full rounded-sm animate-pulse bg-neutral-400" />
+
+        <div className="grid md:gap-4">
+          <div className="h-[290px] w-full rounded-sm animate-pulse bg-neutral-400" />
+          <div className="h-[290px] w-full rounded-sm animate-pulse bg-neutral-400" />
+        </div>
       </div>
-    </div>
+    </Containers>
   );
 }

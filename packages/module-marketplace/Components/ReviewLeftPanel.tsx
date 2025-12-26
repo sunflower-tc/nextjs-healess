@@ -1,16 +1,16 @@
 import { useQuery } from '@apollo/client';
-import { Trans } from '@lingui/macro';
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
-import {
-  ISellerReviewsItems,
-  ReviewPlaceholder,
-} from '@voguish/module-marketplace';
+
 import SELLER_REVIEWS_QUERY from '@voguish/module-marketplace/graphql/SellerReviews.graphql';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import ReviewItem from '@voguish/module-theme/components/ReviewItem';
+import { useTranslation } from 'next-i18next';
+import { ISellerReviewsItems } from '../type';
+import { ReviewPlaceholder } from './Reviews/Placeholder';
 const ReviewLeftPanel = ({ id }: { id: number }) => {
   const offSet = 5;
   const currentPage = 1;
@@ -52,9 +52,10 @@ const ReviewLeftPanel = ({ id }: { id: number }) => {
   };
 
   const reviews = reviewData?.getSellerReview?.items || [];
+  const { t } = useTranslation('common');
 
   return (
-    <>
+    <ErrorBoundary>
       {loading && (
         <Grid
           container
@@ -69,13 +70,13 @@ const ReviewLeftPanel = ({ id }: { id: number }) => {
 
       {reviewData?.getSellerReview?.items &&
         isValidArray(reviewData.getSellerReview.items) && (
-          <>
+          <ErrorBoundary>
             {reviews.map((review: ISellerReviewsItems) => (
               <ReviewItem key={review.entity_id} review={review} />
             ))}
             {reviews &&
               reviewData?.getSellerReview.total_count > reviews.length && (
-                <>
+                <ErrorBoundary>
                   {loading ? (
                     <div className="flex justify-center mx-auto">
                       <svg
@@ -113,22 +114,23 @@ const ReviewLeftPanel = ({ id }: { id: number }) => {
                         }}
                       >
                         <Typography variant="subtitle1">
-                          <Trans>Load more reviews</Trans>
+                          {' '}
+                          {t('Load more reviews')}
                         </Typography>
                       </Button>
                     </Box>
                   )}
-                </>
+                </ErrorBoundary>
               )}
-          </>
+          </ErrorBoundary>
         )}
       {reviewData?.getSellerReview &&
         !isValidArray(reviewData.getSellerReview.items) && (
           <Typography variant="body2">
-            <Trans>For now no reviews added.</Trans>
+            {t('For now no reviews added.')}
           </Typography>
         )}
-    </>
+    </ErrorBoundary>
   );
 };
 export default ReviewLeftPanel;

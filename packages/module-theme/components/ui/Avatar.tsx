@@ -1,32 +1,35 @@
 import MuiAvatar from '@mui/material/Avatar';
 import NextImage from 'next/image';
+import ErrorBoundary from '../ErrorBoundary';
 
 export const NextAvatar = (props: NextProps) => {
   const { src, alt, avatarSize } = props;
   return (
-    <MuiAvatar
-      sx={{
-        position: 'relative',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        height: 60,
-        width: 60,
-      }}
-      className={avatarSize}
-    >
-      <NextImage
-        src={src}
-        alt={alt}
-        fill
-        style={{
-          objectFit: 'fill',
+    <ErrorBoundary>
+      <MuiAvatar
+        sx={{
+          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
+          height: 60,
+          width: 60,
         }}
-      />
-    </MuiAvatar>
+        className={avatarSize}
+      >
+        <NextImage
+          src={src}
+          alt={alt}
+          fill
+          style={{
+            objectFit: 'fill',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+        />
+      </MuiAvatar>
+    </ErrorBoundary>
   );
 };
 

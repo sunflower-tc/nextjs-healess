@@ -1,0 +1,10 @@
+#import "../fragments/_cart.graphql"
+mutation AddDownloadableProductsToCart(
+  $input: AddDownloadableProductsToCartInput
+) {
+  addDownloadableProductsToCart(input: $input) {
+    cart {
+      ...cart
+    }
+  }
+}

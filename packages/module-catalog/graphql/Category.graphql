@@ -9,6 +9,19 @@ query CategoryQuery($filters: CategoryFilterInput) {
     meta_description
     meta_title
     meta_keywords
+    children {
+      name
+      url_key
+      product_count
+      description
+      image
+    }
+    content {
+      html
+      status
+    }
+    display_mode
+    id
     product_count
     url_suffix
     breadcrumbs {

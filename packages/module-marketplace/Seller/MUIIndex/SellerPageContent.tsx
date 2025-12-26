@@ -1,5 +1,6 @@
 import Box from '@mui/material/Box';
 import Typography from '@mui/material/Typography';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 const MPFeatures = dynamic(() => import('./MPFeatures'));
 const SellerPageContent = ({
@@ -10,7 +11,7 @@ const SellerPageContent = ({
   aboutImage: string;
 }) => {
   return (
-    <>
+    <ErrorBoundary>
       <Box
         display="flex"
         flexDirection="column"
@@ -35,7 +36,7 @@ const SellerPageContent = ({
 
         {aboutImage === '' && <MPFeatures />}
       </Box>
-    </>
+    </ErrorBoundary>
   );
 };
 export default SellerPageContent;

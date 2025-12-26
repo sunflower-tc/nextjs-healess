@@ -1,0 +1,13 @@
+query ProductAggregation($filters: ProductAggrigationsFilter) {
+  productAggrigations(filter: $filters) {
+    attribute_code
+    count
+    label
+    options {
+      count
+      label
+      value
+    }
+    position
+  }
+}

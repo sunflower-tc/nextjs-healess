@@ -1,50 +1,53 @@
-import { Grid } from '@mui/material';
 import { graphqlRequest } from '@utils/Fetcher';
-import { isValidObject } from '@utils/Helper';
-import { TabPlaceHolder } from '@voguish/module-catalog';
-import DetailsPlaceHolder from '@voguish/module-catalog/Components/Product/Detail/placeholder/DetailsPlaceHolder';
-import ImageGalleryPlaceHolder from '@voguish/module-catalog/Components/Product/Detail/placeholder/ImageGalleryPlaceHolder';
+import { getLocalStore, isValidObject } from '@utils/Helper';
 import PRODUCT_QUERY from '@voguish/module-catalog/graphql/Product.graphql';
 import PRODUCT_PATH_QUERY from '@voguish/module-catalog/graphql/ProductsPath.graphql';
 import {
   ProductItemInterface,
   ProductsListInterface,
 } from '@voguish/module-catalog/types';
-import { PageOptions, PagePathProps, PagePaths } from '@voguish/module-theme';
-import Containers from '@voguish/module-theme/components/ui/Container';
+import {
+  PageOptions,
+  PagePathProps,
+  PagePaths,
+} from '@voguish/module-theme/page';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { useRouter } from 'next/router';
+import Containers from '@packages/module-theme/components/ui/Container';
 import dynamic from 'next/dynamic';
+import ProductPlaceholder from '@packages/placeholder/ProductDetail';
+import { Suspense } from 'react';
+import STORE_LIST from '@voguish/module-catalog/graphql/StoreList.query.graphql';
+
 const Detail = dynamic(
   () =>
     import('@voguish/module-catalog/Components/Product/Detail/page/Details'),
   {
+    ssr: false,
     loading: () => (
-      <Containers className="-sm:px-2">
-        <>
-          <Grid className="grid justify-center w-full mb-14 scroll-smooth -lg:gap-8 lg:grid-cols-12 lg:gap-x-20 xl:gap-x-24 lg:justify-between">
-            <Grid className="lg:col-span-6 mt-[-10px] scroll-smooth max-w-[95vw] max-w-[95dvw]">
-              <div className="lg:sticky top-24 scroll-smooth">
-                <ImageGalleryPlaceHolder />
-              </div>
-            </Grid>
-            <DetailsPlaceHolder />
-          </Grid>
-          <TabPlaceHolder />
-        </>
+      <Containers>
+        <ProductPlaceholder />
       </Containers>
     ),
   }
 );
-
 const Product = ({
   product,
 }: {
   product: ProductItemInterface;
   urlKey: string;
 }) => {
+  const router = useRouter();
   return (
-    <>
-      <Detail product={product} />
-    </>
+    <Suspense
+      fallback={
+        <Containers>
+          <ProductPlaceholder />
+        </Containers>
+      }
+    >
+      <Detail product={product} loading={router.isFallback} />
+    </Suspense>
   );
 };
 
@@ -56,22 +59,39 @@ export default Product;
  * @returns {Object} props
  */
 export async function getStaticPaths() {
-  // Get the paths we want to pre-render based on products
-
+  // Initialize paths as an empty array
   let paths: PagePathProps = [];
 
-  if (process.env.MODE === 'PRODUCTION') {
-    const data: ProductsListInterface = await graphqlRequest({
-      query: PRODUCT_PATH_QUERY,
-      variables: { filters: {} },
-    });
+  // Only run the GraphQL request in production
 
-    const products = data?.products?.items || [];
+  try {
+    if (process.env.MODE === 'PRODUCTION') {
+      // Perform the GraphQL request
+      const data: ProductsListInterface = await graphqlRequest({
+        query: PRODUCT_PATH_QUERY,
+        variables: { filters: {}, pageSize: 1000 },
+      });
+      // Check if the data is valid and contains products
+      if (data?.products?.items) {
+        const products = data.products.items;
 
-    paths = products.map((product) => ({
-      params: { urlKey: product?.url_key || '404' },
-    }));
+        // Map over products to create paths
+        paths = products.map((product) => ({
+          params: { urlKey: product?.url_key || '404' }, // Default to '404' if url_key is missing
+        }));
+      } else {
+        // Handle case where data is not as expected
+        throw new Error('Unexpected data format:');
+      }
+    } else {
+      paths = [];
+    }
+  } catch (error) {
+    console.log('Product detail :', error);
+    paths = [];
   }
+
+  // Return paths with fallback behavior
   return { paths, fallback: 'blocking' };
 }
 
@@ -81,36 +101,60 @@ export async function getStaticPaths() {
  * @param {*} param0
  * @returns {JSON} props
  */
-export async function getStaticProps({ params }: PagePaths) {
-  const data: ProductsListInterface = await graphqlRequest({
-    query: PRODUCT_QUERY,
-    variables: {
-      search: '',
-      filters: { url_key: { eq: params?.urlKey } },
-    },
-    options: {
-      fetchPolicy: 'network-only',
-    },
-  });
-  const product = data?.products?.items?.[0] || null;
+export async function getStaticProps({ params, locale }: PagePaths) {
+  try {
+    if (!params?.urlKey || !locale) {
+      throw new Error('Missing parameters or locale');
+    }
 
-  if (!isValidObject(product) || !product.sku) {
+    const storListResponse = await graphqlRequest({
+      query: STORE_LIST,
+      variables: {},
+    });
+    const stores = storListResponse?.data?.availableStores || [];
+
+    const data: ProductsListInterface = await graphqlRequest({
+      query: PRODUCT_QUERY,
+      variables: {
+        search: '',
+        filters: { url_key: { eq: params?.urlKey } },
+      },
+      options: {
+        context: {
+          headers: {
+            Store: getLocalStore(stores, locale as string),
+          },
+        },
+        fetchPolicy: 'network-only',
+      },
+    });
+    const product = data?.products?.items?.[0] || null;
+
+    if (!isValidObject(product) || !product.sku) {
+      return {
+        notFound: true,
+      };
+    }
+
+    const pageProps: PageOptions = {
+      title: product?.name,
+      metaTitle: product?.meta_title || product?.name,
+      metaDescription: product?.meta_description,
+      metaKeywords: product?.meta_keyword,
+      canonical: product?.canonical_url,
+    };
+    return {
+      props: {
+        ...(await serverSideTranslations(locale as string, ['common'])),
+        product: product || {},
+        pageOptions: pageProps,
+      },
+      revalidate: 30,
+    };
+  } catch (error) {
+    console.error('Product Detail: ', error);
     return {
       notFound: true,
     };
   }
-  const pageProps: PageOptions = {
-    title: product?.name,
-    metaTitle: product?.meta_title || product?.name,
-    metaDescription: product?.meta_description,
-    metaKeywords: product?.meta_keyword,
-    canonical: product?.canonical_url,
-  };
-  return {
-    props: {
-      product: product,
-      pageOptions: pageProps,
-    },
-    revalidate: 100, // Time In which it revalidate or check for changes
-  };
 }

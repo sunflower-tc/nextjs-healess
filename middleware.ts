@@ -1,4 +1,4 @@
-import { isMarketplaceEnable } from '@utils/Helper';
+import { isMarketplaceEnable, parseCookies } from '@utils/Helper';
 import { withAuth } from 'next-auth/middleware';
 import { NextResponse } from 'next/server';
 export const config = {
@@ -6,6 +6,7 @@ export const config = {
     '/customer/account/address',
     '/customer/account/product-compare',
     '/customer/account/profile',
+    '/customer/account/reset-password',
     '/wishlist/:path*',
     '/sales/:path*',
     '/marketplace/:path*',
@@ -21,7 +22,6 @@ const checkAuthPages = (pathName: string) => {
     pathName.endsWith('/customer/account/forgot-password')
   );
 };
-// Validating Seller Path
 const isValidSellerPath = (pathName: string) =>
   sellerUrls.find((url) => pathName.startsWith(url));
 
@@ -30,25 +30,26 @@ const isValidSellerPath = (pathName: string) =>
  * @param {*} req
  * @returns NextResponse Redirection
  */
+
 const fromMiddleware = async (req: any) => {
+  const cookiesHeader = req.headers.get('cookie') || '';
+  const cookies = parseCookies(cookiesHeader);
   const marketplaceIsActive = await isMarketplaceEnable();
   const token = req.nextauth.token;
-
   let pathName = req.nextUrl.pathname;
+  pathName = `/${cookies.Store}/${pathName}`;
   const url = req.nextUrl.clone();
   if (token && checkAuthPages(pathName)) {
-    url.pathname = '/';
+    url.pathname = `/${cookies.Store}/`;
     return NextResponse.redirect(url);
   }
   if (pathName.startsWith('next/')) {
     return NextResponse.next();
   }
-
   pathName = pathName.split('/')[1];
-
   if (!marketplaceIsActive && isValidSellerPath(pathName)) {
     const url = req.nextUrl.clone();
-    url.pathname = '/';
+    url.pathname = `/${cookies.Store}/`;
     const response = NextResponse.redirect(url, 302);
     return response;
   }

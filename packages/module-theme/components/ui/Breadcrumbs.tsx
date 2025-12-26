@@ -1,35 +1,69 @@
-import { Trans } from '@lingui/macro';
 import Breadcrumbs from '@mui/material/Breadcrumbs';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
-import { HTMLRenderer, PageOptions } from '@voguish/module-theme';
+import { HTMLRenderer } from '@voguish/module-theme/components/HTMLRenderer';
+import { PageOptions } from '@voguish/module-theme/page';
+import { useTranslation } from 'next-i18next';
+import ErrorBoundary from '../ErrorBoundary';
 import Containers from './Container';
-import { Link } from './Link';
+import Link from 'next/link';
 const Breadcrumb = ({ title, breadCrumbs }: PageOptions) => {
-  return (
-    <Containers className="mt-6">
-      <Breadcrumbs separator="›" aria-label="breadcrumb">
-        <Link href="/" className="cta" underline="none">
-          <Typography className="hover-underline-animation" variant="body2">
-            <Trans>Home</Trans>
-          </Typography>
-        </Link>
+  const { t } = useTranslation('common');
 
-        {isValidArray(breadCrumbs) ? (
-          breadCrumbs?.map(({ uid, label, url }) => (
-            <Link key={uid} href={`/${url}`} className="cta" underline="none">
-              <Typography className="hover-underline-animation" variant="body2">
-                {label}
-              </Typography>
-            </Link>
-          ))
-        ) : (
-          <Typography className="capitalize" variant="body2">
-            {HTMLRenderer({ htmlText: title }) || { title }}
-          </Typography>
-        )}
-      </Breadcrumbs>
-    </Containers>
+  return (
+    <ErrorBoundary>
+      {' '}
+      <Containers className="w-full  lg:mt-3 md:mt-3 mt-4">
+        <Breadcrumbs
+          className="w-full text-left whitespace-nowrap overflow-ellipsis"
+          separator="›"
+          aria-label="breadcrumb"
+        >
+          <Link href="/" className="no-underline cta">
+            <Typography className="hover-underline-animation" variant="body2">
+              {t('Home')}
+            </Typography>
+          </Link>
+          {isValidArray(breadCrumbs) ? (
+            breadCrumbs?.map(({ uid, label, url }) =>
+              url && url !== '' ? (
+                <Link
+                  key={uid + label + url}
+                  href={`/${url}`}
+                  className="no-underline cta max-w-fit"
+                >
+                  <Typography
+                    className="flex flex-wrap w-full text-left !break-all whitespace-normal hover-underline-animation"
+                    variant="body2"
+                  >
+                    {t(label)}
+                  </Typography>
+                </Link>
+              ) : (
+                <Typography
+                  key={uid + label + url}
+                  className="capitalize cursor-pointer max-w-fit cta"
+                  variant="body2"
+                >
+                  <span className="flex flex-wrap w-full text-left !break-all whitespace-normal hover-underline-animation">
+                    {HTMLRenderer({ htmlText: t(title) }) || t(title)}
+                  </span>
+                </Typography>
+              )
+            )
+          ) : (
+            <Typography
+              className="capitalize break-all cursor-pointer max-w-fit cta"
+              variant="body2"
+            >
+              <span className="flex flex-wrap w-full text-left !break-all whitespace-normal hover-underline-animation">
+                {HTMLRenderer({ htmlText: t(title) }) || t(title)}
+              </span>
+            </Typography>
+          )}
+        </Breadcrumbs>
+      </Containers>
+    </ErrorBoundary>
   );
 };
 export default Breadcrumb;

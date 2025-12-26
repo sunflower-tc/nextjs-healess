@@ -1,12 +1,14 @@
 import { useQuery } from '@apollo/client';
-import { showToast } from '@utils/Helper';
+import PRODUCTS_QUERY from '@voguish/module-catalog/graphql/SliderProducts.graphql';
 import {
   ProductsListInterface,
   ProductsQueryInput,
-} from '@voguish/module-catalog';
-import PRODUCTS_QUERY from '@voguish/module-catalog/graphql/SliderProducts.graphql';
+} from '@voguish/module-catalog/types';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 
 export const useProductSliderQuery = (queryVariable?: ProductsQueryInput) => {
+  const { showToast } = useToast();
+
   const {
     filters = {},
     pageSize = 9,

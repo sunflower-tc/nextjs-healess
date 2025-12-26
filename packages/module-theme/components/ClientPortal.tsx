@@ -1,8 +1,9 @@
-import React, { useEffect, useRef, useState } from 'react';
+import { ReactNode, useEffect, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
+import ErrorBoundary from './ErrorBoundary';
 
 type ClientPortalInterface = {
-  children: React.ReactNode;
+  children: ReactNode;
   selector: string;
 };
 
@@ -16,6 +17,6 @@ export const ClientPortal = ({ children, selector }: ClientPortalInterface) => {
   }, [selector]);
 
   return isMounted && ref.current
-    ? createPortal(<>{children}</>, ref.current)
+    ? createPortal(<ErrorBoundary>{children}</ErrorBoundary>, ref.current)
     : null;
 };

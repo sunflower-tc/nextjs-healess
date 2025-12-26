@@ -1,20 +1,18 @@
+import { setOrderId } from '@store/checkout';
 import { useAppDispatch } from '@store/hooks';
-import { showToast } from '@utils/Helper';
-import {
-  useCustomerMutation,
-} from '@voguish/module-customer';
+import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
 import CreateNihaopay from '@voguish/module-quote/graphql/mutation/CreateNihaopayToken.graphql';
 import CreatePaypalToken from '@voguish/module-quote/graphql/mutation/CreatePaypalToken.graphql';
 import PlaceOrderFromAdyen from '@voguish/module-quote/graphql/mutation/PlaceOrderFromAdyen.graphql';
 import SetPayPalPaymentMethodOnCart from '@voguish/module-quote/graphql/mutation/SetPayPalPaymentMethodOnCart.graphql';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import { useState } from 'react';
 import { CreateNihaopayTokenInput, CreatePaypalTokenInput, PlaceOrderFromAdyenInput, SetPayPalPaymentMethodOnCartInput } from '../types';
-
-import { setOrderId } from '@store/checkout';
 /**
  * Create Nihaopay Token handler
  */
 export const useCreateNihaopayToken = () => {
+  const { showToast } = useToast();
   const [isInProcess, setIsInProcess] = useState(false);
 
   const [createNihaopayToken] = useCustomerMutation(CreateNihaopay);
@@ -43,6 +41,8 @@ export const useCreateNihaopayToken = () => {
  * Create paypal Token handler
  */
 export const useCreatePaypayToken = () => {
+  const { showToast } = useToast();
+
   const [isInProcess, setIsInProcess] = useState(false);
   const [createPaypalToken] = useCustomerMutation(CreatePaypalToken);
 
@@ -70,6 +70,8 @@ export const useCreatePaypayToken = () => {
  * set paypal pay method to cart
  */
 export const useSetPayPalPaymentMethodOnCart = () => {
+  const { showToast } = useToast();
+
   const [isInProcess, setIsInProcess] = useState(false);
   const [setPayPalPaymentMethodOnCart] = useCustomerMutation(SetPayPalPaymentMethodOnCart);
 
@@ -99,6 +101,8 @@ export const useSetPayPalPaymentMethodOnCart = () => {
  */
 
 export const usePlaceOrderFromAdyen = () => {
+  const { showToast } = useToast();
+
   const [isInProcess, setIsInProcess] = useState(false);
   const dispatch = useAppDispatch();
   const [placeOrderFromAdyen, { loading, error }] = useCustomerMutation(PlaceOrderFromAdyen);

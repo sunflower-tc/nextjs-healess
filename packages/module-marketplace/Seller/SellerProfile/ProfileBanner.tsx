@@ -1,43 +1,32 @@
-import { Trans } from '@lingui/macro';
-import { Button } from '@mui/material';
 import Box from '@mui/material/Box';
+import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Rating from '@mui/material/Rating';
 import Stack from '@mui/material/Stack';
-
 import Typography from '@mui/material/Typography';
-import {
-  BannerThumbnail,
-  IProfileBannerProps,
-  Thumbnail,
-} from '@voguish/module-marketplace';
+import { getLabelText, labels } from '@utils/Helper';
+import Thumbnail from '@voguish/module-catalog/Components/Product/Item/Thumbnail';
+import { BannerThumbnail } from '@voguish/module-marketplace/Components/BannerThumbnail';
 import SellerContactForm from '@voguish/module-marketplace/Components/form/ContactSellerForm';
+import { IProfileBannerProps } from '@voguish/module-marketplace/type';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Containers from '@voguish/module-theme/components/ui/Container';
+import { useTranslation } from 'next-i18next';
 import { useState } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from 'store';
 
 const SPBanner = (props: IProfileBannerProps) => {
-  const userEmail = useSelector((state: RootState) => state?.user.email);
+  const userEmail = useSelector((state: RootState) => state?.user?.email);
   const { id, banner, logo, name, rating, orderCount, productCount } = props;
-  const labels: { [index: string]: string } = {
-    0: '(0/5)',
-    1: '(1/5)',
-    2: '(2/5)',
-    3: '(3/5)',
-    4: '(4/5)',
-    5: '(5/5)',
-  };
 
-  function getLabelText(value: number) {
-    return `${value} Star${value !== 1 ? 's' : ''}, ${labels[value]}`;
-  }
+  const { t } = useTranslation('common');
 
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
   return (
-    <>
+    <ErrorBoundary>
       <div className="overflow-hidden">
         <div className="h-[20rem] relative w-full -xs:h-[12.25] -xs:w-screen">
           <BannerThumbnail
@@ -68,13 +57,12 @@ const SPBanner = (props: IProfileBannerProps) => {
                 sx={{ height: '3.5rem' }}
               >
                 <Box
-                  className="p-1 border border-solid rounded-lg border-colorBorder"
+                  className="p-1 border translate-y-[-4.25rem] border-solid rounded-lg border-colorBorder"
                   sx={{
                     position: 'relative',
                     width: 129,
                     height: 129,
                     padding: 0.5,
-                    translate: '0 -4.25rem',
                     background: 'white',
                   }}
                 >
@@ -119,21 +107,12 @@ const SPBanner = (props: IProfileBannerProps) => {
             </Grid>
             <div className="flex flex-col justify-between gap-5 my-6 sm:items-center sm:flex-row lg:mx-6">
               <div className="flex items-center gap-4">
-                {' '}
                 <Stack
                   direction="row"
                   spacing={1}
-                  className="border border-solid border-commonBorder"
-                  sx={{
-                    padding: '0.25rem 0.75rem',
-                    borderRadius: '0.25rem',
-
-                    fontWeight: 500,
-                  }}
+                  className="px-3 py-1 font-medium border border-solid rounded border-commonBorder"
                 >
-                  <Typography variant="button">
-                    <Trans>Total Count :</Trans>
-                  </Typography>
+                  <Typography variant="button">{t('Total Count :')}</Typography>
                   <Typography variant="overline">
                     {parseInt(productCount)}
                   </Typography>
@@ -147,9 +126,7 @@ const SPBanner = (props: IProfileBannerProps) => {
                     borderRadius: '0.25rem',
                   }}
                 >
-                  <Typography variant="button">
-                    <Trans>Sale :</Trans>
-                  </Typography>
+                  <Typography variant="button">{t('Sale :')}</Typography>
                   <Typography variant="overline">
                     {parseInt(orderCount)}
                   </Typography>
@@ -172,7 +149,7 @@ const SPBanner = (props: IProfileBannerProps) => {
                     }}
                   >
                     <Typography variant="subtitle1">
-                      <Trans>Contact Seller</Trans>
+                      {t('Contact Seller')}{' '}
                     </Typography>
                   </Button>
                 </div>
@@ -181,8 +158,10 @@ const SPBanner = (props: IProfileBannerProps) => {
           </div>
         </Containers>
       </div>
-      <SellerContactForm handleClose={handleClose} open={open} id={id} />
-    </>
+      <ErrorBoundary>
+        <SellerContactForm handleClose={handleClose} open={open} id={id} />
+      </ErrorBoundary>
+    </ErrorBoundary>
   );
 };
 export default SPBanner;
