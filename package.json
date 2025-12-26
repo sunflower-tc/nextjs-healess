@@ -17,7 +17,7 @@
     "yarn": ">=1.22.0"
   },
   "dependencies": {
-    "@adyen/adyen-web": "^5.71.5",
+    "@adyen/adyen-web": "^5.63.0",
     "@apollo/client": "3.7.11",
     "@emotion/cache": "^11.10.7",
     "@emotion/react": "^11.9.3",
