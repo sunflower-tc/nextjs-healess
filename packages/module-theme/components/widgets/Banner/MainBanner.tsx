@@ -1,12 +1,14 @@
+import { PLACEHOLDER_IMG } from '@utils/Constants';
 import { isValidObject } from '@utils/Helper';
-import { Thumbnail } from '@voguish/module-catalog';
+import Thumbnail from '@voguish/module-catalog/Components/Product/Item/Thumbnail';
 import { BannerImage } from '@voguish/module-theme/types/home-page';
 import Link from 'next/link';
-import { MainBannerPlaceHolder } from '../placeholders';
+import ErrorBoundary from '../../ErrorBoundary';
+import { MainBannerPlaceHolder } from '../placeholders/MainBannerPlaceHolder';
 
 const MainBanner = ({ bannerData }: { bannerData: BannerImage }) => {
   return (
-    <>
+    <ErrorBoundary>
       {isValidObject(bannerData) ? (
         <div
           style={{ backgroundColor: bannerData?.dominantColor }}
@@ -33,22 +35,21 @@ const MainBanner = ({ bannerData }: { bannerData: BannerImage }) => {
           </div>
           <div
             style={{ backgroundColor: bannerData?.dominantColor }}
-            className="absolute right-0 outline-0 flex w-full hover:shadow-md hover:scale-[1.01] duration-300 max-w-[75%] md:max-w-[62%] h-full translate-x-28 xl:translate-x-36 skew-x-[-26deg] shadow-[0px_-16px_15px_rgba(0,_0,_0,_0.2)]"
+            className="absolute rtl:left-0 ltr:right-0 outline-0 flex w-full justify-center hover:shadow-md hover:scale-[1.01] duration-300 max-w-[75%] md:max-w-[62%] h-full rtl:-translate-x-28 rtl:xl:-translate-x-36 ltr:translate-x-28 ltr:xl:translate-x-36 rtl:-skew-x-[-26deg] ltr:skew-x-[-26deg] shadow-[0px_-16px_15px_rgba(0,_0,_0,_0.2)]"
           >
             <Thumbnail
               alt={bannerData?.bannerTitle}
               fill
-              loading="eager"
               priority={true}
-              thumbnail={bannerData.url}
-              className="object-contain aspect-video max-w-[58.8%] mx-5 sm:mx-8 md:mx-16 skew-x-[27deg] p-4 md:p-12 h-[88%]"
+              thumbnail={bannerData?.url || PLACEHOLDER_IMG}
+              className="object-contain aspect-video relative rtl:sm:mr-10 rtl:lg:mr-20 ltr:-xs:ml-3 ltr:ml-5 ltr:md:mx-auto rtl:max-w-[58.8%] rtl:md:max-w-[70%] ltr:max-w-[58.8%] rtl:-skew-x-[27deg] ltr:skew-x-[27deg] h-[88%]"
             />
           </div>
         </div>
       ) : (
         <MainBannerPlaceHolder />
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 export default MainBanner;

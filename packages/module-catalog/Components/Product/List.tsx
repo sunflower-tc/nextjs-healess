@@ -1,9 +1,11 @@
-// import { useQuery } from '@apollo/client';
-import Grid from '@mui/material/Grid';
-import Stack from '@mui/material/Stack';
-import { isValidArray, isValidObject } from '@utils/Helper';
 import {
-  FiltersRenderer,
+  createQueryForLink,
+  getCategoryFilterQuery,
+  isValidArray,
+  isValidObject,
+  parseAppliedFilter,
+} from '@utils/Helper';
+import {
   PaginationActionType,
   ProductAttributeFilterInput,
   ProductListViewType,
@@ -12,23 +14,53 @@ import {
   ProductsInterface,
   ProductsQueryInput,
   ToolbarActionType,
-  useProductsQuery,
-} from '@voguish/module-catalog';
-import { Pagination } from '@voguish/module-theme';
-import Containers from '@voguish/module-theme/components/ui/Container';
-import EmptyPage from '@voguish/module-theme/components/ui/EmptyPage';
-import React, { Reducer, useEffect, useReducer, useState } from 'react';
-import { SubCategory } from '~packages/module-theme/components/ui/SubCategory';
-import LayeredPlaceHolder from './Detail/placeholder/PlaceHolder';
-import { Placeholder, ProductItem } from './Item';
-import DesktopFilter from './Item/DesktopFilter';
-import MobileFilter from './Item/MobileFilter';
+} from '@voguish/module-catalog/types';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import dynamic from 'next/dynamic';
+import { useRouter } from 'next/router';
+import { Reducer, useReducer, useState } from 'react';
+import {
+  FilterSidebarSkeleton,
+  LayeredPlaceHolder,
+  MobilePlaceHolder,
+} from './Detail/placeholder/PlaceHolder';
+import Placeholder from './Item/Placeholder';
+import { SEARCH_FIELD } from '@utils/Constants';
+import FadeInView from '@packages/module-theme/components/ui/FadeInView';
+const DesktopFilter = dynamic(() => import('./Item/DesktopFilter'), {
+  loading: () => {
+    return <MobilePlaceHolder />;
+  },
+});
+const FiltersRenderer = dynamic(
+  () =>
+    import('@voguish/module-catalog/Components/Product/LayerNavigation/FiltersRenderer'),
+  {
+    loading: () => {
+      return <LayeredPlaceHolder />;
+    },
+  }
+);
+
+const Pagination = dynamic(
+  () => import('@voguish/module-theme/components/widgets/Pagination')
+);
+
+const MobileFilter = dynamic(() => import('./Item/MobileFilter'));
+const ProductItem = dynamic(() => import('./Item/Item'), {
+  loading: () => {
+    return <Placeholder />;
+  },
+});
+const EmptyPage = dynamic(
+  () => import('@voguish/module-theme/components/ui/EmptyPage')
+);
 
 /**
  * Initial Search Criteria
  */
 const initialSearchCriteria: ProductsQueryInput = {
-  pageSize: 9,
+  pageSize: 54,
 };
 /**
  *
@@ -36,120 +68,65 @@ const initialSearchCriteria: ProductsQueryInput = {
  * @param action ProductsAction
  * @returns
  */
-type SearchCriteriaAction =
-  | ProductsAction
-  | { type: 'reset'; payload: ProductsQueryInput };
-
-const searchCriteriaReducer: Reducer<
-  ProductsQueryInput,
-  SearchCriteriaAction
-> = (state, action) => {
-  if (action.type === 'reset') {
-    return { ...action.payload };
-  }
-
-  const nextState: ProductsQueryInput = { ...state };
+const searchCriteriaReducer: Reducer<ProductsQueryInput, ProductsAction> = (
+  state,
+  action
+) => {
   const value = action.payload;
 
   if (action.type === ToolbarActionType.SORT) {
     let sortValue = `${value}`.split('||');
-    nextState.sort = { [sortValue[0]]: sortValue[1] };
+    state.sort = { [sortValue[0]]: sortValue[1] };
   }
 
   if (action.type === PaginationActionType.PAGE) {
-    nextState.currentPage = parseInt(`${value}`);
+    state.currentPage = parseInt(`${value}`);
   }
 
   if (action.type === PaginationActionType.LIMIT) {
-    nextState.pageSize = parseInt(`${value}`);
+    state.pageSize = parseInt(`${value}`);
   }
 
   if (action.type === 'search' && typeof value === 'string') {
-    nextState.search = value;
+    state.search = value;
   }
-
   if (
     action.type === 'filter' &&
     typeof value !== 'string' &&
     typeof value !== 'number'
   ) {
-    nextState.filters = { ...nextState.filters, ...value };
+    state.filters = { ...state.filters, ...value };
   }
 
   if (action.type === 'removeFilter' && value && typeof value === 'string') {
-    let filters = nextState.filters;
+    let filters = state.filters;
     if (filters && isValidObject(filters)) {
       delete filters[value];
-      nextState.filters = filters;
+      state.filters = filters;
     }
   }
-
-  return nextState;
+  return state;
 };
 
 const ProductList = ({
   showPagination,
+  loading = false,
   title,
+  selectedCategory,
   showLayeredNavigation,
+  category,
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   search = '',
-  productsInput,
-  activePageFilter = null,
-  activePageFilterValue = null,
+  products,
   showToolBar,
-  subCategoryItem,
+  aggregations,
+  aggreLoad,
+  sort,
 }: ProductsInterface) => {
-
-  const [searchCriteria, dispatchSearchCriteria] = useReducer<
-    Reducer<ProductsQueryInput, SearchCriteriaAction>
-  >(searchCriteriaReducer, initialSearchCriteria);
-
-
-  const categoryFilterValue = React.useMemo(() => {
-    const categoryFilter = productsInput?.filters?.category_uid;
-    return JSON.stringify(categoryFilter ?? null);
-  }, [productsInput?.filters?.category_uid]);
-
-  const previousCategory = React.useRef<string | null>(null);
-
-  useEffect(() => {
-    const categoryChanged = previousCategory.current !== categoryFilterValue;
-    if (categoryChanged) {
-      previousCategory.current = categoryFilterValue;
-      dispatchSearchCriteria({
-        type: 'reset',
-        payload: { ...initialSearchCriteria },
-      });
-    }
-
-    if (isValidObject(productsInput)) {
-      if (productsInput?.filters) {
-        dispatchSearchCriteria({
-          type: 'filter',
-          payload: productsInput.filters,
-        });
-
-        if (productsInput?.pageSize) {
-          dispatchSearchCriteria({
-            type: 'limit',
-            payload: productsInput?.pageSize,
-          });
-        } else {
-          dispatchSearchCriteria({
-            type: 'limit',
-            payload: 9,
-          });
-        }
-      }
-
-      if (search) {
-        dispatchSearchCriteria({
-          type: 'search',
-          payload: search,
-        });
-      }
-    }
-  }, [productsInput, search, categoryFilterValue]);
-
+  const [searchCriteria, dispatchSearchCriteria] = useReducer(
+    searchCriteriaReducer,
+    initialSearchCriteria
+  );
   /**
    * Managing View
    */
@@ -157,45 +134,42 @@ const ProductList = ({
     ProductListViewType.GRID
   );
 
-  const { pageSize, currentPage, sort } = searchCriteria;
+  let { pageSize, currentPage } = searchCriteria;
 
-  /**
-   * Fetching Products
-   */
-  const { data, loading } = useProductsQuery(searchCriteria);
+  const router = useRouter();
+  const {
+    query: { urlKey: queries = [] },
+  } = router;
+
+  const limitIndex = queries.indexOf('limit');
+  const pageIndex = queries.indexOf('page');
+
+  if (pageIndex !== -1) {
+    currentPage = Number(queries[pageIndex + 1]);
+  }
+
+  if (limitIndex !== -1) {
+    pageSize = Number(queries[limitIndex + 1]);
+  }
 
   // Product Props
-  const products = data?.products?.items || [];
-
-  const totalCount = data?.products?.total_count || 0;
-
-  let filters = data?.products?.applied_filters;
-
-  console.log('filters', filters)
-  console.log('activePageFilter', activePageFilter)
-  console.log('activePageFilterValue', activePageFilterValue)
-
-  // const appliedFilters = React.useMemo(
-  //   () => parseAppliedFilter(filters, activePageFilter, activePageFilterValue),
-  //   [filters, activePageFilter, activePageFilterValue]
-  // );
-  const appliedFilters = React.useMemo(
-    () => filters,
-    [filters]
-  );
-
-  console.log('appliedFilters--2', appliedFilters)
-
+  const sortFields = sort;
+  const { items = [], total_count: totalCount = 0 } = products;
+  let filters = products?.applied_filters;
+  const appliedFilters = router?.asPath?.includes(SEARCH_FIELD)
+    ? filters
+    : parseAppliedFilter(filters);
   // Placeholders for Product List
-  const placeHolders = new Array(pageSize).fill(0);
+  const placeHolders = new Array(pageSize || 12).fill(0);
 
   const activeSortKey: string | null = sort ? Object.keys(sort)[0] : null;
 
   let activeSort =
     activeSortKey && sort
-      ? `${activeSortKey}||${Object.values(sort)[0]}`
-      : 'position||ASC';
+      ? `${activeSortKey}_${Object.values(sort)[0]}`
+      : 'position_asc';
 
+  const removePagination = false;
   /**
    * To manage Pagination
    */
@@ -206,15 +180,21 @@ const ProductList = ({
     action: PaginationActionType;
     payload: number;
   }) => {
-    dispatchSearchCriteria({
-      type: action,
-      payload: payload,
-    });
+    const queryParameters: string | string[] = createQueryForLink(
+      queries,
+      action,
+      String(payload),
+      removePagination
+    );
+    if (isValidArray(queryParameters)) {
+      router.push(getCategoryFilterQuery(router, action, String(payload)));
+    }
   };
 
   /**
    * To Manage Toolbar
    */
+
   const manageToolbar = ({
     action,
     payload,
@@ -224,9 +204,11 @@ const ProductList = ({
   }) => {
     if (action === ToolbarActionType.VIEW) {
       setView(
-        payload === ProductListViewType.GRID
-          ? ProductListViewType.GRID
-          : ProductListViewType.LIST
+        (payload === ProductListViewType.GRID && ProductListViewType.GRID) ||
+          (payload === ProductListViewType.LIST && ProductListViewType.LIST) ||
+          (payload === ProductListViewType.TWOGRID &&
+            ProductListViewType.TWOGRID) ||
+          ProductListViewType.GRID
       );
     } else {
       dispatchSearchCriteria({
@@ -235,129 +217,140 @@ const ProductList = ({
       });
     }
   };
-
   /**
    * To Manage Layered Navigation Filter
    */
   const manageFilterAction = (payload: ProductAttributeFilterInput) => {
     dispatchSearchCriteria({ type: 'filter', payload: payload });
   };
-
-  const removeFilterAction = (filterKey: string) => {
-    dispatchSearchCriteria({ type: 'removeFilter', payload: filterKey || '' });
-  };
-
-
   return (
-    <Containers>
-      <Stack>
+    <ErrorBoundary>
+      <div className="!z-2 flex flex-col gap-6">
         <span className="lg:hidden">
-          {/* {isValidArray(products) && (
+          <ErrorBoundary>
             <MobileFilter
               title={`${title}(${totalCount})`}
               activeSort={activeSort}
               manageToolbar={manageToolbar}
-              removeFilterAction={removeFilterAction}
-              loading={loading}
+              loading={aggreLoad}
               appliedFilters={appliedFilters}
               manageFilterAction={manageFilterAction}
-              data={data}
+              sortFields={sortFields}
+              aggregations={aggregations}
             />
-          )} */}
-          <MobileFilter
-            title={`${title}(${totalCount})`}
-            activeSort={activeSort}
-            manageToolbar={manageToolbar}
-            removeFilterAction={removeFilterAction}
-            loading={loading}
-            appliedFilters={appliedFilters}
-            manageFilterAction={manageFilterAction}
-            data={data}
-          />
+          </ErrorBoundary>
         </span>
-        <DesktopFilter
-          loading={loading}
-          title={[title, totalCount]}
-          activeSort={activeSort}
-          view={view}
-          manageToolbar={manageToolbar}
-          data={data}
-          showToolBar={showToolBar}
-        />
-        {/* {isValidArray(products) && (
+
+        <ErrorBoundary>
           <DesktopFilter
-            loading={loading}
+            loading={aggreLoad}
             title={[title, totalCount]}
             activeSort={activeSort}
             view={view}
             manageToolbar={manageToolbar}
-            data={data}
+            sortFields={sortFields}
             showToolBar={showToolBar}
           />
-        )} */}
-        <Grid container spacing={2} mt={1}>
-          {showLayeredNavigation && (
-            <Grid className="rounded-md -lg:hidden" item xs={12} sm={12} lg={3}>
-              {loading ? (
-                <LayeredPlaceHolder />
+        </ErrorBoundary>
+        <div className="grid grid-cols-12 gap-4">
+          <div className="col-span-3 rounded-md -lg:hidden">
+            <ErrorBoundary>
+              {aggreLoad ? (
+                <FilterSidebarSkeleton />
               ) : (
                 <FiltersRenderer
+                  selectedCategory={selectedCategory}
                   appliedFilters={appliedFilters}
                   manageFilterAction={manageFilterAction}
-                  removeFilterAction={removeFilterAction}
-                  filters={data?.products?.aggregations}
+                  filters={aggregations}
                 />
-                // isValidArray(products) && (
-
-                // )
               )}
-            </Grid>
-          )}
-          <Grid item xs={12} sm={12} lg={showLayeredNavigation ? 9 : 12}>
-            <Grid container spacing={4}>
-              {loading
-                ? placeHolders.map((item, index) => (
-                  <Grid item xs={12} sm={6} md={4} key={`${index + item}`}>
-                    <Placeholder />
-                  </Grid>
-                ))
-                : isValidArray(products) &&
-                products.map((product) => (
-                  <Grid
-                    item
-                    xs={12}
-                    sm={view === ProductListViewType.GRID ? 6 : 12}
-                    md={view === ProductListViewType.GRID ? 4 : 12}
-                    key={product.url_key}
-                  >
-                    <ProductItem
-                      view={view}
-                      product={product}
-                      key={product.id}
-                    />
-                  </Grid>
-                ))}
-            </Grid>
-            {isValidArray(products) && showPagination && (
-              <Grid item className="w-full">
-                <Pagination
-                  pageSize={pageSize}
-                  loadingState={loading}
-                  totalCount={totalCount || 0}
-                  changeHandler={managePagination}
-                  currentPage={
-                    data?.products?.page_info?.current_page || currentPage
-                  }
-                />
-              </Grid>
+            </ErrorBoundary>{' '}
+          </div>
+          <div className="grid col-span-12 lg:col-span-9">
+            {!isValidArray(items) ? (
+              <ErrorBoundary>
+                <EmptyPage />
+              </ErrorBoundary>
+            ) : (
+              <>
+                {view === ProductListViewType?.LIST && (
+                  <div className="grid gap-4 md:gap-8 sm:grid-cols-2 md:grid-cols-1">
+                    {loading
+                      ? placeHolders.map((item, index) => (
+                          <div key={`${index + item}`}>
+                            <Placeholder />
+                          </div>
+                        ))
+                      : items.map((product, index) => (
+                          <FadeInView key={product.url_key ?? index}>
+                            <ErrorBoundary>
+                              <ProductItem
+                                view={view}
+                                product={product}
+                                key={product.uid}
+                              />
+                            </ErrorBoundary>
+                          </FadeInView>
+                        ))}
+                  </div>
+                )}
+                {view === ProductListViewType?.TWOGRID && (
+                  <div className="grid col-span-12 gap-4 md:gap-8 lg:col-span-9 sm:grid-cols-2">
+                    {loading
+                      ? placeHolders.map((item, index) => (
+                          <div key={`${index + item}`}>
+                            <Placeholder />
+                          </div>
+                        ))
+                      : items.map((product, index) => (
+                          <FadeInView key={product.url_key}>
+                            <ErrorBoundary>
+                              <ProductItem
+                                view={view}
+                                product={product}
+                                key={product.uid}
+                              />
+                            </ErrorBoundary>
+                          </FadeInView>
+                        ))}
+                  </div>
+                )}
+                {view === ProductListViewType?.GRID && (
+                  <div className="grid col-span-12 gap-4 md:gap-8 lg:col-span-9 md:grid-cols-3 sm:grid-cols-2">
+                    {loading
+                      ? placeHolders.map((item, index) => (
+                          <div key={`${index + item}`}>
+                            <Placeholder />
+                          </div>
+                        ))
+                      : items.map((product, index) => (
+                          <FadeInView key={product.url_key}>
+                            <ErrorBoundary>
+                              <ProductItem
+                                view={view}
+                                product={product}
+                                key={product.uid}
+                              />
+                            </ErrorBoundary>
+                          </FadeInView>
+                        ))}
+                  </div>
+                )}
+              </>
             )}
-            {(!isValidArray(products) && !isValidArray(subCategoryItem) && !loading) && <EmptyPage />}
-          </Grid>
-        </Grid>
-      </Stack>
-      {(isValidArray(subCategoryItem) && (!isValidArray(products) && !loading)) && (<SubCategory subCategoryItem={subCategoryItem} />)}
 
-    </Containers>
+            <Pagination
+              pageSize={pageSize}
+              loadingState={loading}
+              totalCount={totalCount || 0}
+              changeHandler={managePagination}
+              currentPage={products?.page_info?.current_page || currentPage}
+            />
+          </div>
+        </div>
+      </div>
+    </ErrorBoundary>
   );
 };
 export default ProductList;

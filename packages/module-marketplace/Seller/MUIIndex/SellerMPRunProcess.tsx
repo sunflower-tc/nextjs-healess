@@ -1,7 +1,8 @@
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import { IMPProcess } from '@voguish/module-marketplace';
+import { IMPProcess } from '@voguish/module-marketplace/type';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 
 const SellerMPRunProcess = ({
   processData,
@@ -11,7 +12,7 @@ const SellerMPRunProcess = ({
   label?: string | undefined | null;
 }) => {
   return (
-    <>
+    <ErrorBoundary>
       {processData && (
         <Box
           display="flex"
@@ -92,7 +93,7 @@ const SellerMPRunProcess = ({
           </Grid>
         </Box>
       )}
-    </>
+    </ErrorBoundary>
   );
 };
 export default SellerMPRunProcess;

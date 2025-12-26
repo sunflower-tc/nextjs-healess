@@ -1,4 +1,4 @@
-import { Trans } from '@lingui/macro';
+
 import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
 import FormControlLabel from '@mui/material/FormControlLabel';
@@ -13,14 +13,14 @@ import AdyenCardPayWrapper from '@voguish/module-quote/Components/Checkout/Payme
 import PaypalWrapper from '@voguish/module-quote/Components/Checkout/Payment/PayPalWrapper';
 import { createEmptyCart, useCreateNihaopayToken, usePlaceOrder, useSetPaymentMethodOnCart } from '@voguish/module-quote/hooks';
 import { CartInterface, CheckoutStepPayment } from '@voguish/module-quote/types';
-import { AdyenPay, AirwallexCard, LoadingButtton, NihaopayPaymentsAlipay, NihaopayPaymentsUnionpay, NihaopayPaymentsWechatpay, PaypalExpress } from '@voguish/module-theme';
+import { AdyenPay, AirwallexCard, NihaopayPaymentsAlipay, NihaopayPaymentsUnionpay, NihaopayPaymentsWechatpay, PaypalExpress } from '@voguish/module-theme/components/elements/Icon';
+import { LoadingButtton } from '@voguish/module-theme/components/elements/LoadingButton';
 import BackDropLoader from '@voguish/module-theme/components/ui/Form/Elements/BackDropLoader';
 import { useRouter } from 'next/router';
 import React, { ChangeEvent, Fragment, useMemo, useRef, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import { useDispatch } from 'react-redux';
 import FormWrapper from './FormWrapper';
-
 
 const Payment = ({
   handlePrev,
@@ -37,7 +37,8 @@ const Payment = ({
   const redirectHtmlRef = useRef<HTMLElement | null>(null);
   const [showRedirectUrl, setShowRedirectUrl] = useState<boolean>(false)
 
-  const { setPaymentMethodsHandler, isInProcess } = useSetPaymentMethodOnCart();
+  const { setPaymentMethodsHandler, isInProcess } =
+    useSetPaymentMethodOnCart(handleNext);
 
   const { createNihaopayTokenHandler, isInProcess: createLoading } = useCreateNihaopayToken();
   const { placeOrderHandler, isInProcess: isInPlaceOrderProcess } = usePlaceOrder();
@@ -139,7 +140,7 @@ const Payment = ({
                   onClick={placeOrder}
                   disabled={!selectedPayment || isInProcess || createLoading}
                 >
-                  <Trans>Place Order</Trans>
+                  Place Order
                 </Button>
               )}
             </Fragment>

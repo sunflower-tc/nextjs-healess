@@ -5,6 +5,7 @@
     "source.fixAll": "explicit",
     "source.organizeImports": "explicit"
   },
+  "kiroAgent.configureMCP": "Disabled",
   "typescript.tsdk": "node_modules/typescript/lib",
   "workbench.settings.editor": "json"
 }

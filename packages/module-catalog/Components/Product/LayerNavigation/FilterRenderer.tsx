@@ -1,55 +1,69 @@
-import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
-import ArrowDropUpIcon from '@mui/icons-material/ArrowDropUp';
-import Box from '@mui/material/Box';
-import Collapse from '@mui/material/Collapse';
-import FormControlLabel from '@mui/material/FormControlLabel';
-import List from '@mui/material/List';
 import ListItem from '@mui/material/ListItem';
-import ListItemButton from '@mui/material/ListItemButton';
-import ListItemText from '@mui/material/ListItemText';
-import ListSubheader from '@mui/material/ListSubheader';
+import { isSelectedFilter } from '@utils/Helper';
+import { AnimatePresence, motion } from 'framer-motion';
+
+import { useLazyQuery } from '@apollo/client';
+import CheckBoxOutlineBlankRounded from '@mui/icons-material/CheckBoxOutlineBlankRounded';
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Radio from '@mui/material/Radio';
 import RadioGroup from '@mui/material/RadioGroup';
-import { isValidArray, isValidObject } from '@utils/Helper';
+import CheckedIcon from '@packages/module-theme/components/elements/CheckedIcon';
+import {
+  getCategoryFilterQuery,
+  getUniqueArray,
+  isValidArray,
+} from '@utils/Helper';
+import PRODUCT_AGGRESSION from '@voguish/module-catalog/graphql/ProductAggregation.query.graphql';
 import {
   AggregationInterface,
   AppliedLayerFilter,
   FilterEqualTypeInput,
   FilterRangeTypeInput,
   ProductAttributeFilterInput,
-} from '@voguish/module-catalog';
-import { encode as base64_encode } from 'base-64';
-import dynamic from 'next/dynamic';
+} from '@voguish/module-catalog/types';
+import InfiniteScrollDiv from '@voguish/module-common/InfiniteScroll';
+import { CategorySearchPlaceHolder } from '@voguish/module-marketplace/Components/Placeholder';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { useTranslation } from 'next-i18next';
+import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ChangeEvent, useState } from 'react';
-const CheckBox = dynamic(() => import('@mui/icons-material/CheckBox'));
-const CheckBoxOutlineBlankRounded = dynamic(
-  () => import('@mui/icons-material/CheckBoxOutlineBlankRounded')
-);
+
+let debounceTimer: ReturnType<typeof setTimeout>;
+
 const FilterRenderer = ({
   filter,
   expandedView = false,
   manageFilterAction,
   appliedFilters = [],
+  selectedCategory,
 }: {
+  selectedCategory?: string;
   appliedFilters: AppliedLayerFilter[] | undefined;
   filter: AggregationInterface;
   expandedView?: boolean;
   manageFilterAction: (
     payload: // eslint-disable-line
-      ProductAttributeFilterInput
+    ProductAttributeFilterInput
   ) => void;
 }) => {
+  const { t } = useTranslation('common');
+
   /**
    * To manage toggle of Filter renderer
    */
   const [open, setOpen] = useState(expandedView);
 
-  /**
-   * Handle Filter Action
-   *
-   * @param event
-   * @param value
-   */
+  const router = useRouter();
+  const {
+    query: { urlKey: queries = [] },
+  } = router;
+  const [filterOption, setFilterOption] = useState<any>([]);
+
+  const [inputSearch, setSearchValue] = useState<string>('');
+  const attributePageSize = 5;
+  const [searchCategory, { loading: searchLoading }] =
+    useLazyQuery(PRODUCT_AGGRESSION);
   const handleFilter = (
     event: ChangeEvent<HTMLInputElement>,
     value: string
@@ -58,17 +72,11 @@ const FilterRenderer = ({
     let filterValue: FilterRangeTypeInput | FilterEqualTypeInput = {
       eq: value,
     };
-    if (filterName === 'price') {
-      const priceRange = value.split('_');
-      filterValue = { from: priceRange[0], to: priceRange[1] };
-    }
     if (filterName === 'category_uid') {
-      filterValue = { eq: base64_encode(value) };
+      filterValue = { eq: value };
     }
-
     manageFilterAction({ [event.target.name]: filterValue });
   };
-
   /**
    * Handling Toggle of filter
    */
@@ -76,105 +84,209 @@ const FilterRenderer = ({
     setOpen(!open);
   };
 
-  /**
-   * To show selected filter in Layered Navigation
-   */
-  const isSelectedFilter = (attributeCode: string, value: string): boolean => {
-    let selected = false;
+  const searchHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    setSearchValue(value);
+    clearTimeout(debounceTimer);
 
-    if (attributeCode === 'price' && value.includes('_')) {
-      value = value.replace('_', '-');
-    }
-    if (isValidArray(appliedFilters)) {
-
-      const searchSelected = appliedFilters.find(
-        (appliedFilter) =>
-          appliedFilter.attribute_code === attributeCode &&
-          appliedFilter.value === value
-      );
-
-      if (isValidObject(searchSelected)) {
-        selected = true;
+    debounceTimer = setTimeout(() => {
+      if (!filter?.attribute_code) {
+        return;
       }
-    }
-    return selected;
+      searchCategory({
+        variables: {
+          filters: {
+            attribute_filter: [
+              {
+                currentPage: 1,
+                code: filter.attribute_code,
+                search: value,
+                pageSize: attributePageSize ?? 5,
+              },
+            ],
+          },
+        },
+      }).then((response) => {
+        const data = response?.data?.productAggrigations?.at(0)?.options;
+        setFilterOption(data);
+      });
+    }, 500);
   };
   return (
-    <List
-      className={`border-solid border -lg:px-4 border-commonBorder  ${!open ? '-lg:border-b -lg:border-0' : '-lg:border-y -lg:border-0'
-        }`}
-      subheader={
-        <ListSubheader
-          onClick={handleClick}
-          component="div"
-          id="nested-list-subheader"
-          sx={{
-            fontWeight: 400,
-            fontSize: '1rem',
-            color: 'common.black',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
+    <ErrorBoundary>
+      <div className="w-full max-w-xl mx-auto ">
+        <div className="bg-white rounded-lg">
+          <button
+            onClick={handleClick}
+            className="w-full py-2.5 pl-4 border-none cursor-pointer bg-transparent p-2 flex justify-between items-center text-left font-semibold text-gray-800 hover:bg-gray-50 transition"
+          >
+            <span className="text-base capitalize">{filter?.label}</span>
+            <motion.div
+              animate={{ rotate: open ? 180 : 0 }}
+              transition={{ duration: 0.3 }}
+              className="w-5 h-5"
+            >
+              <KeyboardArrowDownIcon />
+            </motion.div>
+          </button>
 
-            borderBottom: `${open ? '1px solid' : ''}`,
-            borderColor: 'themeAdditional.borderColor',
-          }}
-          className={`leading-normal cursor-pointer ${open ? 'py-3' : 'pt-3 pb-1'
-            } lg:leading-[1.55rem]`}
-        >
-          {filter?.label}
-          {!open ? (
-            <ArrowDropDownIcon className="mt-1" />
-          ) : (
-            <ArrowDropUpIcon className="mt-1 text-brand" />
-          )}
-        </ListSubheader>
-      }
-    >
-      <Collapse in={open} timeout="auto">
-        <Box component="form" className="w-full">
-          <RadioGroup name={filter.attribute_code} onChange={handleFilter}>
-            <List>
-              {isValidArray(filter.options) &&
-                filter.options.map((option) => (
-                  <ListItem key={option.value} disablePadding>
-                    <ListItemButton
-                      className="flex items-center w-full pb-0"
-                      dense
-                    >
-                      <FormControlLabel
-                        className="flex items-center w-full h-full"
-                        control={
-                          <Radio
-                            className="hover:bg-transparent"
-                            checkedIcon={<CheckBox />}
-                            checked={isSelectedFilter(
-                              filter.attribute_code,
-                              filter.attribute_code === 'category_uid' ? base64_encode(option.value) : option.value
-                            )}
-                            icon={<CheckBoxOutlineBlankRounded />}
-                            value={option.value}
-                          />
-                        }
-                        label={
-                          <ListItemText
-                            className="w-full  pt-[0.275rem] leading-normal lg:leading-[2.15rem]"
-                            id={`${filter.attribute_code}_${option.value}`}
-                          >
-                            <span
-                              dangerouslySetInnerHTML={{ __html: option.label }}
-                            />
-                          </ListItemText>
-                        }
-                      />
-                    </ListItemButton>
-                  </ListItem>
-                ))}
-            </List>
-          </RadioGroup>
-        </Box>
-      </Collapse>
-    </List>
+          <AnimatePresence initial={false}>
+            {open && (
+              <motion.div
+                key="content"
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: 'auto', opacity: 1 }}
+                exit={{ height: 0, opacity: 0 }}
+                transition={{ duration: 0.1, ease: 'easeInOut' }}
+                className="px-4 pt-2 pb-4 overflow-hidden border-t"
+              >
+                <input
+                  type="text"
+                  placeholder={t('Type to search...')}
+                  value={inputSearch}
+                  onChange={searchHandler}
+                  className="w-full px-3 py-2 mb-2 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                />
+                <ul className="px-0 py-0 mx-0 my-0 overflow-y-auto ">
+                  <RadioGroup
+                    name={filter.attribute_code}
+                    onChange={handleFilter}
+                  >
+                    {!inputSearch ? (
+                      <ErrorBoundary>
+                        <InfiniteScrollDiv
+                          TOTAL_DATA={getUniqueArray([...filter?.options])}
+                        >
+                          {(option, index) => (
+                            <ListItem
+                              key={index}
+                              className="rtl:-mr-7"
+                              disablePadding
+                            >
+                              <Link
+                                className="w-full no-underline"
+                                href={
+                                  selectedCategory === option.value
+                                    ? router?.asPath
+                                    : getCategoryFilterQuery(
+                                        router,
+                                        filter.attribute_code,
+                                        option.value,
+                                        isSelectedFilter(
+                                          filter.attribute_code,
+                                          option.value,
+                                          router?.asPath
+                                        )
+                                      )
+                                }
+                              >
+                                <span className="flex items-center w-full py-1 pb-0">
+                                  <Radio
+                                    className="hover:bg-transparent"
+                                    checkedIcon={<CheckedIcon />}
+                                    checked={
+                                      isSelectedFilter(
+                                        filter.attribute_code,
+                                        option.value,
+                                        router?.asPath
+                                      ) || selectedCategory === option.value
+                                    }
+                                    icon={<CheckBoxOutlineBlankRounded />}
+                                    value={option.value}
+                                  />{' '}
+                                  <label
+                                    className="w-full pt-[0.275rem] leading-normal lg:leading-[2.15rem]"
+                                    id={`${filter.attribute_code}_${option.value}`}
+                                  >
+                                    <span
+                                      dangerouslySetInnerHTML={{
+                                        __html: option.label,
+                                      }}
+                                    />
+                                  </label>
+                                </span>
+                              </Link>
+                            </ListItem>
+                          )}
+                        </InfiniteScrollDiv>
+                      </ErrorBoundary>
+                    ) : inputSearch && isValidArray(filterOption) ? (
+                      <ErrorBoundary>
+                        <div className="p-0 overflow-y-auto border border-gray-300 rounded-md shadow-sm max-h-60">
+                          {filterOption?.map(
+                            (
+                              option: {
+                                label: string;
+                                value: string;
+                              },
+                              index: number
+                            ) => (
+                              <ListItem
+                                key={index}
+                                className="rtl:-mr-7"
+                                disablePadding
+                              >
+                                <Link
+                                  className="w-full no-underline"
+                                  href={
+                                    selectedCategory === option.value
+                                      ? router?.asPath
+                                      : getCategoryFilterQuery(
+                                          router,
+                                          filter.attribute_code,
+                                          option.value,
+                                          isSelectedFilter(
+                                            filter.attribute_code,
+                                            option.value,
+                                            router?.asPath
+                                          )
+                                        )
+                                  }
+                                >
+                                  <span className="flex items-center w-full py-1 pb-0">
+                                    <Radio
+                                      className="hover:bg-transparent"
+                                      checkedIcon={<CheckedIcon />}
+                                      checked={isSelectedFilter(
+                                        filter.attribute_code,
+                                        option.value,
+                                        router?.asPath
+                                      )}
+                                      icon={<CheckBoxOutlineBlankRounded />}
+                                      value={option.value}
+                                    />
+                                    <label
+                                      className="w-full pt-[0.275rem] leading-normal lg:leading-[2.15rem]"
+                                      id={`${filter.attribute_code}_${option.value}`}
+                                    >
+                                      <span
+                                        dangerouslySetInnerHTML={{
+                                          __html: option.label,
+                                        }}
+                                      />
+                                    </label>
+                                  </span>
+                                </Link>
+                              </ListItem>
+                            )
+                          )}
+                        </div>
+                      </ErrorBoundary>
+                    ) : !searchLoading && inputSearch?.length >= 3 ? (
+                      <div className="py-3 text-center text-gray-600 border border-gray-300 border-solid rounded-md">
+                        {t('Not Found')}
+                      </div>
+                    ) : (
+                      <CategorySearchPlaceHolder />
+                    )}
+                  </RadioGroup>
+                </ul>
+              </motion.div>
+            )}
+          </AnimatePresence>
+        </div>
+      </div>
+    </ErrorBoundary>
   );
 };
 

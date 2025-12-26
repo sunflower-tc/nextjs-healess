@@ -1,4 +1,5 @@
 import SellerContactForm from '@voguish/module-marketplace/Components/form/ContactSellerForm';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 
 const ContactSeller = ({
   handleClose,
@@ -10,9 +11,11 @@ const ContactSeller = ({
   handleClose: any;
 }) => {
   return (
-    <>
-      <SellerContactForm handleClose={handleClose} open={open} id={id} />
-    </>
+    <ErrorBoundary>
+      <ErrorBoundary>
+        <SellerContactForm handleClose={handleClose} open={open} id={id} />
+      </ErrorBoundary>
+    </ErrorBoundary>
   );
 };
 export default ContactSeller;

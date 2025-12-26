@@ -1,3 +1,4 @@
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 
 const ProductList = dynamic(
@@ -5,34 +6,28 @@ const ProductList = dynamic(
 );
 
 const AllProductGrid = ({
-  sellerId,
   title,
-  pageSize,
   showPagination,
-}: {
+  products,
+}: // showPagination,
+{
   sellerId: string;
   title: string;
   pageSize?: number;
   showPagination?: boolean;
+  products?: any;
 }) => {
-  const props = {
-    search: '',
-    filters: { seller_id: { eq: sellerId } },
-    currentPage: 1,
-    pageSize: pageSize,
-    sort: {},
-  };
   return (
-    <div className="py-5">
-      <ProductList
-        title={title}
-        showPagination={showPagination}
-        activePageFilter="seller_id"
-        activePageFilterValue={sellerId}
-        showLayeredNavigation
-        productsInput={props}
-      />
-    </div>
+    <ErrorBoundary>
+      <div className="py-5">
+        <ProductList
+          title={title}
+          showPagination={showPagination}
+          showLayeredNavigation
+          products={products}
+        />
+      </div>
+    </ErrorBoundary>
   );
 };
 export default AllProductGrid;

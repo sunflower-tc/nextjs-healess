@@ -1,4 +1,4 @@
-#import "./_money.graphql"
+#import "@voguish/module-catalog/graphql/fragments/_money.graphql"
 
 fragment product_price on ProductPrice {
   regular_price {

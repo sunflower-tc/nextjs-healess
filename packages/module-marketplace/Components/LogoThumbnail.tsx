@@ -1,4 +1,5 @@
 import { PLACEHOLDER_IMG } from '@utils/Constants';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Image from 'next/image';
 import { CSSProperties, FC, useEffect, useState } from 'react';
 
@@ -7,6 +8,7 @@ type ThumbnailProps = {
   height?: number;
   width?: number;
   alt: string;
+  decoding?: 'auto' | 'sync' | 'async';
   placeholder?: 'blur' | 'empty' | undefined;
   className?: string | undefined;
   style?: CSSProperties;
@@ -17,6 +19,7 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   thumbnail,
   height,
   width,
+  decoding = 'sync',
   fill = false,
   alt,
   placeholder = 'blur',
@@ -35,18 +38,21 @@ export const Thumbnail: FC<ThumbnailProps> = ({
   }, [thumbnail]);
 
   return (
-    <Image
-      src={src}
-      height={height}
-      width={width}
-      priority={true}
-      placeholder={placeholder}
-      blurDataURL={PLACEHOLDER_IMG}
-      alt={alt}
-      fill={fill}
-      onError={() => setSrc(PLACEHOLDER_IMG)}
-      style={style}
-      className={className}
-    />
+    <ErrorBoundary>
+      <Image
+        src={src}
+        height={height}
+        width={width}
+        decoding={decoding}
+        priority={true}
+        placeholder={placeholder}
+        blurDataURL={PLACEHOLDER_IMG}
+        alt={alt}
+        fill={fill}
+        onError={() => setSrc(PLACEHOLDER_IMG)}
+        style={style}
+        className={className}
+      />
+    </ErrorBoundary>
   );
 };

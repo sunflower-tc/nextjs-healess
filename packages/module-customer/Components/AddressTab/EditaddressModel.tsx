@@ -1,38 +1,18 @@
-import { Trans, t } from '@lingui/macro';
-import Box from '@mui/material/Box';
 import Button from '@mui/material/Button';
-import Fade from '@mui/material/Fade';
 import Grid from '@mui/material/Grid';
-import Modal from '@mui/material/Modal';
-import Typography from '@mui/material/Typography';
-import { showToast } from '@utils/Helper';
+import { RightIcon } from '@voguish/module-theme/components/elements/Icon';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import Modal from '@voguish/module-theme/components/Modal';
+import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import {
   CheckBoxInputField,
   CountryRegionDropdown,
-} from '@voguish/module-theme';
+} from '@voguish/module-theme/components/ui/Form/Elements';
 import InputField from '@voguish/module-theme/components/ui/Form/Elements/Input';
-import dynamic from 'next/dynamic';
+import { useTranslation } from 'next-i18next';
 import { useEffect } from 'react';
 import { FieldValues, useForm } from 'react-hook-form';
-
-const Backdrop = dynamic(() => import('@mui/material/Backdrop'));
-
-const style = {
-  position: 'absolute',
-  left: 0,
-  right: 0,
-  margin: 'auto',
-  display: 'flex',
-  justifyContent: 'center',
-  alignItems: 'center',
-  maxHeight: '90%',
-  minWidth: 0,
-  bgcolor: 'background.paper',
-  borderRadius: 1,
-  boxShadow: 24,
-  py: 2,
-  px: 3,
-};
+import { ButtonMui } from '@packages/module-theme/components/ui/ButtonMui';
 /**
  * Set DataType for address Input field
  */
@@ -70,6 +50,7 @@ interface EditTypeModal {
     default_billing?: boolean;
     id?: number;
   };
+  isLoadingUpdate?: boolean;
   hideModal: Function;
   updateCustomerAddress: Function;
 }
@@ -84,6 +65,7 @@ export const EditaddressModel = ({
   showEditModelData,
   hideModal,
   updateCustomerAddress,
+  isLoadingUpdate,
 }: EditTypeModal) => {
   /**
    * Create Object to default value for form
@@ -122,7 +104,8 @@ export const EditaddressModel = ({
   function CheckmodalStatus(addressid?: number) {
     return !!addressid;
   }
-
+  const { showToast } = useToast();
+  const { t } = useTranslation('common');
   const countryCode = watch('country_code');
   const region_id = watch('region_id');
   useEffect(() => {
@@ -153,7 +136,7 @@ export const EditaddressModel = ({
       .then(() => {
         showToast({
           type: 'success',
-          message: t`Address updated successfully`,
+          message: t('Address updated successfully'),
         });
         hideModal();
       })
@@ -164,196 +147,191 @@ export const EditaddressModel = ({
   };
 
   return (
-    <Box component="div" className="AddAddress">
+    <ErrorBoundary>
       <Modal
-        className="flex items-center w-full h-full overflow-y-auto"
-        aria-labelledby="transition-modal-title"
-        aria-describedby="transition-modal-description"
-        open={CheckmodalStatus(showEditModelData?.id)}
-        closeAfterTransition
-        slots={{ backdrop: Backdrop }}
-        slotProps={{
-          backdrop: {
-            timeout: 500,
-          },
-        }}
+        showModal={CheckmodalStatus(showEditModelData?.id)}
+        hideModal={() => hideModal()}
+        title={
+          <ErrorBoundary>
+            {' '}
+            <span
+              className="flex cursor-pointer sm:hidden"
+              onClick={() => {
+                hideModal();
+              }}
+            >
+              <RightIcon />
+            </span>{' '}
+            {t('Edit Address')}
+          </ErrorBoundary>
+        }
       >
-        <Fade in={CheckmodalStatus(showEditModelData?.id)}>
-          <Grid
-            container
-            className="max-w-2xl overflow-y-auto"
-            sx={style}
-            component="form"
-            onSubmit={handleSubmit(submitAddress)}
-          >
-            <Grid item xs={12}>
-              <Typography variant="h5">
-                <Trans>Edit Address</Trans>
-              </Typography>
-            </Grid>
-            <span className="grid min-w-full gap-3 mt-4 sm:grid-cols-2">
-              <Grid item>
-                <InputField
-                  label={t`First Name`}
-                  className=" Customized placeholder:text-CheckoutPlaceHolder"
-                  placeHolder={t`First Name`}
-                  type="text"
-                  error={!!errors?.firstname?.message}
-                  helperText={errors?.firstname?.message || ''}
-                  {...register('firstname', {
-                    required: t`* Enter First Name`,
-                  })}
-                />
-              </Grid>
-              <Grid item>
-                <InputField
-                  label={t`Last Name`}
-                  type="text"
-                  className="Customized placeholder:text-CheckoutPlaceHolder"
-                  error={!!errors?.lastname?.message}
-                  helperText={errors?.lastname?.message || ''}
-                  {...register('lastname', {
-                    required: t`* Enter Last Name`,
-                  })}
-                />
-              </Grid>
-            </span>
-            <Grid item xs={12}>
+        <form
+          onSubmit={handleSubmit(submitAddress)}
+          className="h-full mt-4 -sm:mb-4 -sm:px-6"
+        >
+          <span className="grid min-w-full gap-3 sm:grid-cols-2">
+            <Grid item>
               <InputField
-                label={t`Company`}
-                className=" Customized placeholder:text-CheckoutPlaceHolder"
+                label={t('First Name')}
+                className="Customized placeholder:text-CheckoutPlaceHolder"
+                placeHolder={t('First Name')}
                 type="text"
-                error={!!errors?.company?.message}
-                helperText={errors?.company?.message || ''}
-                {...register('company', {
-                  required: t`* Enter Company Name`,
+                error={!!errors?.firstname?.message}
+                helperText={errors?.firstname?.message || ''}
+                {...register('firstname', {
+                  required: t('* Enter First Name'),
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
+            <Grid item>
               <InputField
-                label={t`Address 1`}
+                label={t('Last Name')}
+                placeHolder={t('Last Name')}
                 type="text"
                 className="Customized placeholder:text-CheckoutPlaceHolder"
-                placeHolder={t`Address 1`}
-                error={!!errors.street?.[0]?.message}
-                helperText={errors?.street?.[0]?.message || ''}
-                {...register('street.0', {
-                  required: t`* Enter Address1`,
+                error={!!errors?.lastname?.message}
+                helperText={errors?.lastname?.message || ''}
+                {...register('lastname', {
+                  required: t('* Enter Last Name'),
                 })}
               />
             </Grid>
-            <Grid item xs={12}>
-              <InputField
-                label={t`Address 2`}
-                type="text"
-                className=" Customized placeholder:text-CheckoutPlaceHolder"
-                placeHolder={t`Address 2`}
-                error={!!errors.street?.[1]?.message}
-                helperText={errors?.street?.[1]?.message || ''}
-                {...register('street.1', {
-                  required: t`* Enter Address2`,
-                })}
-              />
-            </Grid>
-            <span className="grid min-w-full gap-3 sm:grid-cols-2">
-              <Grid item className="mb-1.5">
-                <InputField
-                  label={t`City`}
-                  type="text"
-                  className=" Customized placeholder:text-CheckoutPlaceHolder"
-                  {...register('city')}
-                  error={!!errors?.city?.message}
-                  helperText={errors?.city?.message || ''}
-                  {...register('city', {
-                    required: t`* Enter city Name`,
-                  })}
-                />
-              </Grid>
-              <Grid item className="mb-1.5">
-                <InputField
-                  label={t`Zip Code`}
-                  type="text"
-                  className=" Customized placeholder:text-CheckoutPlaceHolder"
-                  error={!!errors?.postcode?.message}
-                  helperText={errors?.postcode?.message || ''}
-                  {...register('postcode', {
-                    required: t`* Enter Post Code`,
-                  })}
-                />
-              </Grid>
-            </span>
-            <Grid item xs={12} className="mb-1.5">
-              <InputField
-                label={t`Phone`}
-                type="text"
-                className="Customized placeholder:text-CheckoutPlaceHolder"
-                error={!!errors?.telephone?.message}
-                helperText={errors?.telephone?.message || ''}
-                {...register('telephone', {
-                  required: t`* Enter Telephone Number`,
-                })}
-              />
-            </Grid>
-            <Grid item xs={12} className="pb-1 mt-1 mb-0">
-              {
-                <CountryRegionDropdown
-                  labelName
-                  selectedCountryCode={countryCode}
-                  selectedRegionId={`${
-                    showEditModelData?.region?.region_id || '0'
-                  }`}
-                  selectedRegion={showEditModelData?.region?.region || ''}
-                  countryRegister={{
-                    ...register('country_code', {
-                      required: t`* Select Country`,
-                    }),
-                    helperText: errors?.country_code?.message || '',
-                  }}
-                  regionIdRegister={{
-                    ...register('region_id', {
-                      required: t`* Select State/Region`,
-                    }),
-                    helperText: errors.region_id?.message || '',
-                  }}
-                  regionRegister={{
-                    ...register('region', {
-                      required: t`* Enter State/region`,
-                    }),
-                    helperText: errors.region?.message || '',
-                  }}
-                />
-              }
-            </Grid>
-            <Grid item xs={12} className="mb-1 mt-[-10px]">
-              <CheckBoxInputField
-                label={t`Set as default address`}
-                defaultChecked={showEditModelData?.default_billing}
-                {...register('default_billing')}
-              />
-            </Grid>
-            <Grid className="flex items-center justify-end gap-6">
-              <Button
-                className="xl:w-40 lg:w-40 md:w-40 w-32 mr-5 xl:float-right lg:float-right md:float-right float-left rounded-[unset] text-darkGreyBackground border  border-solid border-darkGreyBackground hover:bg-darkBackground hover:border-darkBackground hover:text-white "
-                variant="outlined"
-                onClick={() => {
-                  hideModal();
-                }}
-              >
-                <Trans>Cancel</Trans>
-              </Button>
-
-              <Button
-                type="submit"
-                className="xl:w-40 lg:w-40 md:w-40 w-32 rounded-[unset] pr-0 mr-0 pl-0 text-center  float-right"
-                variant="contained"
-              >
-                <Trans>Submit</Trans>
-              </Button>
-            </Grid>
+          </span>
+          <Grid item xs={12}>
+            <InputField
+              label={t('Company')}
+              className="Customized placeholder:text-CheckoutPlaceHolder"
+              type="text"
+              error={!!errors?.company?.message}
+              helperText={errors?.company?.message || ''}
+              {...register('company', {
+                required: t('* Enter Company Name'),
+              })}
+            />
           </Grid>
-        </Fade>
+          <Grid item xs={12}>
+            <InputField
+              label={t('Address 1')}
+              type="text"
+              className="Customized placeholder:text-CheckoutPlaceHolder"
+              placeHolder={t('Address 1')}
+              error={!!errors.street?.[0]?.message}
+              helperText={errors?.street?.[0]?.message || ''}
+              {...register('street.0', {
+                required: t('* Enter Address1'),
+              })}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <InputField
+              label={t('Address 2')}
+              type="text"
+              className="Customized placeholder:text-CheckoutPlaceHolder"
+              placeHolder={t('Address 2')}
+              error={!!errors.street?.[1]?.message}
+              helperText={errors?.street?.[1]?.message || ''}
+              {...register('street.1', {
+                required: t('* Enter Address2'),
+              })}
+            />
+          </Grid>
+          <span className="grid min-w-full sm:grid-cols-2 sm:gap-3">
+            <Grid item className="sm:mb-1.5">
+              <InputField
+                label={t('City')}
+                type="text"
+                className="Customized placeholder:text-CheckoutPlaceHolder"
+                {...register('city')}
+                error={!!errors?.city?.message}
+                helperText={errors?.city?.message || ''}
+                {...register('city', {
+                  required: t('* Enter city Name'),
+                })}
+              />
+            </Grid>
+            <Grid item className="sm:mb-1.5">
+              <InputField
+                label={t('Zip Code')}
+                type="text"
+                className="Customized placeholder:text-CheckoutPlaceHolder"
+                error={!!errors?.postcode?.message}
+                helperText={errors?.postcode?.message || ''}
+                {...register('postcode', {
+                  required: t('* Enter Post Code'),
+                })}
+              />
+            </Grid>
+          </span>
+          <Grid item xs={12} className="sm:mb-1.5">
+            <InputField
+              label={t('Phone')}
+              type="text"
+              className="Customized placeholder:text-CheckoutPlaceHolder"
+              error={!!errors?.telephone?.message}
+              helperText={errors?.telephone?.message || ''}
+              {...register('telephone', {
+                required: t('* Enter Telephone Number'),
+              })}
+            />
+          </Grid>
+          <Grid item xs={12} className="mb-0 sm:mt-1 sm:pb-1">
+            {
+              <CountryRegionDropdown
+                labelName
+                selectedCountryCode={countryCode}
+                selectedRegionId={`${
+                  showEditModelData?.region?.region_id || '0'
+                }`}
+                selectedRegion={showEditModelData?.region?.region || ''}
+                countryRegister={{
+                  ...register('country_code', {
+                    required: t('* Select Country'),
+                  }),
+                  helperText: errors?.country_code?.message || '',
+                }}
+                regionIdRegister={{
+                  ...register('region_id', {
+                    required: t('* Select State/Region'),
+                  }),
+                  helperText: errors.region_id?.message || '',
+                }}
+                regionRegister={{
+                  ...register('region', {
+                    required: t('* Enter State/region'),
+                  }),
+                  helperText: errors.region?.message || '',
+                }}
+              />
+            }
+          </Grid>
+          <Grid item xs={12} className="sm:mb-1 sm:mt-[-10px]">
+            <CheckBoxInputField
+              label={t('Set as default address')}
+              defaultChecked={showEditModelData?.default_billing}
+              {...register('default_billing')}
+            />
+          </Grid>
+          <Grid className="flex items-center !mb-0 !pb-0 justify-end gap-6 py-4">
+            <Button
+              className="float-left mr-5 hidden w-32 rounded-[unset] border border-solid border-darkGreyBackground text-darkGreyBackground hover:border-darkBackground hover:bg-darkBackground hover:text-white sm:flex md:float-right md:w-40 lg:float-right lg:w-40 xl:float-right xl:w-40"
+              variant="outlined"
+              onClick={() => hideModal()}
+            >
+              {t('Cancel')}
+            </Button>
+
+            <ButtonMui
+              type="submit"
+              className="float-right mr-0 w-full rounded-[unset] pl-0 pr-0 text-center sm:w-32 md:w-40 lg:w-40 xl:w-40"
+              variant="contained"
+              isLoading={isLoadingUpdate}
+            >
+              {t('Submit')}
+            </ButtonMui>
+          </Grid>
+        </form>
       </Modal>
-    </Box>
+    </ErrorBoundary>
   );
 };

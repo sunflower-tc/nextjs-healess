@@ -1,72 +1,41 @@
-import Grid from '@mui/material/Grid';
-import Skeleton from '@mui/material/Skeleton';
-import Containers from '../../ui/Container';
-const placeHolders = new Array(4).fill(0);
-
 export function FooterPlaceHolder() {
+  const placeholders = Array(4).fill(0);
+
   return (
-    <div className="flex items-center justify-between w-full p-2 lg:px-4 bg-neutral-100">
-      <Containers>
-        <span className="grid grid-cols-4 -md:grid-cols-2">
-          {placeHolders.map((item, index) => (
-            <Grid key={`${index + item}`} sx={{ maxWidth: 345, m: 2 }}>
-              <Skeleton
-                animation="wave"
-                height={20}
-                width={60}
-                style={{ marginBottom: 6 }}
-              />
-              <Skeleton
-                animation="wave"
-                height={20}
-                width={60}
-                style={{ marginBottom: 6 }}
-              />
-              <Skeleton
-                animation="wave"
-                height={20}
-                width={60}
-                style={{ marginBottom: 6 }}
-              />
-              <Skeleton
-                animation="wave"
-                height={20}
-                width={60}
-                style={{ marginBottom: 6 }}
-              />
-            </Grid>
+    <div className="w-full p-4 bg-neutral-100 lg:px-8">
+      <div className="mx-auto max-w-7xl">
+        <div className="grid grid-cols-2 gap-6 md:grid-cols-4">
+          {[...Array(4)].map((__, i) => (
+            <div
+              key={`line-${i}`}
+              className="w-16 h-5 max-w-xs bg-gray-300 rounded-md animate-pulse"
+              style={{ marginBottom: i < 3 ? '0.375rem' : 0 }}
+            />
           ))}
-        </span>
-        <Grid className="flex items-center justify-between py-4 -xss:justify-center -3xs:grid -3xs:gap-y-4">
-          <Skeleton animation="wave" width={200} height={20} />
-          <span className="flex space-x-2">
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
+          {placeholders.map((_, idx) => (
+            <div key={`col-${idx}`} className="space-y-3 ">
+              {[...Array(4)].map((__, i) => (
+                <div
+                  key={`line-${idx}-${i}`}
+                  className="w-16 h-5 bg-gray-300 rounded-md animate-pulse"
+                  style={{ marginBottom: i < 3 ? '0.375rem' : 0 }}
+                />
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="flex flex-col items-center justify-between gap-6 mt-10 sm:flex-row">
+        <div className="w-48 h-5 bg-gray-300 rounded-md animate-pulse" />
+        <div className="flex gap-4">
+          {[...Array(4)].map((_, i) => (
+            <div
+              key={`icon-${i}`}
+              className="w-10 h-10 bg-gray-300 rounded-full animate-pulse"
             />
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-            <Skeleton
-              animation="wave"
-              variant="circular"
-              width={40}
-              height={40}
-            />
-          </span>
-        </Grid>
-      </Containers>
+          ))}
+        </div>
+      </div>
     </div>
   );
 }

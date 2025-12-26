@@ -8,9 +8,16 @@ import Paper from '@mui/material/Paper';
 import Popper from '@mui/material/Popper';
 import Typography from '@mui/material/Typography';
 import { isValidArray } from '@utils/Helper';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 import { useRouter } from 'next/router';
-import * as React from 'react';
+import {
+  KeyboardEvent,
+  SyntheticEvent,
+  useEffect,
+  useRef,
+  useState,
+} from 'react';
 import Containers from '../../Container';
 import { Link } from '../../Link';
 const ExpandMoreIcon = dynamic(() => import('@mui/icons-material/ExpandMore'));
@@ -18,14 +25,14 @@ const ExpandMoreIcon = dynamic(() => import('@mui/icons-material/ExpandMore'));
 // for desktop view
 
 export default function DropDown({ items, url, name, level = 0 }: any) {
-  const [open, setOpen] = React.useState(false);
-  const anchorRef = React.useRef<HTMLButtonElement>(null);
+  const [open, setOpen] = useState(false);
+  const anchorRef = useRef<HTMLButtonElement>(null);
 
   const handleToggle = () => {
     setOpen((prevOpen) => !prevOpen);
   };
 
-  const handleClose = (event: Event | React.SyntheticEvent) => {
+  const handleClose = (event: Event | SyntheticEvent) => {
     if (
       anchorRef.current &&
       anchorRef.current.contains(event.target as HTMLElement)
@@ -36,7 +43,7 @@ export default function DropDown({ items, url, name, level = 0 }: any) {
     setOpen(false);
   };
 
-  function handleListKeyDown(event: React.KeyboardEvent) {
+  function handleListKeyDown(event: KeyboardEvent) {
     if (event.key === 'Tab') {
       event.preventDefault();
       setOpen(false);
@@ -46,8 +53,8 @@ export default function DropDown({ items, url, name, level = 0 }: any) {
   }
 
   // return focus to the button when we transitioned from !open -> open
-  const prevOpen = React.useRef(open);
-  React.useEffect(() => {
+  const prevOpen = useRef(open);
+  useEffect(() => {
     if (prevOpen.current === true && open === false) {
       anchorRef.current!.focus();
     }
@@ -56,7 +63,7 @@ export default function DropDown({ items, url, name, level = 0 }: any) {
   }, [open]);
   const router = useRouter();
   return (
-    <>
+    <ErrorBoundary>
       <span className="flex cta">
         <span className="flex space-x-1 hover-underline-animation">
           <Button
@@ -179,7 +186,7 @@ export default function DropDown({ items, url, name, level = 0 }: any) {
           )}
         </Popper>
       </span>
-    </>
+    </ErrorBoundary>
   );
 }
 
@@ -195,19 +202,21 @@ function ListItem({
   const router = useRouter();
 
   return (
-    <Link href={`/catalog/category/${item?.url_key}`} underline="none">
-      <MenuItem className="cta" onClick={handleClose}>
-        <Typography
-          onClick={handleClose}
-          className={`${
-            router.asPath == `/catalog/category/${item?.url_key}`
-              ? 'text-brand'
-              : `${color} text-black hover:text-link`
-          } hover-underline-animation flex items-center font-semibold`}
-        >
-          {item?.name}
-        </Typography>
-      </MenuItem>
-    </Link>
+    <ErrorBoundary>
+      <Link href={`/catalog/category/${item?.url_key}`} underline="none">
+        <MenuItem className="cta" onClick={handleClose}>
+          <Typography
+            onClick={handleClose}
+            className={`${
+              router.asPath == `/catalog/category/${item?.url_key}`
+                ? 'text-brand'
+                : `${color} text-black hover:text-link`
+            } hover-underline-animation flex items-center font-semibold`}
+          >
+            {item?.name}
+          </Typography>
+        </MenuItem>
+      </Link>
+    </ErrorBoundary>
   );
 }

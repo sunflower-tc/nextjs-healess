@@ -1,16 +1,15 @@
+import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
 import Box from '@mui/material/Box';
 import ClickAwayListener from '@mui/material/ClickAwayListener';
 import Popper from '@mui/material/Popper';
 import { isValidArray, isValidObject } from '@utils/Helper';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import Containers from '@voguish/module-theme/components/ui/Container';
 import Image from 'next/image';
 import Link from 'next/link';
-import React from 'react';
+import { useRef, useState } from 'react';
 import { FormattedMenuItem } from './types';
-
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import Containers from '@voguish/module-theme/components/ui/Container';
 type MenuItem = Record<string, FormattedMenuItem>;
-
 type MegaMenuProps = {
   menuItems: MenuItem;
   activeMenus: string[];
@@ -25,11 +24,9 @@ type Category = {
 };
 
 export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
-  const anchorEl = React.useRef(null);
+  const anchorEl = useRef(null);
 
-  const [activeSubmenu, setActiveSubMenu] = React.useState<Category | null>(
-    null
-  );
+  const [activeSubmenu, setActiveSubMenu] = useState<Category | null>(null);
 
   const handlePopoverOpen = (children: Category | null) => {
     setActiveSubMenu(children);
@@ -50,14 +47,12 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
   const isActive = (id: string) => {
     return Boolean(activeMenus?.includes(`${id}`));
   };
-
-
   return (
-    <>
+    <ErrorBoundary>
       <div ref={anchorEl} aria-label="menu" className="hidden lg:flex ">
         <div
           aria-label="menu-panel"
-          className="flex  items-center justify-between h-full space-x-5 xl:space-x-8 group"
+          className="flex flex-row-reverse items-center justify-between h-full gap-x-5 xl:gap-x-8 group"
         >
           {isValidArray(categories) &&
             categories.map(
@@ -67,7 +62,7 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                     aria-label={category?.title}
                     key={category?.title}
                     className={
-                      'flex items-center cta px-1 font-semibold text-gray-700 text-[1rem] first:pl-9 hover:text-gray-800'
+                      'flex items-center cta px-1 font-semibold text-gray-700 text-[1rem] last:rtl:pr-9 last:ltr:pl-9 hover:text-gray-800'
                     }
                   >
                     {isValidObject(category?.children) ? (
@@ -77,7 +72,7 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                         aria-haspopup="true"
                       >
                         <ul
-                          className={`flex items-center px-1 mx-0 space-x-1 hover-underline-animation ${isActive(category.item_id) && 'text-brand'
+                          className={`flex items-center px-1 mx-0 gap-x-1 hover-underline-animation ${isActive(category.item_id) && 'text-brand'
                             }`}
                         >
                           <li
@@ -114,138 +109,142 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                 )
             )}
         </div>
-
-        {isValidObject(activeSubmenu) && (
-          <Box onMouseLeave={handlePopoverClose}>
-            <ClickAwayListener onClickAway={handlePopoverClose}>
-              <Popper
-                className="w-full mt-14 z-[99999]  bg-white shadow-2xl shadow-neutral-500/70"
-                open={open}
-                anchorEl={anchorEl.current}
-                transition
-                id="megamenu-popover"
-              >
-                <div className="inset-0 shadow " aria-hidden="true" />
-                <Containers>
-                  <div className="relative py-5 dropdown_menu">
-                    <div className="mx-auto">
-                      <div className="grid grid-cols-2 py-8 group gap-y-10">
-                        <div className="grid grid-cols-2">
-                          {isValidObject(activeSubmenu?.children) &&
-                            Object.values(activeSubmenu?.children || {})?.map(
-                              (section) =>
-                                typeof section === 'object' && (
-                                  <div
-                                    key={section?.title}
-                                    className="relative"
-                                  >
-                                    <span className="cta group-first:ml-2.5">
-                                      <Link
-                                        href={`/catalog/category/${section?.url_key}`}
-                                        id={`${section?.title}-heading`}
-                                        className={`font-bold text-[1rem] hover-underline-animation ${isActive(section.item_id)
-                                          ? 'text-brand'
-                                          : ' text-gray-900 '
-                                          }`}
-                                      >
-                                        {section?.title}
-                                      </Link>
-                                    </span>
-                                    <ul
-                                      role="list"
-                                      aria-labelledby={`${section.title}-heading`}
-                                      className="mt-6 space-y-6 sm:mt-4 sm:space-y-4"
+        <ErrorBoundary>
+          {' '}
+          {isValidObject(activeSubmenu) && (
+            <Box onMouseLeave={handlePopoverClose}>
+              <ClickAwayListener onClickAway={handlePopoverClose}>
+                <Popper
+                  className="w-full mt-14 z-[99999]  bg-white shadow-2xl shadow-neutral-500/70"
+                  open={open}
+                  anchorEl={anchorEl.current}
+                  transition
+                  id="megamenu-popover"
+                >
+                  <div className="inset-0 shadow" aria-hidden="true" />
+                  <Containers>
+                    <div className="relative py-5 dropdown_menu">
+                      <div className="mx-auto">
+                        <div className="grid grid-cols-2 py-8 group gap-y-10">
+                          <div className="grid grid-cols-2">
+                            {isValidObject(activeSubmenu?.children) &&
+                              Object.values(activeSubmenu?.children || {})?.map(
+                                (section) =>
+                                  typeof section === 'object' && (
+                                    <div
+                                      key={section?.title}
+                                      className="relative"
                                     >
-                                      {isValidObject(section?.children) &&
-                                        Object.values(section?.children).map(
-                                          (item) => (
-                                            <li
-                                              key={item?.title}
-                                              className="flex mt-2 -ml-[1.9rem] cta"
-                                            >
-                                              <Link
-                                                href={`/catalog/category/${item.url_key}`}
-                                                className={`hover:text-gray-800 text-[0.9rem] font-medium hover-underline-animation ${isActive(item.item_id) &&
-                                                  'text-brand'
-                                                  }`}
+                                      <span className="cta group-first:rtl:mr-2.5 group-first:ltr:ml-2.5">
+                                        <Link
+                                          href={`/catalog/category/${section?.url_key}`}
+                                          id={`${section?.title}-heading`}
+                                          className={`font-bold text-[1rem] hover-underline-animation ${isActive(section.item_id)
+                                            ? 'text-brand'
+                                            : ' text-gray-900 '
+                                            }`}
+                                        >
+                                          {section?.title}
+                                        </Link>
+                                      </span>
+                                      <ul
+                                        role="list"
+                                        aria-labelledby={`${section.title}-heading`}
+                                        className="flex flex-col mt-6 gap-y-6 sm:mt-4 sm:gap-y-4"
+                                      >
+                                        {isValidObject(section?.children) &&
+                                          Object.values(section?.children).map(
+                                            (item) => (
+                                              <li
+                                                key={item?.title}
+                                                className="flex mt-2 rtl:-mr-[1.9rem] ltr:-ml-[1.9rem] cta"
                                               >
-                                                {item?.title}
-                                              </Link>
-                                            </li>
-                                          )
-                                        )}
-                                    </ul>
-                                  </div>
-                                )
-                            )}
-                        </div>
-                        <div className="grid grid-cols-2">
-                          {activeSubmenu && activeSubmenu.image_url && (
-                            <div className="grid">
-                              <Link
-                                href={`/catalog/category/${activeSubmenu?.url_key}`}
-                              >
-                                <Image
-                                  className="object-cover object-top border border-solid rounded-md border-commonBorder"
-                                  alt={activeSubmenu?.title}
-                                  height={200}
-                                  width={200}
-                                  src={activeSubmenu.image_url}
-                                />
-                              </Link>
-                              <span className="mt-1 -ml-0.5 cta">
+                                                <Link
+                                                  href={`/catalog/category/${item.url_key}`}
+                                                  className={`hover:text-gray-800 text-[0.9rem] font-medium hover-underline-animation ${isActive(item.item_id) &&
+                                                    'text-brand'
+                                                    }`}
+                                                >
+                                                  {item?.title}
+                                                </Link>
+                                              </li>
+                                            )
+                                          )}
+                                      </ul>
+                                    </div>
+                                  )
+                              )}
+                          </div>
+                          <div className="grid grid-cols-2">
+                            {activeSubmenu && activeSubmenu.image_url && (
+                              <div className="grid">
                                 <Link
                                   href={`/catalog/category/${activeSubmenu?.url_key}`}
-                                  id={`${activeSubmenu?.title}-heading`}
-                                  className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(activeSubmenu.item_id) &&
-                                    'text-brand'
-                                    }`}
                                 >
-                                  {activeSubmenu?.title}
+                                  <Image
+                                    className="object-cover object-top border border-solid rounded-md border-commonBorder"
+                                    alt={activeSubmenu?.title}
+                                    height={200}
+                                    decoding="auto"
+                                    width={200}
+                                    src={activeSubmenu.image_url}
+                                  />
                                 </Link>
-                              </span>
-                            </div>
-                          )}
-                          {isValidObject(activeSubmenu?.children) &&
-                            Object.values(activeSubmenu?.children || {}).map(
-                              (section) =>
-                                section.image_url !== '' && (
-                                  <div className="grid" key={section?.title}>
-                                    <Link
-                                      href={`/catalog/category/${section?.url_key}`}
-                                    >
-                                      <Image
-                                        className="object-cover object-top border border-solid rounded-md border-commonBorder"
-                                        alt={section?.title}
-                                        height={200}
-                                        width={200}
-                                        src={section.image_url || ''}
-                                      />
-                                    </Link>
-                                    <span className="mt-1 -ml-0.5 cta">
+                                <span className="mt-1 rtl:-mr-0.5 ltr:-ml-0.5 cta">
+                                  <Link
+                                    href={`/catalog/category/${activeSubmenu?.url_key}`}
+                                    id={`${activeSubmenu?.title}-heading`}
+                                    className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(activeSubmenu.item_id) &&
+                                      'text-brand'
+                                      }`}
+                                  >
+                                    {activeSubmenu?.title}
+                                  </Link>
+                                </span>
+                              </div>
+                            )}
+                            {isValidObject(activeSubmenu?.children) &&
+                              Object.values(activeSubmenu?.children || {}).map(
+                                (section) =>
+                                  section.image_url !== '' && (
+                                    <div className="grid" key={section?.title}>
                                       <Link
                                         href={`/catalog/category/${section?.url_key}`}
-                                        id={`${section?.title}-heading`}
-                                        className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(section.item_id) &&
-                                          'text-brand'
-                                          }`}
                                       >
-                                        {section?.title}
+                                        <Image
+                                          className="object-cover object-top border border-solid rounded-md border-commonBorder"
+                                          alt={section?.title}
+                                          height={200}
+                                          decoding="auto"
+                                          width={200}
+                                          src={section.image_url || ''}
+                                        />
                                       </Link>
-                                    </span>
-                                  </div>
-                                )
-                            )}
+                                      <span className="mt-1 rtl:-mr-0.5 ltr:-ml-0.5 cta">
+                                        <Link
+                                          href={`/catalog/category/${section?.url_key}`}
+                                          id={`${section?.title}-heading`}
+                                          className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(section.item_id) &&
+                                            'text-brand'
+                                            }`}
+                                        >
+                                          {section?.title}
+                                        </Link>
+                                      </span>
+                                    </div>
+                                  )
+                              )}
+                          </div>
                         </div>
                       </div>
                     </div>
-                  </div>
-                </Containers>
-              </Popper>
-            </ClickAwayListener>
-          </Box>
-        )}
+                  </Containers>
+                </Popper>
+              </ClickAwayListener>
+            </Box>
+          )}
+        </ErrorBoundary>
       </div>
-    </>
+    </ErrorBoundary>
   );
 }

@@ -1,0 +1,31 @@
+#import "@voguish/module-catalog/graphql/fragments/_price_range.graphql"
+query SearchProducts(
+  $search: String
+  $filters: ProductAttributeFilterInput
+  $pageSize: Int = 6
+  $currentPage: Int = 1
+  $sort: ProductAttributeSortInput
+) {
+  products(
+    search: $search
+    filter: $filters
+    pageSize: $pageSize
+    currentPage: $currentPage
+    sort: $sort
+  ) {
+    items {
+      url_key
+      uid
+      sku
+      name
+      thumbnail {
+        id: url
+        url
+        label
+      }
+      price_range {
+        ...price_range
+      }
+    }
+  }
+}

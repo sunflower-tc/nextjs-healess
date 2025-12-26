@@ -1,14 +1,12 @@
 import { Popover, Transition } from '@headlessui/react';
 import KeyboardArrowDown from '@mui/icons-material/KeyboardArrowDown';
-import { isValidArray, isValidObject } from '@utils/Helper';
+import { classNames, isValidArray, isValidObject } from '@utils/Helper';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { Fragment } from 'react';
 import { FormattedMenuItem } from './Megamenu/types';
-function classNames(...classes: any) {
-  return classes.filter(Boolean).join(' ');
-}
 
 type Props = {
   sortedMenu: Record<string, FormattedMenuItem>;
@@ -27,7 +25,7 @@ export default function PopOver({ sortedMenu }: Props) {
     ? Object.values(Object.values(sortedMenu)?.[0]?.children)
     : [];
   return (
-    <>
+    <ErrorBoundary>
       <Popover.Group
         aria-label="menu"
         className="hidden lg:ml-4 lg:block lg:self-stretch z-[999]"
@@ -45,7 +43,7 @@ export default function PopOver({ sortedMenu }: Props) {
                   className="flex first:pl-7"
                 >
                   {({ open }) => (
-                    <>
+                    <ErrorBoundary>
                       <span className="cta">
                         <div
                           aria-label={category?.title}
@@ -157,6 +155,7 @@ export default function PopOver({ sortedMenu }: Props) {
                                         href={`/catalog/category/${category?.url_key}`}
                                       >
                                         <Image
+                                          decoding="auto"
                                           className="object-cover object-top rounded-md"
                                           alt={category?.title}
                                           height={200}
@@ -193,6 +192,7 @@ export default function PopOver({ sortedMenu }: Props) {
                                               href={`/catalog/category/${section?.url_key}`}
                                             >
                                               <Image
+                                                decoding="auto"
                                                 className="object-cover object-top rounded-md"
                                                 alt={section?.title}
                                                 height={200}
@@ -222,7 +222,7 @@ export default function PopOver({ sortedMenu }: Props) {
                           </div>
                         </Popover.Panel>
                       </Transition>
-                    </>
+                    </ErrorBoundary>
                   )}
                 </Popover>
               ) : (
@@ -243,6 +243,6 @@ export default function PopOver({ sortedMenu }: Props) {
             )}
         </div>
       </Popover.Group>
-    </>
+    </ErrorBoundary>
   );
 }

@@ -1,36 +1,20 @@
-import Skeleton from '@mui/material/Skeleton';
+import Containers from '../../ui/Container';
 import { InfoTextPlaceHolder } from './InfoTextPlaceHolder';
 
 export function BrandCollectionPlaceHolder() {
   return (
-    <>
-      <InfoTextPlaceHolder />
-      <div className="grid md:grid md:gap-2 md:grid-cols-3">
-        <Skeleton
-          animation="wave"
-          sx={{ height: 600, marginBlock: 0, paddingBlock: 0 }}
-          className="flex items-start -my-36"
-        />
-        <div className="hidden md:grid md:gap-2 md:-my-[4.2rem]">
-          <Skeleton
-            animation="wave"
-            sx={{ marginBlock: 0, paddingBlock: 0 }}
-            height={290}
-            className="flex items-start -md:-mt-28"
-          />
-          <Skeleton
-            animation="wave"
-            sx={{ marginBlock: 0, paddingBlock: 0 }}
-            height={290}
-            className="flex items-start -md:-mt-28 md:-mt-32"
-          />
+    <Containers className="w-full">
+      <div className="flex flex-col w-full gap-4">
+        <InfoTextPlaceHolder />
+        <div className="flex gap-4 overflow-x-auto md:overflow-x-hidden md:grid md:grid-cols-3">
+          <div className="flex items-start animate-pulse h-[290px] md:h-[600px] bg-neutral-300 rounded-md" />
+          <div className="content-between hidden md:grid md:gap-4">
+            <div className="flex items-start animate-pulse h-[290px] bg-neutral-300 rounded-md" />
+            <div className="flex items-start animate-pulse h-[290px] bg-neutral-300 rounded-md" />
+          </div>
+          <div className="flex items-start animate-pulse h-[290px] md:h-[600px] bg-neutral-300 rounded-md" />
         </div>
-        <Skeleton
-          animation="wave"
-          sx={{ height: { xs: 290, md: 600 }, marginBlock: 0, paddingBlock: 0 }}
-          className="items-start hidden -mt-20 md:flex md:-my-36"
-        />
-      </div>
-    </>
+      </div>{' '}
+    </Containers>
   );
 }

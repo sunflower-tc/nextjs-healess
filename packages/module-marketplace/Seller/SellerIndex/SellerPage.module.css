@@ -1,5 +1,0 @@
-.justify {
-  @media screen and (max-width: 480px) {
-    justify-content: unset;
-  }
-}

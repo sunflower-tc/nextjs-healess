@@ -1,9 +1,10 @@
 import Grid from '@mui/material/Grid';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 export const TopSortPlaceHolder = () => {
   return (
-    <>
+    <ErrorBoundary>
       <Stack gap={1} className="md:hidden" maxHeight={900}>
         <Skeleton animation="wave" height={40} />
         <Grid display="flex" gap={0.5} maxHeight={200}>
@@ -21,6 +22,6 @@ export const TopSortPlaceHolder = () => {
           </Grid>
         </Grid>
       </Stack>
-    </>
+    </ErrorBoundary>
   );
 };

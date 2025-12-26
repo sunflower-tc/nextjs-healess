@@ -8,6 +8,7 @@ export interface MenuItem {
   category_id: number;
   display_mode: string;
   image_url: string;
+  include_in_menu?: string;
 }
 
 export interface MegaMenuQueryResult {
@@ -20,5 +21,6 @@ export type FormattedMenuItem = Merge<
   {
     url_key: string;
     children: Record<string, FormattedMenuItem>;
+    name?: string;
   }
 >;

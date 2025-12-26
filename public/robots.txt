@@ -1,0 +1,2 @@
+
+Sitemap: https://www.voguish.vercel.app/sitemaps.xml

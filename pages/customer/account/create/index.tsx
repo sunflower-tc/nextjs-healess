@@ -1,16 +1,46 @@
-import { i18n } from '@lingui/core';
-import { t } from '@lingui/macro';
 import type { PageOptions } from '@voguish/module-theme/page';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
+import { Suspense } from 'react';
 import dynamic from 'next/dynamic';
+import Containers from '@packages/module-theme/components/ui/Container';
+import { AuthPlaceholder } from '@packages/placeholder/ProductDetail';
+
 const CreateAccount = dynamic(
-  () => import('@voguish/module-theme/pages/CreateAccount')
+  () => import('@voguish/module-theme/pages/CreateAccount'),
+  {
+    loading: () => (
+      <Containers>
+        <AuthPlaceholder />
+      </Containers>
+    ),
+    ssr: false,
+  }
 );
 const SignUp = () => {
-  return <CreateAccount />;
+  return (
+    <Suspense
+      fallback={
+        <Containers>
+          <AuthPlaceholder />
+        </Containers>
+      }
+    >
+      <CreateAccount />
+    </Suspense>
+  );
 };
-const pageOptions: PageOptions = {
-  title: i18n._(t`Create Account`),
-  description: i18n._(t`Welcome to Voguish Theme`),
-};
-SignUp.pageOptions = pageOptions;
+
 export default SignUp;
+
+export const getServerSideProps = async ({ locale }: { locale: string }) => {
+  const pageProps: PageOptions = {
+    title: 'Create New Account',
+    description: 'Welcome to Voguish Theme',
+  };
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+      pageOptions: pageProps,
+    },
+  };
+};

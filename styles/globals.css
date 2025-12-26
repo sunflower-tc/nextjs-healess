@@ -4,10 +4,10 @@
 
 html,
 body {
+  @apply font-Poppins !important;
   scroll-behavior: smooth;
   font-size: 16px !important;
   -webkit-tap-highlight-color: transparent;
-  font-family: var(--default-font-family,ui-sans-serif,system-ui,sans-serif,"Apple Color Emoji","Segoe UI Emoji","Segoe UI Symbol","Noto Color Emoji");
   @apply antialiased !important;
   /* background-color: black; */
 }
@@ -21,7 +21,8 @@ p {
   font-family: 'icomoon';
   font-display: swap;
   src: url('~/public/assets/fonts/icomoon.eot?5kiojs');
-  src: url('~/public/assets/fonts/icomoon.eot?5kiojs#iefix')
+  src:
+    url('~/public/assets/fonts/icomoon.eot?5kiojs#iefix')
       format('embedded-opentype'),
     url('~/public/assets/fonts/icomoon.ttf?5kiojs') format('truetype'),
     url('~/public/assets/fonts/icomoon.woff?5kiojs') format('woff'),
@@ -44,8 +45,20 @@ p {
 #main {
   @apply pt-16;
 }
-.page-wrapper {
-  @apply flex min-h-screen flex-col justify-start;
+
+@media (max-width: 767px) {
+  *::-webkit-scrollbar-track {
+    -webkit-box-shadow: none;
+    @apply bg-gray-100;
+  }
+
+  ::-webkit-scrollbar {
+    @apply w-0.5 my-5 bg-gray-100;
+  }
+
+  *::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-gray-100 my-5;
+  }
 }
 .breads {
   @apply pb-4;
@@ -258,7 +271,7 @@ a {
 /*checkout*/
 
 .checkoutLayout {
-  @apply -lg:border-l-0 -lg:pl-0 lg:pl-[1.4rem] !important;
+  @apply -lg:border-l-0 -lg:rtl:pl-0 lg:rtl:pl-[1.45rem] -lg:ltr:pl-0 lg:ltr:pl-[1.4rem] !important;
 }
 .checkoutLayout .MuiStepConnector-line {
   @apply -lg:hidden !important;
@@ -363,4 +376,93 @@ a {
 
 .Mui-selected {
   @apply bg-transparent !important;
+}
+
+/* Special styling for WebKit/Blink */
+/* accessibility issues on this shade: 39b38a resolved by this shade 115E59*/
+
+.rangeInput::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  border: 1px solid green;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #115e59;
+  cursor: pointer;
+}
+
+/* All the same stuff for Firefox */
+.rangeInput::-moz-range-thumb {
+  border: 1px solid #115e59;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #115e59;
+  cursor: pointer;
+}
+
+/* All the same stuff for IE */
+.rangeInput::-ms-thumb {
+  border: 1px solid #115e59;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #115e59;
+  cursor: pointer;
+}
+
+.mui-style-10nakn3-MuiModal-root-MuiPopover-root-MuiMenu-root {
+  position: fixed;
+  z-index: 999999;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+}
+
+.mui-style-1sucic7 {
+  position: fixed;
+  z-index: 999999;
+  right: 0;
+  bottom: 0;
+  top: 0;
+  left: 0;
+}
+/* Add to your global CSS file */
+.fade-in-animation {
+  animation: fadeIn 0.6s ease;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 100% 0;
+  }
+  100% {
+    background-position: -100% 0;
+  }
+}
+
+.shimmer,
+.shimmer * {
+  color: transparent !important;
+  background-color: #f6f7f8;
+  background-image: linear-gradient(
+    90deg,
+    rgba(0, 0, 0, 0.07) 8%,
+    rgba(24, 22, 22, 0.301) 18%,
+    rgba(0, 0, 0, 0.07) 33%
+  );
+  background-size: 200% 100%;
+  background-attachment: fixed;
+  animation: shimmer 1.2s linear infinite;
+  border: none;
+  object-position: -99999px 99999px;
 }

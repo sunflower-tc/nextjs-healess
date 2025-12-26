@@ -1,3 +1,8 @@
+import {
+  AggregationInterface,
+  SortFields,
+} from '@packages/module-catalog/types';
+
 export interface StoresData {
   total_count: number;
   items: Items[];
@@ -103,9 +108,12 @@ export interface IProfileBannerProps {
 export interface IProfileProps {
   id: number;
   rating: string;
+  aggregations: AggregationInterface[];
+  products?: any;
   reviews?: ISellerReviews;
   returnPolicy: string;
   shippingPolicy: string;
+  sort: SortFields;
   contactNumber: string;
   email: string;
   loading?: any;

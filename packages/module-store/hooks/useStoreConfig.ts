@@ -1,21 +1,39 @@
-import { OperationVariables, QueryResult, useQuery } from '@apollo/client';
+import {
+  OperationVariables,
+  QueryHookOptions,
+  QueryResult,
+  useQuery,
+} from '@apollo/client';
 import { setStoreConfig } from '@store/store';
+import { isShallowEqual } from '@utils/Helper';
+import { useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import STORE_CONFIG_QUERY from '../graphql/StoreConfig.graphql';
 import { StoreConfigQueryResult } from '../types';
 
 /**
- * useStoreConfig
+ * Custom hook to fetch and immediately dispatch store configuration.
+ *
+ * @param options - Apollo query options
+ * @returns Apollo query result
  */
-export const useStoreConfig = (): QueryResult<
-  StoreConfigQueryResult,
-  OperationVariables
-> => {
+export const useStoreConfig = (
+  options?: QueryHookOptions<StoreConfigQueryResult, OperationVariables>
+): QueryResult<StoreConfigQueryResult, OperationVariables> => {
   const dispatch = useDispatch();
-  const storeData = useQuery<StoreConfigQueryResult>(STORE_CONFIG_QUERY);
-  if (storeData?.data?.storeConfig) {
-    dispatch(setStoreConfig(storeData?.data?.storeConfig));
+  const { data, ...queryResult } = useQuery<
+    StoreConfigQueryResult,
+    OperationVariables
+  >(STORE_CONFIG_QUERY, options);
+
+  const storeConfig = data?.storeConfig;
+
+  const lastConfigRef = useRef<typeof storeConfig | null>(null);
+
+  if (storeConfig && !isShallowEqual(lastConfigRef.current, storeConfig)) {
+    dispatch(setStoreConfig(storeConfig));
+    lastConfigRef.current = storeConfig;
   }
-  // useFetchCountries();html
-  return storeData;
+
+  return { data, ...queryResult };
 };

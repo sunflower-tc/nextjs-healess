@@ -1,13 +1,194 @@
+#import "@voguish/module-catalog/graphql/fragments/_money.graphql"
+
 query OrdersQuery($currentPage: Int, $pageSize: Int) {
   customer {
     email
     orders(currentPage: $currentPage, pageSize: $pageSize) {
       total_count
+
       items {
         id
         number
         order_date
         status
+        invoices {
+          comments {
+            message
+
+            timestamp
+          }
+
+          items {
+            discounts {
+              amount {
+                ...Money
+              }
+              label
+            }
+
+            id
+
+            order_item {
+              discounts {
+                amount {
+                  ...Money
+                }
+                label
+              }
+
+              entered_options {
+                label
+
+                value
+              }
+
+              id
+
+              product_name
+
+              product_sale_price {
+                ...Money
+              }
+
+              product_sku
+              product_type
+              product_url_key
+              quantity_canceled
+              quantity_invoiced
+              quantity_ordered
+              quantity_refunded
+              quantity_returned
+              quantity_shipped
+
+              selected_options {
+                label
+
+                value
+              }
+
+              status
+            }
+
+            product_name
+
+            product_sale_price {
+              ...Money
+            }
+
+            product_sku
+
+            quantity_invoiced
+          }
+
+          number
+
+          total {
+            base_grand_total {
+              ...Money
+            }
+            discounts {
+              amount {
+                ...Money
+              }
+              label
+            }
+
+            grand_total {
+              ...Money
+            }
+
+            subtotal {
+              ...Money
+            }
+            total_shipping {
+              ...Money
+            }
+            total_tax {
+              ...Money
+            }
+          }
+        }
+        shipments {
+          comments {
+            message
+
+            timestamp
+          }
+
+          id
+
+          items {
+            # discounts {
+            #   amount {
+            #     ...Money
+            #   }
+            #   label
+            # }
+
+            id
+
+            order_item {
+              discounts {
+                amount {
+                  ...Money
+                }
+                label
+              }
+
+              entered_options {
+                label
+
+                value
+              }
+
+              id
+
+              product_name
+
+              product_sale_price {
+                ...Money
+              }
+
+              product_sku
+              product_type
+              product_url_key
+              quantity_canceled
+              quantity_invoiced
+              quantity_ordered
+              quantity_refunded
+              quantity_returned
+              quantity_shipped
+
+              selected_options {
+                label
+
+                value
+              }
+
+              status
+            }
+
+            product_name
+
+            product_sale_price {
+              ...Money
+            }
+
+            product_sku
+
+            quantity_shipped
+          }
+
+          number
+
+          tracking {
+            carrier
+
+            number
+
+            title
+          }
+        }
 
         total {
           base_grand_total {

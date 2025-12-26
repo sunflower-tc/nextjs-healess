@@ -2,13 +2,15 @@ import MuiLink, { LinkProps as MuiLinkProps } from '@mui/material/Link';
 import { styled } from '@mui/material/styles';
 import NextLink, { LinkProps as NextLinkProps } from 'next/link';
 import { useRouter } from 'next/router';
-import * as React from 'react';
+import { AnchorHTMLAttributes, forwardRef } from 'react';
+import ErrorBoundary from '../ErrorBoundary';
 
 // Add support for the sx prop for consistency with the other branches.
 const Anchor = styled('a')({});
 
 interface NextLinkComposedProps
-  extends Omit<React.AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
+  extends
+    Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'href'>,
     Omit<
       NextLinkProps,
       | 'href'
@@ -23,7 +25,7 @@ interface NextLinkComposedProps
   linkAs?: NextLinkProps['as'];
 }
 
-export const NextLinkComposed = React.forwardRef<
+export const NextLinkComposed = forwardRef<
   HTMLAnchorElement,
   NextLinkComposedProps
 >(function NextLinkComposed(props, ref) {
@@ -33,24 +35,27 @@ export const NextLinkComposed = React.forwardRef<
     replace,
     scroll,
     shallow,
-    legacyBehavior = true,
+    // legacyBehavior = true,
     locale,
     ...other
   } = props;
 
   return (
-    <NextLink
-      href={to}
-      as={linkAs}
-      replace={replace}
-      scroll={scroll}
-      shallow={shallow}
-      passHref
-      locale={locale}
-      legacyBehavior={legacyBehavior}
-    >
-      <Anchor ref={ref} {...other} />
-    </NextLink>
+    <ErrorBoundary>
+      {' '}
+      <NextLink
+        href={to}
+        as={linkAs}
+        replace={replace}
+        scroll={scroll}
+        shallow={shallow}
+        passHref
+        locale={locale}
+        // legacyBehavior={legacyBehavior}
+      >
+        <Anchor ref={ref} {...other} />
+      </NextLink>
+    </ErrorBoundary>
   );
 });
 
@@ -65,7 +70,7 @@ export type LinkProps = {
 
 // A styled version of the Next.js Link component:
 // https://nextjs.org/docs/api-reference/next/link
-export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
+export const Link = forwardRef<HTMLAnchorElement, LinkProps>(
   function Link(props, ref) {
     const {
       activeClassName = 'active',
@@ -109,7 +114,7 @@ export const Link = React.forwardRef<HTMLAnchorElement, LinkProps>(
       replace,
       scroll,
       shallow,
-      legacyBehavior,
+      // legacyBehavior,
       locale,
     };
 

@@ -1,0 +1,7 @@
+#import "../fragments/_compare_list.graphql"
+
+mutation AddProductsToCompareList($input: AddProductsToCompareListInput) {
+  addProductsToCompareList(input: $input) {
+    ...compareList
+  }
+}

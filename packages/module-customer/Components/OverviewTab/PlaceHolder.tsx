@@ -3,6 +3,7 @@ import Grid from '@mui/material/Grid';
 import Paper from '@mui/material/Paper';
 import Skeleton from '@mui/material/Skeleton';
 import Stack from '@mui/material/Stack';
+import Containers from '@voguish/module-theme/components/ui/Container';
 export const PlaceHolder = () => {
   return (
     <Grid container spacing={2}>
@@ -37,5 +38,33 @@ export const PlaceHolder = () => {
         </Grid>
       ))}
     </Grid>
+  );
+};
+
+export const UserProfilePlaceHolder = () => {
+  return (
+    <div className=" flex flex-col md:flex-row  animate-pulse">
+      <aside className="w-full md:w-64 bg-white border-r border-gray-200 lg:p-4 md:p-4 p-0 lg:!pl-0 md:pl-0">
+        <div className="grid grid-cols-1 gap-4 border-b border-gray-200 pb-2">
+          {[...Array(8)].map((_, i) => (
+            <div key={i} className="h-10 bg-gray-300 rounded-md" />
+          ))}
+        </div>
+      </aside>
+
+      <main className="flex-1 mt-4 space-y-6">
+        <div className="space-y-4">
+          <div className="h-48 bg-gray-300 rounded"></div>
+          <div className="h-6 bg-gray-300 rounded w-5/6"></div>
+          <div className="h-6 bg-gray-300 rounded w-2/3"></div>
+          <div className="h-6 bg-gray-300 rounded w-3/4"></div>
+        </div>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mt-6">
+          <div className="h-40 bg-gray-300 rounded"></div>
+          <div className="h-40 bg-gray-300 rounded"></div>
+        </div>
+      </main>
+    </div>
   );
 };

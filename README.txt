@@ -1,6 +1,6 @@
-#Installation
+﻿#Installation
 
-Magento2 Voguish module installation is very easy, please follow the steps for installation-
+Magento2 Voguish module installation is very easy, please follow the steps for installation- https://webkul.com/blog/magento2-multi-vendor-nextjs-theme-documentation/
 
 1. Unzip the module-voguish extension zip and then move "app" folder (inside "src" folder) into magento root directory.
 
@@ -17,7 +17,7 @@ now module is properly installed
 #User Guide
 
 For Magento2 Voguish module's working process follow user guide -
-
+https://webkul.com/blog/magento2-multi-vendor-nextjs-theme-documentation/
 #Support
 
 Find us our support policy - https://store.webkul.com/support.html/
@@ -43,6 +43,9 @@ Headless Theme Installation
    IMAGE_DOMAIN=magento-url.com (domain from where images will be load eg: magento-url domain, cloudflare-domain)
    APP_URL=http://localhost:3000/ (Headless app URL)
    FALLBACK_LOCALE=en (fallback locale)
+   NEXTAUTH_URL=https://your-theme-url.com/
+   NEXTAUTH_SECRET=ANY-STRING
+   DEFAULT_STORE_CODE='en'  // en or any store want to make as deafult if not getting stores from backend this works for default locale as well
 
 3. Run Following Command via terminal
    npm install OR yarn install
@@ -56,25 +59,28 @@ Headless Theme Installation
 1. Unzip the respective extension zip and then upload "NextJs" folder to your Github private repository
 2. Go to vercel.com (create account/login)
 3. Select "Add New Project"
-4. Select your POS Repository under "Import Git Repository"
+4. Select your Repository under "Import Git Repository"
 5. Add Project Name
 6. Then select the "Environment Variables" and add the ENV variables mentioned in ".env.template"
    MAGENTO_URL=https://magento-url.com/ (your magento instance URL)
    IMAGE_DOMAIN=magento-url.com (domain from images will load eg: magento-url domain, cloudflare-domain)
    APP_URL=http://localhost:3000/ (Headless app URL)
    FALLBACK_LOCALE=en (fallback locale)
+   NEXTAUTH_URL=https://your-theme-url.com/
+   NEXTAUTH_SECRET=ANY-STRING
+
 7. Deploy your project and it will be deployed and URL will can be change from Settings > Domain
 
 To make it work with Magento's API we need to allow Origin as well as some headers. Please follow the below instructions.
 
 # For Apache
 
-Header set Access-Control-Allow-Origin "https://pos-app.com/"
-Header set Access-Control-Allow-Headers "Accept, Content-Type, POS-TOKEN"
+Header set Access-Control-Allow-Origin "https://your-theme-url.com"
+add_header 'Access-Control-Allow-Headers' 'Accept, Content-Type,Authorization,Store';
 
 # For Nginx
 
-add_header 'Access-Control-Allow-Origin' 'https://pos-app.com/';
-add_header 'Access-Control-Allow-Headers' 'Accept, Content-Type, POS-TOKEN';
+add_header 'Access-Control-Allow-Origin' 'https://your-theme-url.com';
+add_header 'Access-Control-Allow-Headers' 'Accept, Content-Type,Authorization,Store';
 
 To allow all origins you can just pass _ for eg: Header set Access-Control-Allow-Origin "_" OR add_header

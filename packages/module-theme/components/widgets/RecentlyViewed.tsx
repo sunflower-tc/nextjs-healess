@@ -1,10 +1,11 @@
 import { isValidArray } from '@utils/Helper';
-import { Placeholder } from '@voguish/module-catalog';
+import Placeholder from '@voguish/module-catalog/Components/Product/Item/Placeholder';
 import Slider from '@voguish/module-catalog/Components/Product/Slider';
 import { RecentlyViewedProduct } from '@voguish/module-theme/types/home-page';
 import Info from '../elements/Info';
+import ErrorBoundary from '../ErrorBoundary';
 import Containers from '../ui/Container';
-import { InfoTextPlaceHolder } from './placeholders';
+import { InfoTextPlaceHolder } from './placeholders/InfoTextPlaceHolder';
 
 function RecentlyViewed({
   products,
@@ -18,7 +19,7 @@ function RecentlyViewed({
     <div className="pb-4">
       {homeLoading ? (
         <Containers>
-          <InfoTextPlaceHolder extraClasses="mx-auto " />
+          <InfoTextPlaceHolder extraClasses="mx-auto" />
           <span className="pt-4">
             <div className="hidden md:flex">
               {placeHolders.map((item, index) => (
@@ -27,13 +28,13 @@ function RecentlyViewed({
                 </div>
               ))}
             </div>
-            <div className=" md:hidden">
+            <div className="md:hidden">
               <Placeholder />
             </div>
           </span>
         </Containers>
       ) : (
-        <>
+        <ErrorBoundary>
           <div className="2xl:max-w-[90rem] mx-auto">
             <div className="pl-6 pr-2 lg:px-9">
               {isValidArray(products?.productList) && (
@@ -47,15 +48,15 @@ function RecentlyViewed({
               )}
             </div>
           </div>
-          <>
+          <ErrorBoundary>
             {isValidArray(products?.productList) && (
               <Slider
                 extraClass="explore-product"
                 product={products?.productList}
               />
             )}
-          </>
-        </>
+          </ErrorBoundary>
+        </ErrorBoundary>
       )}
     </div>
   );

@@ -1,0 +1,114 @@
+fragment simple_product on SimpleProduct {
+  options {
+    ... on CustomizableRadioOption {
+      option_id
+      sort_order
+      title
+      uid
+      required
+      value {
+        option_type_id
+        price
+        sku
+        sort_order
+        title
+        uid
+      }
+    }
+    ... on CustomizableCheckboxOption {
+      option_id
+      sort_order
+      title
+      uid
+      required
+      value {
+        option_type_id
+        price
+        price_type
+        sku
+        sort_order
+        title
+        uid
+      }
+    }
+    ... on CustomizableMultipleOption {
+      option_id
+      sort_order
+      title
+      required
+      uid
+      value {
+        option_type_id
+        price
+        sku
+        sort_order
+        title
+        uid
+      }
+    }
+    ... on CustomizableFieldOption {
+      option_id
+      sort_order
+      title
+      required
+      uid
+      inputValue: value {
+        max_characters
+        price
+        price_type
+        sku
+        uid
+      }
+    }
+    ... on CustomizableAreaOption {
+      option_id
+      sort_order
+      title
+      required
+      uid
+      textAreaValue: value {
+        max_characters
+        price
+        price_type
+        sku
+        uid
+      }
+    }
+    ... on CustomizableFileOption {
+      option_id
+      product_sku
+      required
+      sort_order
+      title
+      uid
+      file_value: value {
+        file_extension
+        image_size_x
+        image_size_y
+        price
+        price_type
+        sku
+        uid
+      }
+    }
+    ... on CustomizableDropDownOption {
+      option_id
+      sort_order
+      title
+      required
+      uid
+      value {
+        option_type_id
+        price
+        sku
+        sort_order
+        title
+        uid
+      }
+    }
+    option_id
+    title
+    sort_order
+    uid
+  }
+}

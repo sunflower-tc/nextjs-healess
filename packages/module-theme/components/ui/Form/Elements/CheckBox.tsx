@@ -1,6 +1,8 @@
 import Checkbox from '@mui/material/Checkbox';
 import FormControlLabel from '@mui/material/FormControlLabel';
-import React from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { forwardRef } from 'react';
+import { useTranslation } from 'next-i18next';
 export interface ICheckBoxInputField {
   label: string;
   name?: string;
@@ -9,9 +11,10 @@ export interface ICheckBoxInputField {
   value?: string;
   refs?: any;
   defaultChecked?: boolean;
+  disabled?: boolean;
 }
 
-export const CheckBoxInputField = React.forwardRef(
+export const CheckBoxInputField = forwardRef(
   (
     {
       label,
@@ -20,23 +23,30 @@ export const CheckBoxInputField = React.forwardRef(
       defaultChecked,
       onBlur,
       value,
+      disabled,
     }: ICheckBoxInputField,
     ref
   ) => {
+    const { t } = useTranslation('common');
     return (
-      <FormControlLabel
-        control={
-          <Checkbox
-            defaultChecked={defaultChecked}
-            name={name}
-            onChange={onChange}
-            value={value}
-            ref={ref as any}
-            onBlur={onBlur}
+      <ErrorBoundary>
+        <div className="rtl:-mr-6">
+          <FormControlLabel
+            control={
+              <Checkbox
+                disabled={disabled}
+                defaultChecked={defaultChecked}
+                name={name}
+                onChange={onChange}
+                value={value}
+                ref={ref as any}
+                onBlur={onBlur}
+              />
+            }
+            label={t(label)}
           />
-        }
-        label={label}
-      />
+        </div>
+      </ErrorBoundary>
     );
   }
 );

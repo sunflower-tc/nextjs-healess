@@ -10,7 +10,7 @@
   @apply w-full mx-auto;
 }
 .product_slider .mySwiper .swiper-wrapper {
-  @apply gap-8 flex justify-center !important;
+  @apply gap-8 flex justify-start !important;
 }
 
 .product_card .mySwiper .swiper-wrapper {

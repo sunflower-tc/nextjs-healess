@@ -2,7 +2,9 @@ import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
 import { TabsProp } from '@voguish/module-catalog/types';
-import { ReactNode, SyntheticEvent, useState } from 'react';
+import { ReactNode, SyntheticEvent, useEffect, useState } from 'react';
+import { useHash, removeUrlHash } from '@packages/module-common/useHash';
+import { useRouter } from 'next/router';
 
 interface TabPanelProps {
   children?: ReactNode;
@@ -16,7 +18,7 @@ function TabPanel(props: TabPanelProps) {
 
   return (
     <div
-      className={` ${right ? 'px-1.5 py-3' : 'px-0 py-0 my-0'}`}
+      className={`  ${right ? 'px-1.5 py-3' : 'px-0 py-0 my-0'}`}
       role="tabpanel"
       hidden={value !== index}
       id={`simple-tabpanel-${index}`}
@@ -24,7 +26,7 @@ function TabPanel(props: TabPanelProps) {
       {...other}
     >
       {value === index && (
-        <Box className={`${!right && 'py-0'} px-0 mx-0`}>
+        <Box className={`${!right && 'py-0'} px-0 mx-0 border-none`}>
           <div>{children}</div>
         </Box>
       )}
@@ -42,28 +44,50 @@ function a11yProps(index: number) {
 export default function TabLayout({
   items,
   right = true,
+  className,
+  hash = false,
 }: {
   items: TabsProp[];
   right?: boolean;
+  className?: string;
+  hash?: boolean;
 }) {
-  const [value, setValue] = useState(0);
+  const router = useRouter();
 
+  const [value, setValue] = useState(0);
+  const hashValue = useHash(true);
   const handleChange = (event: SyntheticEvent, newValue: number) => {
     setValue(newValue);
+    if (hash) {
+      removeUrlHash(router);
+    }
   };
 
+  useEffect(() => {
+    if (hash && hashValue) {
+      items.forEach((element, index) => {
+        if (
+          element?.name?.toLocaleLowerCase() === hashValue?.toLocaleLowerCase()
+        ) {
+          setValue(index);
+        }
+      });
+    }
+  }, [hashValue]);
+
+  console.log(items, '');
   return (
     <Box sx={{ width: '100%' }} className={`${right ? '' : 'py-0 my-0'}`}>
       <Box
         className={` mx-2 ${
           right ? '' : 'flex justify-center mx-auto max-w-[90rem] px-0 sm:px-6'
         }`}
-        sx={{ borderBottom: 1, borderColor: 'divider' }}
       >
         <Tabs
           value={value}
           onChange={handleChange}
           aria-label="basic tabs example"
+          className={`!border-b border-solid border-gray-200 border-l-0 border-r-0 border-t-0 ${className}`}
         >
           {items.map((item) => (
             <Tab

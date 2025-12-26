@@ -1,10 +1,11 @@
-import React, { FC } from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import { FC, ReactNode } from 'react';
 import styles from './Tabs.module.css';
 
 type Props = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
-const Tabs: React.FC<Props> = ({ children }) => {
+const Tabs: FC<Props> = ({ children }) => {
   return <div className={`${styles.tabs}`}>{children}</div>;
 };
 
@@ -43,21 +44,23 @@ export const TabList: FC<TabListData> = ({
 }) => {
   const isChecked = defaultActiveTab === id;
   return (
-    <div className={styles.tab__list} id={`#${id}`}>
-      <input
-        type="radio"
-        defaultChecked={isChecked}
-        onChange={() => {
-          switchHandler(id);
-        }}
-        id={formId}
-        className={`${styles.tabs}`}
-        name={tabName}
-      />
-      <label className="text-bold" htmlFor={formId}>
-        {title}
-      </label>
-      <div className={`${styles.ease} ${styles.line}`}></div>
-    </div>
+    <ErrorBoundary>
+      <div className={styles.tab__list} id={`#${id}`}>
+        <input
+          type="radio"
+          defaultChecked={isChecked}
+          onChange={() => {
+            switchHandler(id);
+          }}
+          id={formId}
+          className={`${styles.tabs}`}
+          name={tabName}
+        />
+        <label className="text-bold" htmlFor={formId}>
+          {title}
+        </label>
+        <div className={`${styles.ease} ${styles.line}`}></div>
+      </div>
+    </ErrorBoundary>
   );
 };

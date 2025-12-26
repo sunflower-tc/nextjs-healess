@@ -1,24 +1,17 @@
 {
+  "extends": ["next/core-web-vitals", "plugin:@typescript-eslint/recommended"],
   "parser": "@typescript-eslint/parser",
   "plugins": ["@typescript-eslint"],
-  "extends": [
-    "eslint:recommended",
-    "plugin:react/recommended",
-    "plugin:react/jsx-runtime",
-    "next",
-    "next/core-web-vitals",
-    "eslint-config-prettier"
-  ],
-  "env": {
-    "browser": true,
-    "node": true,
-    "es6": true
-  },
   "rules": {
-    "no-unused-vars": "off",
+    "no-unused-vars": "warn",
     "quotes": ["error", "single"],
-    "@typescript-eslint/no-unused-vars": ["warn"],
-    "no-console": 1,
+      "@typescript-eslint/no-unused-vars": [
+      "warn",
+      { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
+    ],
+    "no-console": "warn",
+    "@typescript-eslint/no-explicit-any": "off",
+    "@typescript-eslint/no-require-imports": "off",
     "no-restricted-syntax": [
       "error",
       {

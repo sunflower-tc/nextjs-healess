@@ -1,5 +1,6 @@
 import Grid from '@mui/material/Grid';
-import { IProps } from '@voguish/module-marketplace';
+import { IProps } from '@voguish/module-marketplace/type';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 const OverallRating = dynamic(() => import('../ReviewRightPanel'));
 const ReviewLeftPanel = dynamic(() => import('../ReviewLeftPanel'));
@@ -7,11 +8,10 @@ const Review = (props: IProps) => {
   const { totalRating, id } = props;
 
   return (
-    <>
+    <ErrorBoundary>
       <Grid
         container
-        display="flex"
-        flexDirection={{ xs: 'column-reverse', md: 'row' }}
+        className="flex flex-col-reverse ltr:md:flex-row rtl:md:flex-row-reverse"
         rowGap={3}
         pt={{ lg: 4 }}
       >
@@ -39,7 +39,7 @@ const Review = (props: IProps) => {
           <OverallRating id={id} totalRating={totalRating} />
         </Grid>
       </Grid>
-    </>
+    </ErrorBoundary>
   );
 };
 export default Review;

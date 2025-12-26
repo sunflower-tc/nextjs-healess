@@ -1,21 +1,27 @@
-import { ProfilePlaceholder, useCustomerQuery } from '@voguish/module-customer';
+import { ProfilePlaceholder } from '@voguish/module-customer/Components/ProfileTab/ProfilePlaceholder';
 import GET_CUSTOMER from '@voguish/module-customer/graphql/Customer.graphql';
+import { useCustomerQuery } from '@voguish/module-customer/hooks/useCustomerQuery';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import dynamic from 'next/dynamic';
 import { useState } from 'react';
 import Sidebar from '../Layout/Sidebar';
 const EditForm = dynamic(() => import('./EditForm'));
 const ProfileInfo = dynamic(() => import('./ProfileInfo'));
 function Profile() {
-  const [profileView, setprofileView] = useState(false);
+  const [profileView, setProfile] = useState(false);
   const { data, loading /*, error */ } = useCustomerQuery(GET_CUSTOMER);
   return (
     <Sidebar>
       {loading ? (
         <ProfilePlaceholder />
       ) : !profileView ? (
-        <ProfileInfo userinfoData={data} handleClick={setprofileView} />
+        <ErrorBoundary>
+          <ProfileInfo userinfoData={data} handleClick={setProfile} />
+        </ErrorBoundary>
       ) : (
-        <EditForm userinfoData={data} handleClick={setprofileView} />
+        <ErrorBoundary>
+          <EditForm userinfoData={data} handleClick={setProfile} />
+        </ErrorBoundary>
       )}
     </Sidebar>
   );

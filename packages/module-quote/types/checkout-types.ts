@@ -1,5 +1,5 @@
 import { ApolloQueryResult, OperationVariables } from '@apollo/client';
-import React from 'react';
+import { ReactNode } from 'react';
 import {
   AvailablePaymentMethods,
   AvailableShippingMethod,
@@ -20,7 +20,7 @@ export type CheckoutStepTabs =
 export type CheckoutStep = {
   index: CheckoutStepTabs;
   label: string;
-  content: React.ReactNode;
+  content: ReactNode;
 };
 
 export interface CheckoutStepProps {
@@ -37,6 +37,7 @@ export interface CheckoutStepShipAddress extends CheckoutStepProps {
   addresses: any;
   token: string;
   selectedShippingAddress: CartAddressInput;
+  loading: boolean;
   refetchAddress: (
     variables?: Partial<OperationVariables> | undefined //eslint-disable-line
   ) => Promise<ApolloQueryResult<any>>;
@@ -63,6 +64,7 @@ export interface CheckoutStepReview extends CheckoutStepProps {
   selectedShippingMethod: SelectedShippingMethod;
   selectedPaymentMethod: SelectedPaymentMethod;
   token: string;
+  selectedBillingAddress: CartAddressInterface;
   isVirtual?: boolean;
 }
 
@@ -167,5 +169,31 @@ export interface SetPayPalPaymentMethodOnCartInput {
   code: string;
   payer_id: string;
   token: string;
+}
+
+export interface PlaceOrderFromAdyenInput {
+  cart_id: string;
+  code: string;
+  cc_type: string;
+  return_url: string;
+  guestEmail?: string;
+  stateData: string;
+}
+
+export interface AdyenOrder {
+  order_number: string;
+  cart_id: string;
+  adyen_payment_status: AydenPayResultDataType;
+}
+
+export type AydenPayResultDataType = {
+  isFinal: boolean;
+  resultCode: string;
+  additionalData: any;
+  action: any;
+};
+export interface AdyenPaymentState {
+  adyenPaymentDetails: AydenPayResultDataType,
+  error: string | null,
 }
 

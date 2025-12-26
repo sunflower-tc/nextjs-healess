@@ -1,27 +1,31 @@
 import { useQuery } from '@apollo/client';
-import { Trans } from '@lingui/macro';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import Accordion from '@mui/material/Accordion';
 import AccordionDetails from '@mui/material/AccordionDetails';
 import AccordionSummary from '@mui/material/AccordionSummary';
-
-import Button from '@mui/material/Button';
 import Grid from '@mui/material/Grid';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { STORE_CONFIG, getKeyFromStorage } from '@store/local-storage';
 import { isValidArray } from '@utils/Helper';
-import { FooterPlaceHolder } from '@voguish/module-theme';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Containers from '@voguish/module-theme/components/ui/Container';
+import { FooterPlaceHolder } from '@voguish/module-theme/components/widgets/placeholders/FooterPlaceHolder';
 import Footer_Query from '@voguish/module-theme/graphql/footer.graphql';
+import { useTranslation } from 'next-i18next';
 import dynamic from 'next/dynamic';
 import Link from 'next/link';
 import { FooterLinksResult, SubLinks } from './type';
-const Facebook = dynamic(() => import('@mui/icons-material/Facebook'));
-const Instagram = dynamic(() => import('@mui/icons-material/Instagram'));
-const LinkedIn = dynamic(() => import('@mui/icons-material/LinkedIn'));
-const Twitter = dynamic(() => import('@mui/icons-material/Twitter'));
-const YouTube = dynamic(() => import('@mui/icons-material/YouTube'));
+const FooterIcon = dynamic(() => import('./FooterIcon'), {
+  loading: () => (
+    <div className="flex items-center gap-2">
+      <div className="w-4 h-4 bg-slate-400 animate-pulse" />
+      <div className="w-4 h-4 bg-slate-400 animate-pulse" />
+      <div className="w-4 h-4 bg-slate-400 animate-pulse" />
+      <div className="w-4 h-4 bg-slate-400 animate-pulse" />
+    </div>
+  ),
+});
 
 const StoreSwitcher = dynamic(
   () => import('@voguish/module-store/StoreSwitcher')
@@ -40,6 +44,8 @@ const parseLink = (option: SubLinks) => {
 };
 
 const Footer = () => {
+  const { t } = useTranslation('common');
+
   const { data, loading } = useQuery<FooterLinksResult>(Footer_Query);
   const requiredKey = 'copyright';
   const storeData = getKeyFromStorage(STORE_CONFIG, requiredKey) || {};
@@ -49,47 +55,60 @@ const Footer = () => {
       {loading ? (
         <FooterPlaceHolder />
       ) : (
-        <>
+        <ErrorBoundary>
           <div className="flex-col hidden w-full max-w-2xl gap-y-4 gap-x-10 md:flex-row-reverse md:justify-between" />
-          <>
+          <ErrorBoundary>
             <Containers className="justify-between hidden w-full px-0 pt-12 pb-16 md:flex">
-              {isValidArray(data?.footerLinks) && (
-                <Grid className="hidden w-full gap-4 md:items-start md:justify-between md:flex md:flex-wrap">
-                  {data?.footerLinks.map((footerLink) => (
-                    <Grid key={footerLink.uid} item>
-                      <Stack spacing={2}>
-                        <Typography
-                          variant="body1"
-                          component="p"
-                          className="font-semibold uppercase"
-                        >
-                          {footerLink.title}
-                        </Typography>
-                        {isValidArray(footerLink.subLinks) && (
-                          <Stack spacing={0.5}>
-                            {footerLink.subLinks.map((option) => (
-                              <Typography
-                                key={option.url_key}
-                                variant="body1"
-                                className="text-[#64687A] cta hover:text-brand duration-200 max-w-fit"
-                              >
-                                <Link
-                                  className="hover-underline-animation"
-                                  href={parseLink(option)}
-                                  rel="noopener noreferrer"
-                                  target="_blank"
-                                >
-                                  {option.title}
-                                </Link>
-                              </Typography>
-                            ))}
-                          </Stack>
+              {data?.footerLinks.map((footerLink) => (
+                <Grid key={footerLink.uid} item>
+                  <Stack spacing={2}>
+                    <Typography
+                      variant="body1"
+                      component="p"
+                      className="font-semibold uppercase"
+                    >
+                      {footerLink.title}
+                    </Typography>
+                    {isValidArray(footerLink.subLinks) && (
+                      <Stack spacing={0.5}>
+                        {footerLink.subLinks.map((option) => (
+                          <Typography
+                            key={option.uid}
+                            variant="body1"
+                            component="p"
+                            className="text-sm duration-200 text-slate-500 cta hover:text-brand max-w-fit"
+                          >
+                            <Link
+                              className="hover:brand"
+                              href={parseLink(option)}
+                              rel="noopener noreferrer"
+                              target={option?.open_new_tab ? '_blank' : '_self'}
+                            >
+                              {option.title}
+                            </Link>
+                          </Typography>
+                        ))}
+                        {footerLink.title === 'About' && (
+                          <Typography
+                            variant="body1"
+                            component="p"
+                            className="text-sm duration-200 text-slate-500 cta hover:text-brand max-w-fit"
+                          >
+                            <Link
+                              className="hover-underline-animation"
+                              href="/sitemaps.xml"
+                              rel="noopener noreferrer"
+                              target="_blank"
+                            >
+                              {t('Sitemap')}
+                            </Link>
+                          </Typography>
                         )}
                       </Stack>
-                    </Grid>
-                  ))}
+                    )}
+                  </Stack>
                 </Grid>
-              )}
+              ))}
             </Containers>
             <div className="hidden w-full px-6 py-3 md:flex bg-secondary">
               <div className="flex flex-row items-center justify-between w-full text-white -sm:flex-col">
@@ -103,54 +122,21 @@ const Footer = () => {
                     <StoreSwitcher />
                   </div>
                   <div className="flex items-center -md:grid gap-1.5 -md:flex-row -sm:flex -lg:flex-col">
-                    <Typography className="text-[0.875rem]">
-                      <Trans>FIND US ON :</Trans>
+                    <Typography className="text-[0.875rem] lg:inline md:inline hidden  whitespace-nowrap">
+                      {t('FIND US ON :')}
                     </Typography>
-                    <span className="flex gap-2">
-                      <Button
-                        className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                        aria-label="Facebook"
-                        variant="outlined"
-                      >
-                        <Facebook fontSize="small" />
-                      </Button>
 
-                      <Button
-                        aria-label="Instagram"
-                        className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                        variant="outlined"
-                      >
-                        <Instagram fontSize="small" />
-                      </Button>
-
-                      <Button
-                        aria-label="Twitter"
-                        className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                        variant="outlined"
-                      >
-                        <Twitter fontSize="small" />
-                      </Button>
-                      <Button
-                        aria-label="Linkedin"
-                        className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                        variant="outlined"
-                      >
-                        <LinkedIn fontSize="small" />
-                      </Button>
-                      <Button
-                        aria-label="Youtube"
-                        className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                        variant="outlined"
-                      >
-                        <YouTube fontSize="small" />
-                      </Button>
-                    </span>
+                    <FooterIcon />
                   </div>
                 </div>
               </div>
             </div>
             <Containers className="-md:!mx-0 md:hidden -md:!px-0 px-0 pt-12 pb-3">
-              <Accordion className=" shadow-[unset] my-0" elevation={0}>
+              <Accordion
+                className=" shadow-[unset] my-0"
+                elevation={0}
+                defaultExpanded
+              >
                 <AccordionSummary
                   className="mx-0"
                   expandIcon={<ExpandMoreIcon />}
@@ -179,12 +165,12 @@ const Footer = () => {
                                 <Stack spacing={0.5}>
                                   {footerLink.subLinks.map((option) => (
                                     <Typography
-                                      key={option.url_key}
+                                      key={option.uid}
                                       variant="body1"
-                                      className="text-[#64687A] cta hover:text-brand duration-200 max-w-fit"
+                                      className="text-sm duration-200 text-slate-500 cta hover:text-brand max-w-fit"
                                     >
                                       <Link
-                                        className="hover-underline-animation"
+                                        className=""
                                         href={parseLink(option)}
                                         rel="noopener noreferrer"
                                         target="_blank"
@@ -214,47 +200,9 @@ const Footer = () => {
                         </div>
                         <div className="flex items-center -md:grid gap-1.5 -md:flex-row -sm:flex -lg:flex-col">
                           <Typography className="text-[0.875rem]">
-                            <Trans>FIND US ON :</Trans>
+                            {t('FIND US ON :')}
                           </Typography>
-                          <span className="flex gap-2">
-                            <Button
-                              className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                              aria-label="Facebook"
-                              variant="outlined"
-                            >
-                              <Facebook fontSize="small" />
-                            </Button>
-
-                            <Button
-                              aria-label="Instagram"
-                              className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                              variant="outlined"
-                            >
-                              <Instagram fontSize="small" />
-                            </Button>
-
-                            <Button
-                              aria-label="Twitter"
-                              className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                              variant="outlined"
-                            >
-                              <Twitter fontSize="small" />
-                            </Button>
-                            <Button
-                              aria-label="Linkedin"
-                              className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                              variant="outlined"
-                            >
-                              <LinkedIn fontSize="small" />
-                            </Button>
-                            <Button
-                              aria-label="Youtube"
-                              className="min-w-0 min-h-0 p-2 text-white border border-white w-7 h-7 "
-                              variant="outlined"
-                            >
-                              <YouTube fontSize="small" />
-                            </Button>
-                          </span>
+                          <FooterIcon />
                         </div>
                       </div>
                     </div>
@@ -262,8 +210,8 @@ const Footer = () => {
                 </AccordionDetails>
               </Accordion>
             </Containers>
-          </>
-        </>
+          </ErrorBoundary>
+        </ErrorBoundary>
       )}
     </footer>
   );

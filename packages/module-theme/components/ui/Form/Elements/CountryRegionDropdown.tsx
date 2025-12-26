@@ -5,11 +5,21 @@ import MenuItem from '@mui/material/MenuItem';
 import Select, { SelectChangeEvent } from '@mui/material/Select';
 import { COUNTRIES, getLocalStorage } from '@store/local-storage';
 import { isValidArray } from '@utils/Helper';
-import { useSetAddressCountries } from '@voguish/module-customer/hooks/customer-handler';
 import { Country, Region } from '@voguish/module-store';
-import React, { ReactNode, useEffect, useState } from 'react';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
+import {
+  Component,
+  FocusEvent,
+  FormEvent,
+  ReactNode,
+  RefObject,
+  forwardRef,
+  useEffect,
+  useState,
+} from 'react';
+import { useTranslation } from 'react-i18next';
 import InputField from './Input';
-
+import { SelectorPlaceHolder } from '@voguish/module-marketplace/Components/Placeholder';
 /**
  * Code for Mange the Country Select option Silder
  */
@@ -24,9 +34,9 @@ const MenuProps = {
 interface BaseProps {
   label?: string;
   name?: string;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void; // eslint-disable-line
+  onBlur?: (e: FocusEvent<HTMLInputElement>) => void; // eslint-disable-line
   value?: string;
-  refs?: React.RefObject<React.Component>;
+  refs?: RefObject<Component>;
   sx?: string;
   error?: boolean;
   defaultValue?: string;
@@ -38,7 +48,7 @@ interface ISelectDropDownField extends BaseProps {
 }
 
 interface InputFieldProps extends BaseProps {
-  onChange: (e: React.FormEvent<HTMLInputElement>) => void; // eslint-disable-line
+  onChange: (e: FormEvent<HTMLInputElement>) => void; // eslint-disable-line
 }
 
 interface CountriesProps extends ISelectDropDownField {
@@ -70,35 +80,28 @@ export const CountryRegionDropdown = ({
   selectedRegionId?: string;
   labelName?: boolean;
 }) => {
-  // const { data, loading } = useQuery<CountriesQueryResult>(GET_COUNTRIES, {
-  //   fetchPolicy: 'cache-and-network',
-  // });
-
+  const { t } = useTranslation('common');
   const countries = getLocalStorage(COUNTRIES, true);
-  const cty = useSetAddressCountries();
-  isValidArray(!countries) && cty;
-
   const [regions, setRegions] = useState<Region[]>([]);
 
   useEffect(() => {
     if (countries && isValidArray(countries)) {
       const thisRegions =
-        countries.find(
+        countries?.find(
           (country: countryProps) => country.id === selectedCountryCode
         )?.available_regions || [];
-
       setRegions(thisRegions);
     }
   }, [selectedCountryCode]);
 
   return (
-    <>
-      {countries && isValidArray(countries) && (
+    <ErrorBoundary>
+      {countries && isValidArray(countries) ? (
         <div className="grid gap-2.5">
           <div>
             {!labelName && (
               <InputLabel id="address-select-region-label">
-                Enter Region
+                {t('Enter Region')}
               </InputLabel>
             )}
             <CountryDropdown
@@ -114,7 +117,7 @@ export const CountryRegionDropdown = ({
               <div className="-mt-4">
                 {!labelName && (
                   <InputLabel id="address-select-region-label">
-                    Enter Region
+                    {t('Enter Region')}
                   </InputLabel>
                 )}
                 <RegionsDropDown
@@ -126,14 +129,14 @@ export const CountryRegionDropdown = ({
                 />
               </div>
             ) : (
-              <>
+              <ErrorBoundary>
                 {!labelName && (
                   <InputLabel id="address-select-region-label">
-                    Enter Region
+                    {t('Enter Region')}
                   </InputLabel>
                 )}
                 <InputField
-                  label={`${labelName && 'Region/State'}`}
+                  label={labelName ? t('Region/State') : ''}
                   type="text"
                   {...regionRegister}
                   defaultValue={
@@ -143,17 +146,18 @@ export const CountryRegionDropdown = ({
                     )?.name
                   }
                 />
-              </>
+              </ErrorBoundary>
             )}
           </div>
         </div>
+      ) : (
+        <SelectorPlaceHolder />
       )}
-      {/* {loading && <Skeleton variant="rectangular" height="60px" width="100%" />} */}
-    </>
+    </ErrorBoundary>
   );
 };
 
-const CountryDropdown = React.forwardRef(
+const CountryDropdown = forwardRef(
   (
     {
       onChange,
@@ -168,53 +172,67 @@ const CountryDropdown = React.forwardRef(
       countries,
     }: CountriesProps,
     ref
-  ) => (
-    <FormControl
-      required
-      className={` ${!labelName && '-mt-0'}`}
-      margin="normal"
-      size="small"
-      sx={{ width: '100%' }}
-    >
-      {labelName ? (
-        <InputLabel id="address-select-country-input-label">Country</InputLabel>
-      ) : (
-        <label className="pb-0.5" htmlFor="address-select-country-input-label">
-          Country *
-        </label>
-      )}
-      <Select
-        labelId="address-select-country-label"
-        required
-        id="address-select-country"
-        name={name}
-        ref={ref}
-        value={value || defaultValue}
-        error={error}
-        MenuProps={MenuProps}
-        onBlur={onBlur}
-        onChange={onChange}
-        label={label}
-        size="small"
-        defaultValue={defaultValue || ''}
-      >
-        <MenuItem value="">
-          <em>Select Country...</em>
-        </MenuItem>
-        {countries.map((country_detail) => (
-          <MenuItem key={country_detail.id} value={country_detail.id}>
-            {country_detail.full_name_english}
-          </MenuItem>
-        ))}
-      </Select>
-      <FormHelperText className="text-error">{helperText}</FormHelperText>
-    </FormControl>
-  )
+  ) => {
+    const { t } = useTranslation('common');
+    return (
+      <ErrorBoundary>
+        <FormControl
+          required
+          className={` ${!labelName && '-mt-0'}`}
+          margin="normal"
+          size="small"
+          sx={{ width: '100%' }}
+        >
+          {labelName ? (
+            <InputLabel id="address-select-country-input-label">
+              {t('Country')}
+            </InputLabel>
+          ) : (
+            <label
+              className="pb-0.5"
+              htmlFor="address-select-country-input-label"
+            >
+              {t('Country')} *
+            </label>
+          )}
+          <Select
+            labelId="address-select-country-label"
+            required
+            id="address-select-country"
+            name={name}
+            ref={ref}
+            value={value || defaultValue}
+            error={error}
+            MenuProps={MenuProps}
+            onBlur={onBlur}
+            onChange={onChange}
+            label={label}
+            size="small"
+            defaultValue={defaultValue || ''}
+          >
+            <MenuItem value="">
+              <em>{t('Select Country...')}</em>
+            </MenuItem>
+            {countries.map((country_detail) => (
+              <MenuItem key={country_detail.id} value={country_detail.id}>
+                {country_detail.full_name_english}
+              </MenuItem>
+            ))}
+          </Select>
+          {helperText && (
+            <FormHelperText className="text-red-600 !text-xs">
+              {helperText}
+            </FormHelperText>
+          )}
+        </FormControl>
+      </ErrorBoundary>
+    );
+  }
 );
 
 CountryDropdown.displayName = 'CountryDropdown';
 
-const RegionsDropDown = React.forwardRef(
+const RegionsDropDown = forwardRef(
   (
     {
       onChange,
@@ -231,61 +249,65 @@ const RegionsDropDown = React.forwardRef(
     }: RegionsProps,
     ref
   ) => {
+    const { t } = useTranslation('common');
+
     /**
      * Reload the country information data with specific Id
      */
+
     return (
-      <FormControl
-        className={`${sx} ${!labelName && 'mt-5'}`}
-        margin="normal"
-        required
-        size="small"
-        sx={{ width: '100%' }}
-        error={error}
-      >
-        {labelName ? (
-          <InputLabel id="address-select-region-label">
-            State/Region {label}
-          </InputLabel>
-        ) : (
-          <label className="pb-0.5" htmlFor="address-select-region-label">
-            State/Region*
-          </label>
-        )}
-        <Select
-          labelId="address-select-region-select-label"
+      <ErrorBoundary>
+        <FormControl
+          className={`${sx} ${!labelName && 'mt-5'}`}
+          margin="normal"
           required
-          id="address-select-region-select"
-          name={name}
-          ref={ref}
-          value={value}
-          error={error}
-          MenuProps={MenuProps}
-          onBlur={onBlur}
-          onChange={onChange}
-          label={label}
           size="small"
-          defaultValue={defaultValue || ''}
+          sx={{ width: '100%' }}
+          error={error}
         >
-          {/* <MenuItem className="mx-3 rounded-md" value="">
-            <em>{`Please Select ${label}`}</em>
-          </MenuItem> */}
-          <MenuItem
-            className="mx-3 rounded-md"
-            value=""
-          >{`Please Select ${label}`}</MenuItem>
-          {regions?.map((region_detail: any) => (
+          {labelName ? (
+            <InputLabel id="address-select-region-label">
+              {t('State/Region')} {label}
+            </InputLabel>
+          ) : (
+            <label className="pb-0.5" htmlFor="address-select-region-label">
+              {t('State/Region')} *
+            </label>
+          )}
+          <Select
+            labelId="address-select-region-select-label"
+            required
+            id="address-select-region-select"
+            name={name}
+            ref={ref}
+            value={value}
+            error={error}
+            MenuProps={MenuProps}
+            onBlur={onBlur}
+            onChange={onChange}
+            label={label}
+            size="small"
+            defaultValue={defaultValue || ''}
+          >
             <MenuItem
               className="mx-3 rounded-md"
-              key={region_detail.id}
-              value={region_detail.id}
-            >
-              {region_detail.name}
-            </MenuItem>
-          ))}
-        </Select>
-        <FormHelperText className="text-error">{helperText}</FormHelperText>
-      </FormControl>
+              value=""
+            >{`${t('Please Select')}  ${label}`}</MenuItem>
+            {regions?.map((region_detail: any) => (
+              <MenuItem
+                className="mx-3 rounded-md"
+                key={region_detail.id}
+                value={region_detail.id}
+              >
+                {region_detail.name}
+              </MenuItem>
+            ))}
+          </Select>
+          <FormHelperText className="text-red-600 ">
+            {helperText}
+          </FormHelperText>
+        </FormControl>
+      </ErrorBoundary>
     );
   }
 );

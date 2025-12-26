@@ -1,0 +1,7 @@
+query AvailableStores {
+  availableStores {
+    code
+    store_code
+    locale
+  }
+}

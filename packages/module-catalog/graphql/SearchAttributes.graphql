@@ -1,0 +1,14 @@
+query SearchAttributes {
+  categories {
+    name
+  }
+  attributes {
+    name
+  }
+  prices {
+    label
+  }
+  products {
+    name
+  }
+}

@@ -1,6 +1,5 @@
-import { i18n } from '@lingui/core';
-import { t } from '@lingui/macro';
 import type { PageOptions } from '@voguish/module-theme/page';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
 const NewPassword = dynamic(
   () => import('@voguish/module-theme/pages/NewPassword')
@@ -8,9 +7,18 @@ const NewPassword = dynamic(
 const CreateNewPassword = () => {
   return <NewPassword />;
 };
-const pageOptions: PageOptions = {
-  title: i18n._(t`Set New Password`),
-  description: i18n._(t`Welcome to Voguish Theme`),
-};
-CreateNewPassword.pageOptions = pageOptions;
+
 export default CreateNewPassword;
+export const getServerSideProps = async ({ locale }: { locale: string }) => {
+  const pageProps: PageOptions = {
+    title: 'Set New Password',
+    description: 'Welcome to Voguish Theme',
+  };
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+
+      pageOptions: pageProps,
+    },
+  };
+};

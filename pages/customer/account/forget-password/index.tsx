@@ -1,24 +1,52 @@
-import { i18n } from '@lingui/core';
-import { t } from '@lingui/macro';
+import { Suspense } from 'react';
+import Containers from '@packages/module-theme/components/ui/Container';
+import { AuthPlaceholder } from '@packages/placeholder/ProductDetail';
 import type {
   NextPageWithLayout,
   PageOptions,
 } from '@voguish/module-theme/page';
+import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 import dynamic from 'next/dynamic';
+
 const Forget = dynamic(
-  () => import('@voguish/module-theme/pages/ForgetPassword')
+  () => import('@voguish/module-theme/pages/ForgetPassword'),
+  {
+    loading: () => (
+      <Containers>
+        <AuthPlaceholder />
+      </Containers>
+    ),
+    ssr: false,
+  }
 );
 
 const ForgetPassword: NextPageWithLayout = () => {
   return (
-    <span className="md:-mt-10">
-      <Forget />
-    </span>
+    <Suspense
+      fallback={
+        <Containers>
+          <AuthPlaceholder />
+        </Containers>
+      }
+    >
+      <span className="md:-mt-10">
+        <Forget />
+      </span>
+    </Suspense>
   );
 };
-const pageOptions: PageOptions = {
-  title: i18n._(t`Forgot Your Password`),
-  description: i18n._(t`Welcome to Voguish Theme`),
-};
-ForgetPassword.pageOptions = pageOptions;
+
 export default ForgetPassword;
+export const getServerSideProps = async ({ locale }: { locale: string }) => {
+  const pageProps: PageOptions = {
+    title: 'Forgot Your Password',
+    description: 'Welcome to Voguish Theme',
+  };
+  return {
+    props: {
+      ...(await serverSideTranslations(locale, ['common'])),
+
+      pageOptions: pageProps,
+    },
+  };
+};

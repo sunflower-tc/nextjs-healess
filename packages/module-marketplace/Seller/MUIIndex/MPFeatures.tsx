@@ -1,9 +1,10 @@
 import Grid from '@mui/material/Grid';
 import Typography from '@mui/material/Typography';
-import MPFeaturesData from '@utils/MPFeaturesData';
-import { Thumbnail } from '@voguish/module-marketplace/Components';
+import useMPFeaturesData from '@utils/MPFeaturesData';
+import Thumbnail from '@voguish/module-catalog/Components/Product/Item/Thumbnail';
 
 const MPFeatures = () => {
+  const { MPFeaturesData } = useMPFeaturesData();
   return (
     <Grid
       item

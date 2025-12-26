@@ -1,0 +1,48 @@
+#import "@voguish/module-catalog/graphql/fragments/_price_range.graphql"
+#import "@voguish/module-catalog/graphql/fragments/_configurable_options.graphql"
+query ProductsQuery(
+  $search: String
+  $filters: ProductAttributeFilterInput
+  $pageSize: Int = 9
+  $currentPage: Int = 1
+  $sort: ProductAttributeSortInput
+) {
+  products(
+    search: $search
+    filter: $filters
+    pageSize: $pageSize
+    currentPage: $currentPage
+    sort: $sort
+  ) {
+    page_info {
+      current_page
+    }
+    total_count
+    items {
+      review_count
+      rating_summary
+      url_key
+      sku
+      name
+      ... on ConfigurableProduct {
+        configurable_options {
+          ...configurable_options
+        }
+        variants {
+          ...variants
+        }
+      }
+      thumbnail {
+        id: url
+        url
+        label
+      }
+      price_range {
+        ...price_range
+      }
+    }
+    suggestions {
+      search
+    }
+  }
+}

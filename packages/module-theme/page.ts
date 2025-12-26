@@ -4,7 +4,7 @@ import type { ReactElement, ReactNode } from 'react';
 export interface BreadcrumbProps {
   label: string;
   url?: string;
-  uid: string;
+  uid?: string;
 }
 
 /**
@@ -41,6 +41,12 @@ export type NextPageWithLayout<P = {}, IP = P> = NextPage<P, IP> & {
  */
 export interface PagePaths {
   params: { [key in string]: string };
+  locale?: string;
 }
 
-export type PagePathProps = PagePaths[] | [];
+export type PagePathProps = PagePaths[] | CategoryPagePaths[] | [];
+export interface CategoryPagePaths {
+  params: { urlKey: string[] };
+  locale?: string;
+  ctx?: any;
+}

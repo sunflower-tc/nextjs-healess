@@ -1,3 +1,5 @@
+import ErrorBoundary from '../ErrorBoundary';
+
 export function LoadingButtton({
   className,
   text,
@@ -6,7 +8,7 @@ export function LoadingButtton({
   text?: string;
 }) {
   return (
-    <>
+    <ErrorBoundary>
       <button
         disabled
         type="button"
@@ -34,6 +36,6 @@ export function LoadingButtton({
         </svg>
         {text || 'Loading...'}
       </button>
-    </>
+    </ErrorBoundary>
   );
 }

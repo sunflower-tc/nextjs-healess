@@ -1,4 +1,5 @@
 import styled from '@emotion/styled';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import { useEffect } from 'react';
 
 const StyledBurger = styled.button`
@@ -47,11 +48,14 @@ const StyledBurger = styled.button`
 
 export const Burger = ({ open, setOpen }: { open: boolean; setOpen: any }) => {
   return (
-    <StyledBurger open={open} onClick={() => setOpen(!open)}>
-      <div />
-      <div />
-      <div />
-    </StyledBurger>
+    <ErrorBoundary>
+      {' '}
+      <StyledBurger open={open} onClick={() => setOpen(!open)}>
+        <div />
+        <div />
+        <div />
+      </StyledBurger>
+    </ErrorBoundary>
   );
 };
 

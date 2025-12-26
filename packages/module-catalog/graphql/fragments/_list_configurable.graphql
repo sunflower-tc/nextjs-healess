@@ -1,0 +1,30 @@
+fragment configurable_options_list on ConfigurableProductOptions {
+  uid
+  label
+  position
+  attribute_code
+  values {
+    swatch_data {
+      value
+    }
+    label
+    uid
+  }
+}
+fragment variantList on ConfigurableVariant {
+  product {
+    uid
+    name
+    sku
+    stock_status
+    ... on PhysicalProductInterface {
+      weight
+    }
+  }
+  attributes {
+    uid
+    label
+    code
+    value_index
+  }
+}

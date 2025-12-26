@@ -12,5 +12,6 @@ export type SubLinks = {
   title: string;
   uid: string;
   type: string;
+  open_new_tab?: boolean;
   url_key: string;
 };

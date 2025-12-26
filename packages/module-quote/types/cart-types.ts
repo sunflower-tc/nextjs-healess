@@ -1,4 +1,5 @@
-import { Money, ProductItemInterface } from '@voguish/module-catalog';
+import { Money, ProductItemInterface } from '@voguish/module-catalog/types';
+import { HTMLInputTypeAttribute } from 'react';
 
 export interface AppliedCoupon {
   code: string;
@@ -146,7 +147,7 @@ export interface QuoteInterface {
 }
 
 export interface EnteredOptionInput {
-  uid: string;
+  id: number;
   value: string;
 }
 
@@ -156,6 +157,31 @@ export interface AddProductsToCartInput {
   quantity: number;
   selected_options?: string[];
   sku: string;
+}
+
+export interface AddBundleProduct {
+  data: AddProductsToCartInput;
+  bundle_options?: BundleOptions[];
+}
+
+export interface AddSimpleProductsToCartInput {
+  data: { quantity: number; sku: string };
+  customizable_options?: CustomOptionsType[] | any;
+}
+export interface CustomOptionsType {
+  id?: number;
+  value_string?: string;
+}
+export interface BundleOptions {
+  position?: string | number;
+  title?: string;
+  option_id?: string | number;
+  type?: HTMLInputTypeAttribute | undefined;
+  uid?: string;
+  options?: any;
+  id?: string;
+  quantity?: number;
+  value?: [string];
 }
 
 export interface CartUserInputError {
@@ -168,6 +194,22 @@ export interface CartUserInputError {
 }
 
 export interface AddProductsToCartOutput {
+  addVirtualProductsToCart: {
+    cart: CartInterface;
+    user_errors: CartUserInputError[];
+  };
+  addDownloadableProductsToCart: {
+    cart: CartInterface;
+    user_errors: CartUserInputError[];
+  };
+  addBundleProductsToCart: {
+    cart: CartInterface;
+    user_errors: CartUserInputError[];
+  };
+  addSimpleProductsToCart: {
+    cart: CartInterface;
+    user_errors: CartUserInputError[];
+  };
   addProductsToCart: {
     cart: CartInterface;
     user_errors: CartUserInputError[];

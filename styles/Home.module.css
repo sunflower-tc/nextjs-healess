@@ -41,7 +41,9 @@
 }
 .card {
   @apply text-left text-inherit no-underline border max-w-[300px] m-4 p-6 rounded-[10px] border-solid border-[#eaeaea] hover:focus:active:text-[#0070f3] hover:focus:active:border-[#0070f3];
-  transition: color 0.15s ease, border-color 0.15s ease;
+  transition:
+    color 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .card h2 {
