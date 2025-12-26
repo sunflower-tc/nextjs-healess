@@ -1,5 +1,4 @@
 import CompareArrowsIcon from '@mui/icons-material/CompareArrows';
-import { RootState } from '@store';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import {
   CART_DATA,
@@ -21,6 +20,7 @@ import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useEffect, useState } from 'react';
+import { RootState } from 'store';
 
 export interface HeaderTypes {
   profileUrl: string;

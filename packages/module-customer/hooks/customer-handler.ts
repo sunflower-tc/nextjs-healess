@@ -1,5 +1,4 @@
 import { useQuery } from '@apollo/client';
-import { Logout } from '@store';
 import { COUNTRIES, setLocalStorage } from '@store/local-storage';
 import { errorCat } from '@utils/Constants';
 import { isValidArray } from '@utils/Helper';
@@ -11,6 +10,7 @@ import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
+import { Logout } from 'store';
 import { useCustomerMutation } from './useCustomerMutation';
 import { useToken } from './useToken';
 
@@ -76,7 +76,7 @@ export const useAddToWishlist = (refetch: any): AddToWishListReturnType => {
       addToWishlist({
         variables: { id: wishlistId, items: items },
       })
-        .then(() => {})
+        .then(() => { })
         .catch((error) => {
           const gqlErrs = Array.isArray(error.graphQLErrors)
             ? error.graphQLErrors

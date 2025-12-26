@@ -24,6 +24,7 @@
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],
       "@voguish/*": ["./packages/*"],
+      "@packages/*": ["./packages/*"],
       "@styles/*": ["./styles/*"],
       "@assets/*": ["./public/assets/*"]
     }

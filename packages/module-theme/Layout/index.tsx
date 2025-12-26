@@ -1,7 +1,6 @@
 import { useQuery } from '@apollo/client';
 import { client, httpLink, setStoreCode } from '@lib/apollo-client';
 import Divider from '@mui/material/Divider';
-import { RootState } from '@store';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
 import { getLocalStorage } from '@store/local-storage';
 import { setUser } from '@store/user';
@@ -19,6 +18,7 @@ import dynamic from 'next/dynamic';
 import Head from 'next/head';
 import { useRouter } from 'next/router';
 import { Fragment, ReactNode, useCallback, useEffect, useState } from 'react';
+import { RootState } from 'store';
 import { ClientPortal } from '../components/ClientPortal';
 import { SpeculationRules } from '../components/SpeculationRuler';
 import Toast from '../components/toast';

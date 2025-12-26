@@ -14,6 +14,8 @@ export type ClientContext = {
   headers?: Record<string, string>;
 };
 const uri = `${process.env.MAGENTO_ENDPOINT}graphql`;
+console.log('process.env.MAGENTO_ENDPOINT', process.env.MAGENTO_ENDPOINT)
+console.log('uri', uri)
 export const httpLink = createHttpLink({
   uri: uri,
 });

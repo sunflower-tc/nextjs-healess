@@ -9,9 +9,12 @@ import { useCustomerQuery } from '@voguish/module-customer/hooks/useCustomerQuer
 import { HTMLRenderer } from '@voguish/module-theme/components/HTMLRenderer';
 import { useState } from 'react';
 
-import { RootState } from '@store';
+import { CircularProgress } from '@mui/material';
+import { AddCartWhish, TrashIcon, WhishlistDown as WishListDown } from '@packages/module-theme/components/elements/Icon';
 import { setCart } from '@store/cart';
+import { RootState } from '@store/index';
 import { getLocalStorage, SELECTED_STORE } from '@store/local-storage';
+import { BRAND_HEX_CODE } from '@utils/Constants';
 import { graphqlRequest } from '@utils/Fetcher';
 import Thumbnail from '@voguish/module-catalog/Components/Product/Item/Thumbnail';
 import GET_WISHLIST from '@voguish/module-customer/graphql/Wishlist.graphql';
@@ -28,11 +31,6 @@ import { useForm } from 'react-hook-form';
 import { useTranslation } from 'react-i18next';
 import { useDispatch, useSelector } from 'react-redux';
 import Sidebar from '../Layout/Sidebar';
-import { CircularProgress } from '@mui/material';
-import { BRAND_HEX_CODE } from '@utils/Constants';
-import { AddCartWhish } from '@packages/module-theme/components/elements/Icon';
-import { WhishlistDown as WishListDown } from '@packages/module-theme/components/elements/Icon';
-import { TrashIcon } from '@packages/module-theme/components/elements/Icon';
 /**
  * It function to return price with valid currency
  * @param wishlist_item
@@ -287,7 +285,7 @@ const Wishlist = () => {
                                 </div>
                                 <div className="flex gap-1 cursor-pointer max-w-1/3">
                                   {wishlist_item?.__typename ===
-                                  'ConfigurableWishlistItem' ? (
+                                    'ConfigurableWishlistItem' ? (
                                     <ErrorBoundary>
                                       <Link
                                         href={

@@ -1,26 +1,26 @@
 'use client';
 
-import { Drawer, IconButton, Button, Typography, Box } from '@mui/material';
-import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ArrowForwardIosIcon from '@mui/icons-material/ArrowForwardIos';
+import ChevronLeft from '@mui/icons-material/ChevronLeft';
 import ChevronRightIcon from '@mui/icons-material/ChevronRight';
 import CloseIcon from '@mui/icons-material/Close';
-import { useEffect, useState } from 'react';
+import { Box, Button, Drawer, IconButton, Typography } from '@mui/material';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useEffect, useState } from 'react';
 import { useSelector } from 'react-redux';
-import Image from 'next/image';
 
-import { useToken } from '@voguish/module-customer/hooks/useToken';
-import StoreSwitcher from '@voguish/module-store/StoreSwitcher';
-import CurrencySwitcher from '@voguish/module-store/CurrencySwitcher';
-import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
-import { isValidArray, isValidObject } from '@utils/Helper';
-import { FormattedMenuItem } from './Megamenu/types';
-import { getLocalStorage, STORE_CONFIG } from '@store/local-storage';
-import { RootState } from '@store';
 import FavoriteBorderIcon from '@mui/icons-material/FavoriteBorder';
+import { getLocalStorage, STORE_CONFIG } from '@store/local-storage';
+import { isValidArray, isValidObject } from '@utils/Helper';
+import { useToken } from '@voguish/module-customer/hooks/useToken';
+import CurrencySwitcher from '@voguish/module-store/CurrencySwitcher';
+import StoreSwitcher from '@voguish/module-store/StoreSwitcher';
+import ErrorBoundary from '@voguish/module-theme/components/ErrorBoundary';
 import { useTranslation } from 'next-i18next';
+import { RootState } from 'store';
+import { FormattedMenuItem } from './Megamenu/types';
 
 type Props = {
   openSidebar: boolean;
@@ -134,10 +134,10 @@ export default function SideBar({
                           Object.values(categories[idx]?.children || {})
                         )
                       ) && (
-                        <ChevronRightIcon
-                          onClick={() => setSelectedIndex(idx)}
-                        />
-                      )}
+                          <ChevronRightIcon
+                            onClick={() => setSelectedIndex(idx)}
+                          />
+                        )}
                     </Box>
                   )
               )}
@@ -232,11 +232,10 @@ function LinkItem({ setOpenSidebar, page }: MenuItem) {
     <Link
       href={`/catalog/category/${page.url_key}`}
       onClick={() => setOpenSidebar(false)}
-      className={`block w-full py-1 font-medium ${
-        router.asPath === `/catalog/category/${page.url_key}`
+      className={`block w-full py-1 font-medium ${router.asPath === `/catalog/category/${page.url_key}`
           ? 'text-brand'
           : 'text-gray-900'
-      }`}
+        }`}
     >
       <Typography variant="body2" className="capitalize font-medium">
         {page.title}

@@ -2,8 +2,8 @@ import { useQuery } from '@apollo/client';
 import { Listbox, Transition } from '@headlessui/react';
 import ArrowDropDownIcon from '@mui/icons-material/ArrowDropDown';
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown';
-import { RootState } from '@store';
 import { useAppDispatch, useAppSelector } from '@store/hooks';
+import { RootState } from '@store/index';
 import {
   CURRENCY_RATES,
   getKeyFromStorage,
@@ -162,8 +162,7 @@ function CurrencySwitcher({
                       <ErrorBoundary key={index}>
                         <Listbox.Option
                           className={({ active }) =>
-                            `relative cursor-pointer select-none px-4 py-2 ${
-                              active ? ' text-brand' : 'text-gray-900'
+                            `relative cursor-pointer select-none px-4 py-2 ${active ? ' text-brand' : 'text-gray-900'
                             }`
                           }
                           value={value?.code}
@@ -171,11 +170,10 @@ function CurrencySwitcher({
                           {({ selected }) => (
                             <ErrorBoundary>
                               <span
-                                className={`block truncate ${
-                                  selected
+                                className={`block truncate ${selected
                                     ? 'font-medium text-brand'
                                     : 'font-normal'
-                                }`}
+                                  }`}
                               >
                                 {value?.code}
                               </span>
@@ -203,9 +201,8 @@ function CurrencySwitcher({
                       <span>{currency || ''}</span>
                     </span>
                     <ArrowDropDownIcon
-                      className={`${
-                        open ? 'fa-arrow-down-close' : 'fa-arrow-down'
-                      }`}
+                      className={`${open ? 'fa-arrow-down-close' : 'fa-arrow-down'
+                        }`}
                     />
                   </div>
                 </Listbox.Button>
@@ -232,8 +229,7 @@ function CurrencySwitcher({
                         {' '}
                         <Listbox.Option
                           className={({ active }) =>
-                            `relative cursor-pointer hover:bg-brand/10 duration-150 mx-2 rounded-md select-none px-4 py-2 ${
-                              active ? ' text-brand' : 'text-gray-900'
+                            `relative cursor-pointer hover:bg-brand/10 duration-150 mx-2 rounded-md select-none px-4 py-2 ${active ? ' text-brand' : 'text-gray-900'
                             }`
                           }
                           value={value?.code}
@@ -241,9 +237,8 @@ function CurrencySwitcher({
                           {({ selected }) => (
                             <ErrorBoundary>
                               <span
-                                className={`block font-medium text-base truncate ${
-                                  selected ? 'text-brand' : 'text-slate-700'
-                                }`}
+                                className={`block font-medium text-base truncate ${selected ? 'text-brand' : 'text-slate-700'
+                                  }`}
                               >
                                 {value?.code}
                               </span>

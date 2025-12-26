@@ -1,6 +1,6 @@
 import { ApolloError, DocumentNode } from '@apollo/client';
 import { client } from '@lib/apollo-client';
-import { Logout } from '@store';
+import { Logout } from 'store';
 import { errorCat } from './Constants';
 
 export async function graphqlRequest({ query, variables, options = {} }: any) {
@@ -112,7 +112,7 @@ export async function handleRequestProgress({
   headers = {},
   isFormData = false,
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, @typescript-eslint/no-empty-function
-  onProgress = (percent: number) => {},
+  onProgress = (percent: number) => { },
 }: {
   url?: string;
   endpoint?: string | null;
