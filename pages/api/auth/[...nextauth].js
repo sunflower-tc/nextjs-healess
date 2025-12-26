@@ -72,9 +72,9 @@ export default NextAuth({
         token.user = user;
         token.expires_at = Math.floor(
           Date.now() / 1000 +
-            parseFloat(getState()?.storeConfig?.customer_token_lifetime) *
-              60 *
-              60
+          parseFloat(getState()?.storeConfig?.customer_token_lifetime) *
+          60 *
+          60
         );
       }
       return token;
