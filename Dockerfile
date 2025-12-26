@@ -10,7 +10,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json* ./
-COPY lingui.config.js ./
+
 
 # Install dependencies
 # Using npm install instead of npm ci to handle lockfile mismatches
@@ -26,7 +26,7 @@ WORKDIR /app
 
 # Copy package files
 COPY package.json package-lock.json* ./
-COPY lingui.config.js ./
+
 
 # Install all dependencies (including devDependencies for build)
 # Using npm install instead of npm ci to handle lockfile mismatches
@@ -60,7 +60,6 @@ RUN addgroup --system --gid 1001 nodejs && \
 # Copy necessary files from builder and deps
 COPY --from=deps /app/node_modules ./node_modules
 COPY --from=builder /app/next.config.js ./
-COPY --from=builder /app/lingui.config.js ./ 
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/package.json ./package.json
