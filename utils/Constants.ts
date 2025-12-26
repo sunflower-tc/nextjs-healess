@@ -146,3 +146,5 @@ export const fadeInUp = {
 };
 
 export const IS_SELLER = 'yes';
+export const PAYPAL_CLIENT_ID = 'ATDZ9_ECFh-fudesZo4kz3fGTSO1pzuWCS4IjZMq4JKdRK7hQR3Rxyafx39H2fP363WtmlQNYXjUiAae';
+

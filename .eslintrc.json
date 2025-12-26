@@ -4,12 +4,25 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-unused-vars": "warn",
-    "@typescript-eslint/no-unused-vars": [
+    "quotes": ["error", "single"],
+      "@typescript-eslint/no-unused-vars": [
       "warn",
       { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
     ],
-    "no-console": "off",
+    "no-console": "warn",
     "@typescript-eslint/no-explicit-any": "off",
-    "@typescript-eslint/no-require-imports": "off"
+    "@typescript-eslint/no-require-imports": "off",
+    "no-restricted-syntax": [
+      "error",
+      {
+        "selector": "CallExpression[callee.object.name='console'][callee.property.name!=/^(log|warn|error|info|trace)$/]",
+        "message": "Unexpected property on console object was called"
+      }
+    ]
+  },
+  "settings": {
+    "react": {
+      "version": "detect"
+    }
   }
 }

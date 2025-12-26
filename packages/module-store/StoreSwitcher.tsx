@@ -104,11 +104,10 @@ export default function StoreSwitcher({
                                   decoding="auto"
                                   fill
                                   className="object-cover scale-110 rounded-md"
-                                  thumbnail={`https://flagcdn.com/32x24/${
-                                    store?.locale?.split('_')[0] !== 'en'
-                                      ? store?.locale?.split('_')[0]
-                                      : 'us'
-                                  }.png`}
+                                  thumbnail={`https://flagcdn.com/32x24/${store?.locale?.split('_')[0] !== 'en'
+                                    ? store?.locale?.split('_')[0]
+                                    : 'us'
+                                    }.png`}
                                   alt={store?.locale}
                                 />
                               </span>
@@ -150,29 +149,26 @@ export default function StoreSwitcher({
                         key={store?.store_code}
                         value={store?.locale}
                         className={({ active }) =>
-                          `relative cursor-pointer py-0 select-none ${
-                            active ? 'text-white' : 'text-gray-900'
+                          `relative cursor-pointer py-0 select-none ${active ? 'text-white' : 'text-gray-900'
                           }`
                         }
                       >
                         <ErrorBoundary>
                           <span
-                            className={`text-sm cursor-pointer flex items-center gap-2 truncate ${
-                              storeCodeItem === store?.store_code
-                                ? 'text-brand'
-                                : 'font-normal'
-                            }`}
+                            className={`text-sm cursor-pointer flex items-center gap-2 truncate ${storeCodeItem === store?.store_code
+                              ? 'text-brand'
+                              : 'font-normal'
+                              }`}
                           >
                             <span className="relative hover:text-black w-12 h-6 py-0 text-2xl truncate border border-white border-solid rounded-md">
                               <Thumbnail
                                 decoding="auto"
                                 fill
                                 className="object-cover scale-110 rounded-md"
-                                thumbnail={`https://flagcdn.com/32x24/${
-                                  store?.locale?.split('_')[0] !== 'en'
-                                    ? store?.locale?.split('_')[0]
-                                    : 'us'
-                                }.png`}
+                                thumbnail={`https://flagcdn.com/32x24/${store?.locale?.split('_')[0] !== 'en'
+                                  ? store?.locale?.split('_')[0]
+                                  : 'us'
+                                  }.png`}
                                 alt={store?.locale}
                               />
                             </span>

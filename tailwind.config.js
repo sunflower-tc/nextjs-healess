@@ -65,7 +65,6 @@ module.exports = {
         black: '#000',
         inputBorder: '#D7DFE2',
       },
-
       screens: {
         '3xl': { min: '2500px' },
         '4xl': { min: '2700px' },

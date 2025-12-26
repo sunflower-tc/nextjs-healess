@@ -72,9 +72,8 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                         aria-haspopup="true"
                       >
                         <ul
-                          className={`flex items-center px-1 mx-0 gap-x-1 hover-underline-animation ${
-                            isActive(category.item_id) && 'text-brand'
-                          }`}
+                          className={`flex items-center px-1 mx-0 gap-x-1 hover-underline-animation ${isActive(category.item_id) && 'text-brand'
+                            }`}
                         >
                           <li
                             className="flex items-center list-none"
@@ -88,11 +87,10 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                               {category?.title}
                             </Link>
                             <KeyboardArrowDownIcon
-                              className={`${
-                                activeSubmenu !== category
-                                  ? 'fa-arrow-down-close'
-                                  : 'fa-arrow-down'
-                              }`}
+                              className={`${activeSubmenu !== category
+                                ? 'fa-arrow-down-close'
+                                : 'fa-arrow-down'
+                                }`}
                             />
                           </li>
                         </ul>
@@ -141,11 +139,10 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                                         <Link
                                           href={`/catalog/category/${section?.url_key}`}
                                           id={`${section?.title}-heading`}
-                                          className={`font-bold text-[1rem] hover-underline-animation ${
-                                            isActive(section.item_id)
-                                              ? 'text-brand'
-                                              : ' text-gray-900 '
-                                          }`}
+                                          className={`font-bold text-[1rem] hover-underline-animation ${isActive(section.item_id)
+                                            ? 'text-brand'
+                                            : ' text-gray-900 '
+                                            }`}
                                         >
                                           {section?.title}
                                         </Link>
@@ -164,10 +161,9 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                                               >
                                                 <Link
                                                   href={`/catalog/category/${item.url_key}`}
-                                                  className={`hover:text-gray-800 text-[0.9rem] font-medium hover-underline-animation ${
-                                                    isActive(item.item_id) &&
+                                                  className={`hover:text-gray-800 text-[0.9rem] font-medium hover-underline-animation ${isActive(item.item_id) &&
                                                     'text-brand'
-                                                  }`}
+                                                    }`}
                                                 >
                                                   {item?.title}
                                                 </Link>
@@ -198,10 +194,9 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                                   <Link
                                     href={`/catalog/category/${activeSubmenu?.url_key}`}
                                     id={`${activeSubmenu?.title}-heading`}
-                                    className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${
-                                      isActive(activeSubmenu.item_id) &&
+                                    className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(activeSubmenu.item_id) &&
                                       'text-brand'
-                                    }`}
+                                      }`}
                                   >
                                     {activeSubmenu?.title}
                                   </Link>
@@ -229,10 +224,9 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
                                         <Link
                                           href={`/catalog/category/${section?.url_key}`}
                                           id={`${section?.title}-heading`}
-                                          className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${
-                                            isActive(section.item_id) &&
+                                          className={`font-bold text-gray-900 text-[1rem] hover-underline-animation ${isActive(section.item_id) &&
                                             'text-brand'
-                                          }`}
+                                            }`}
                                         >
                                           {section?.title}
                                         </Link>

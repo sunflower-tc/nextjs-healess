@@ -9,7 +9,14 @@ const nextConfig = {
   },
   images: {
     unoptimized: true,
-    domains: process.env.IMAGE_DOMAINS?.split(','),
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cn.haitaoweb.com',
+        port: '',
+        pathname: '/**',
+      }
+    ]
   },
   env: {
     MAGENTO_ENDPOINT: process.env.MAGENTO_ENDPOINT,

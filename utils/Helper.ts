@@ -9,8 +9,8 @@ import {
   QuantityPriceType,
 } from '@voguish/module-customer/Components/OrderDetail/types';
 import {
-  CartAddressInput,
-  CartAddressInterface,
+  AvailablePaymentMethods, CartAddressInput,
+  CartAddressInterface
 } from '@voguish/module-quote/types';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
 import { BreadcrumbProps, PageOptions } from '@voguish/module-theme/page';
@@ -736,4 +736,89 @@ export const isShallowEqual = (a: any, b: any): boolean => {
   }
 
   return true;
+};
+export const convertStringToHTML = (html: string) => {
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(html, 'text/html');
+  document?.body?.appendChild(doc.body);
+  const form = document.getElementById('pay_form') as HTMLFormElement | null;
+  form?.submit();
+  return doc.body;
+};
+
+export const getUserAgent = () => {
+  const terminal = /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) ? 0 : 1;
+  return terminal;
+}
+
+export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMethods[]) => {
+  const titleMap: Record<string, string> = {
+    adyen_cc: 'Credit / Debit Card',
+    nihaopay_payments_wechatpay: 'WeChat Pay',
+    nihaopay_payments_unionpay: 'China Union Pay',
+    paypal_express: 'PayPal',
+  };
+
+  const order = [
+    'adyen_cc',
+    'paypal_express',
+    'clearpay',
+    'nihaopay_payments_alipay',
+    'nihaopay_payments_wechatpay',
+    'nihaopay_payments_unionpay',
+    'checkmo',
+  ];
+
+  const excluded = new Set([
+    'adyen_oneclick',
+    'adyen_hpp',
+    'checkmo',
+    'clearpay',
+  ]);
+
+  const orderIndex = new Map(order.map((code, index) => [code, index]));
+  const getIndex = (code: string) => orderIndex.get(code) ?? order.length;
+
+  return availablePaymentMethods
+    .filter((payment) => !excluded.has(payment.code))
+    .sort((a, b) => getIndex(a.code) - getIndex(b.code))
+    .map((payment) => ({
+      label: titleMap[payment.code] ?? payment.title,
+      value: payment.code,
+    }));
+}
+
+
+export const getPaypalCurrency = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+
+  const currencyMap: Record<string, string> = {
+    cn: 'GBP',
+    en: 'GBP',
+    us: 'USD',
+    mex: 'GBP',
+  };
+  return currencyMap[normalized] ?? 'GBP';
+};
+
+export const getAdyenLocal = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+  const localeMap: Record<string, string> = {
+    cn: 'zh-CN',
+    en: 'en_US',
+    us: 'en_US',
+    mex: 'es_ES',
+  };
+  return localeMap[normalized] ?? 'en_GB';
+};
+
+export const getAdyenCountryCode = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+  const countryCodeMap: Record<string, string> = {
+    cn: 'CN',
+    en: 'GB',
+    us: 'US',
+    mex: 'MX',
+  };
+  return countryCodeMap[normalized] ?? 'GB';
 };
