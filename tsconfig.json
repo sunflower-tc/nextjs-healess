@@ -15,8 +15,10 @@
     "jsx": "preserve",
     "incremental": true,
     "baseUrl": ".",
+    "allowSyntheticDefaultImports": true,
     "paths": {
       "~*": ["./*"],
+      "@/*": ["./*"],
       "@utils/*": ["./utils/*"],
       "@lib/*": ["./lib/*"],
       "@store/*": ["./store/*"],

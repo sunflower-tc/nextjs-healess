@@ -9,7 +9,14 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 const nextConfig = {
   images: {
     unoptimized: true,
-    domains: process.env.IMAGE_DOMAINS?.split(','),
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'cn.haitaoweb.com',
+        port: '',
+        pathname: '/**',
+      }
+    ]
   },
   experimental: {
     swcPlugins: [

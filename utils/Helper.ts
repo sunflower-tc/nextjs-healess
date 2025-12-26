@@ -381,3 +381,24 @@ export const getPaypalCurrency = (locale: string): string => {
   return currencyMap[normalized] ?? 'GBP';
 };
 
+export const getAdyenLocal = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+  const localeMap: Record<string, string> = {
+    cn: 'zh-CN',
+    en: 'en_US',
+    us: 'en_US',
+    mex: 'es_ES',
+  };
+  return localeMap[normalized] ?? 'en_GB';
+};
+
+export const getAdyenCountryCode = (locale: string): string => {
+  const normalized = (locale || '').toLowerCase().split('-')[0];
+  const countryCodeMap: Record<string, string> = {
+    cn: 'CN',
+    en: 'GB',
+    us: 'US',
+    mex: 'MX',
+  };
+  return countryCodeMap[normalized] ?? 'GB';
+};

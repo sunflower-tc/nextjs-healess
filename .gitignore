@@ -36,7 +36,6 @@ yarn-error.log*
 *.tsbuildinfo
 
 # Package JSON
-/package-lock.json
 /yarn.lock
 # agent 
 .qodo

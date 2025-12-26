@@ -5,6 +5,9 @@ import GENERATE_CUSTOMER_TOKEN from '@voguish/module-customer/graphql/mutation/G
 import NextAuth from 'next-auth';
 import CredentialProvider from 'next-auth/providers/credentials';
 import { getState } from 'store';
+console.log('NEXTAUTH_URL:', process.env.NEXTAUTH_URL);
+console.log('NEXTAUTH_SECRET:', !!process.env.NEXTAUTH_SECRET);
+
 export default NextAuth({
   // pages: {
   //   signIn: '/customer/account/login',
@@ -72,9 +75,9 @@ export default NextAuth({
         token.user = user;
         token.expires_at = Math.floor(
           Date.now() / 1000 +
-            parseFloat(getState()?.storeConfig?.customer_token_lifetime) *
-              60 *
-              60
+          parseFloat(getState()?.storeConfig?.customer_token_lifetime) *
+          60 *
+          60
         );
       }
       return token;
