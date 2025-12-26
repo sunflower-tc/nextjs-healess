@@ -1,3 +1,4 @@
+import { useAppDispatch } from '@store/hooks';
 import { showToast } from '@utils/Helper';
 import {
   useCustomerMutation,
@@ -9,7 +10,7 @@ import SetPayPalPaymentMethodOnCart from '@voguish/module-quote/graphql/mutation
 import { useState } from 'react';
 import { CreateNihaopayTokenInput, CreatePaypalTokenInput, PlaceOrderFromAdyenInput, SetPayPalPaymentMethodOnCartInput } from '../types';
 
-
+import { setOrderId } from '@store/checkout';
 /**
  * Create Nihaopay Token handler
  */
@@ -99,6 +100,7 @@ export const useSetPayPalPaymentMethodOnCart = () => {
 
 export const usePlaceOrderFromAdyen = () => {
   const [isInProcess, setIsInProcess] = useState(false);
+  const dispatch = useAppDispatch();
   const [placeOrderFromAdyen, { loading, error }] = useCustomerMutation(PlaceOrderFromAdyen);
   const placeOrderFromAdyenHandler = async (input: PlaceOrderFromAdyenInput): Promise<any> => {
     setIsInProcess(true);
@@ -111,6 +113,12 @@ export const usePlaceOrderFromAdyen = () => {
         showToast({ message: 'Request timed out. Please try again.', type: 'error' });
         return;
       }
+      const orderNumber = data?.placeOrder?.order?.order_number ?? null;
+      if (orderNumber) {
+        dispatch(setOrderId(orderNumber));
+        showToast({ message: 'Order Placed successfully!!' });
+      }
+
       return { data: data.placeOrder, error }
     } catch (error: any) {
       setIsInProcess(false);
