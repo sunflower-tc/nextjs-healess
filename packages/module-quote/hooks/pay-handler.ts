@@ -99,10 +99,10 @@ export const useSetPayPalPaymentMethodOnCart = () => {
 
 export const usePlaceOrderFromAdyen = () => {
   const [isInProcess, setIsInProcess] = useState(false);
-  const [placeOrderFromAdyen] = useCustomerMutation(PlaceOrderFromAdyen);
-  const placeOrderFromAdyenHandler = async (input: PlaceOrderFromAdyenInput) => {
+  const [placeOrderFromAdyen, { loading, error }] = useCustomerMutation(PlaceOrderFromAdyen);
+  const placeOrderFromAdyenHandler = async (input: PlaceOrderFromAdyenInput): Promise<any> => {
     setIsInProcess(true);
-
+    console.log('usePlaceOrderFromAdyen error', error)
     try {
       const { data } = await placeOrderFromAdyen({ variables: input });
 
@@ -111,7 +111,7 @@ export const usePlaceOrderFromAdyen = () => {
         showToast({ message: 'Request timed out. Please try again.', type: 'error' });
         return;
       }
-      return data.placeOrder;
+      return { data: data.placeOrder, error }
     } catch (error: any) {
       setIsInProcess(false);
       showToast({ message: error.message, type: 'error' });

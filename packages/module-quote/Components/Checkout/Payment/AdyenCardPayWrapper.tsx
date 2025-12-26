@@ -110,8 +110,11 @@ export default function AdyenCardPayWrapper() {
           stateData: cardDetails,
         };
         console.log('params', params);
-        const data = await placeOrderFromAdyenHandler(params);
+        const { data, error } = await placeOrderFromAdyenHandler(params);
         console.log('data', data);
+        if (error) {
+          console.log('error---1', error);
+        }
         if (data?.order) {
           order.current = data.order;
           if (data.order?.order_number) {
