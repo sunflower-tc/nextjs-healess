@@ -1,5 +1,4 @@
 /** @type {import('next').NextConfig} */
-// @ts-ignore
 const { i18n } = require('./next-i18next.config');
 const path = require('path');
 
@@ -90,8 +89,6 @@ const nextConfig = {
     config.resolve.alias = {
       ...config.resolve.alias,
       '~': path.resolve(__dirname),
-      react: path.resolve(__dirname, 'node_modules/react'),
-      'react-dom': path.resolve(__dirname, 'node_modules/react-dom'),
     };
 
     config.module.rules.push({

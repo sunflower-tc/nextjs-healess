@@ -46,7 +46,9 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
   if (isAccountLoggedIn) {
     profileUrl = '/customer/account/';
   }
+
   const sortedMenu = MenuHelper.reduce(data?.megaMenu || []);
+
   const storeData = getLocalStorage(STORE_CONFIG, true) || {};
   const baseUrl = storeData?.base_url;
   const logoUrl = storeData?.header_logo_src;
@@ -89,10 +91,10 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
                     <Image
                       decoding="auto"
                       priority={true}
-                      src={baseUrl ? `${baseUrl}media/logo/${logoUrl}` : ''}
-                      alt={storeData?.logo_alt || 'voguish'}
+                      src={'/assets/img/uni-logo_primary.svg'}
+                      alt={storeData?.logo_alt || 'Unineed'}
+                      width={146}
                       height={28}
-                      width={88}
                     />
                   </Link>
                 )}

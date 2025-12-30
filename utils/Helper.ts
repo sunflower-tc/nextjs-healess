@@ -751,6 +751,19 @@ export const getUserAgent = () => {
   return terminal;
 }
 
+/**
+ * Check if the current browser is Safari
+ * @returns {boolean} true if the browser is Safari, false otherwise
+ */
+export const isSafariBrowser = (): boolean => {
+  if (typeof navigator === 'undefined') {
+    return false;
+  }
+  const userAgent = navigator.userAgent;
+  // Safari's userAgent contains "Safari" but not "Chrome" or "Chromium"
+  return /Safari/i.test(userAgent) && !/Chrome|Chromium/i.test(userAgent);
+}
+
 export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMethods[]) => {
   const titleMap: Record<string, string> = {
     adyen_cc: 'Credit / Debit Card',

@@ -17,10 +17,10 @@ import { Fragment, useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from 'store';
 
-export default function AdyenCardPayWrapper() {
+export default function GoogleExpressPayWrappe() {
   const { locale } = useRouter();
   const { showToast } = useToast();
-  const aydenRef = useRef<any>(null);
+  const payRef = useRef<any>(null);
   const order = useRef<AdyenOrder>({} as AdyenOrder);
   const cardComponent = useRef();
   const [isLoading, setIsLoading] = useState(true);
@@ -33,7 +33,6 @@ export default function AdyenCardPayWrapper() {
 
   const router = useRouter();
   const dispatch = useDispatch();
-  console.log('quote', quote)
 
   const handleOnChange = (state: any, component: any) => {
     cardComponent.current = component;
@@ -157,7 +156,65 @@ export default function AdyenCardPayWrapper() {
       console.warn('Unexpected result format:', result);
     }
   }
+  const onPaymentDataChanged = async (intermediatePaymentData: any) => {
+    console.log('---onPaymentDataChanged intermediatePaymentData', intermediatePaymentData)
+  }
+  const onPaymentAuthorized = async (paymentData: any) => {
+    console.log('---onPaymentAuthorized intermediatePaymentData', paymentData);
+  }
   const initiateCheckout = async () => {
+    console.log('quote', quote)
+    const PayConfiguration = {
+      buttonType: 'checkout',
+      buttonColor: 'white',
+      // Step 2: Set the callback intents.
+      callbackIntents: [
+        'PAYMENT_AUTHORIZATION',
+        'SHIPPING_ADDRESS',
+        'SHIPPING_OPTION',
+      ],
+      environment:
+        process.env.NODE_ENV === 'development' ? 'TEST' : 'PRODUCTION',
+      // Step 3: Set shipping configurations.
+      shippingAddressRequired: true, // https://developers.google.com/pay/api/web/reference/request-objects#ShippingAddressParameters
+      shippingAddressParameters: {
+        allowedCountryCodes: ['US', 'GB', 'CN', 'MX'],
+        phoneNumberRequired: true,
+      },
+      emailRequired: true,
+      shippingOptionRequired: true,
+      billingAddressRequired: true,
+      billingAddressParameters: {
+        format: 'FULL',
+        phoneNumberRequired: true,
+      },
+      isExpress: true,
+      transactionInfo: {
+        totalPriceStatus: 'ESTIMATED',
+        totalPrice: quote?.prices.grand_total.value.toString(),
+        currencyCode: quote?.prices.grand_total.currency,
+        // countryCode:
+        //   apiState.getLocale().toUpperCase() === 'MEX'
+        //     ? 'MX'
+        //     : apiState.getLocale().toUpperCase() ?? 'GB',
+        countryCode: 'GB',
+        totalPriceLabel: 'Total',
+      },
+      configuration: {
+        merchantId: 'BCR2DN4TWWLOTYQ2',
+        gateway: 'adyen',
+        merchantName: 'Unineed Limited',
+        gatewayMerchantId: 'UnineedLimitedCOM',
+      },
+      paymentDataCallbacks: {
+        onPaymentDataChanged,
+        onPaymentAuthorized,
+      },
+      onAuthorized: (paymentData: any) => {
+        console.log('***adyen -----onAuthorized----', paymentData);
+      },
+    };
+    console.log('[** PayConfiguration:]', PayConfiguration);
     try {
       const configuration: any = {
         locale: locale && getAdyenLocal(locale) || 'en_US',
@@ -202,8 +259,11 @@ export default function AdyenCardPayWrapper() {
       };
       const checkout: any = await AdyenCheckout(configuration);
 
-      const cardComponentInstance: any = checkout.create('card').mount(aydenRef.current);
-      cardComponent.current = cardComponentInstance;
+      const googleExpressPayComponent = checkout
+        .create('googlepay', PayConfiguration)
+        .mount(payRef.current);
+
+      cardComponent.current = googleExpressPayComponent;
     } catch (error) {
       const errorMessage = error instanceof Error ? error.message : 'An unknown error occurred';
       showToast({ message: errorMessage, type: 'error' });
@@ -230,7 +290,7 @@ export default function AdyenCardPayWrapper() {
           <CircularProgress className="mx-auto text-brand/80" color="primary" />
         </div>
       )}
-      <div ref={aydenRef} id='adyenpay-button-container' />
+      <div ref={payRef} id='adyen-express-googlepay-button-container' />
       {
         errors && <Stack direction="row" className="bg-red-100 p-2 round-sm mt-2 text-red-400">
           <InfoOutlined />
