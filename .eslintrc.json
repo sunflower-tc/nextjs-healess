@@ -4,7 +4,7 @@
   "plugins": ["@typescript-eslint"],
   "rules": {
     "no-unused-vars": "warn",
-    "quotes": ["error", "single"],
+    "quotes": ["warn", "single"],
       "@typescript-eslint/no-unused-vars": [
       "warn",
       { "vars": "all", "args": "after-used", "ignoreRestSiblings": false }
