@@ -30,6 +30,7 @@ COPY package.json package-lock.json* ./
 
 # Install all dependencies (including devDependencies for build)
 # Using npm install instead of npm ci to handle lockfile mismatches
+RUN rm -rf node_modules package-lock.json yarn.lock
 RUN npm install --ignore-scripts --no-audit
 
 # Copy source code and .env.production
