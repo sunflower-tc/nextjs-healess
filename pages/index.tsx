@@ -10,7 +10,6 @@ import { serverSideTranslations } from 'next-i18next/serverSideTranslations';
 
 const homePageCache = new LRUCache<any>(50, 5);
 
-console.log("homePageCache", homePageCache)
 const Home = ({ pageData }: { pageData: HomePageData }) => {
   return (
     <div className="mx-auto w-full 4xl:max-w-[160.5rem]">
