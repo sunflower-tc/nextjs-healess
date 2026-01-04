@@ -197,7 +197,7 @@ export default function GoogleExpressPayWrappe() {
         //   apiState.getLocale().toUpperCase() === 'MEX'
         //     ? 'MX'
         //     : apiState.getLocale().toUpperCase() ?? 'GB',
-        countryCode: 'GB',
+        countryCode: 'MEX',
         totalPriceLabel: 'Total',
       },
       configuration: {
@@ -222,7 +222,8 @@ export default function GoogleExpressPayWrappe() {
         // environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
         environment: 'live',
         showPayButton: true,
-        clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4',
+        // clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4', //CN
+        clientKey: 'live_WNZIHOZSIFCQ7KGKH5DTJVJZTUMLNBI3', //uk
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
         },
