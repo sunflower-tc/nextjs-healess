@@ -59,9 +59,7 @@ function createApolloClient() {
 
     link: from([errorLink, storeLink.concat(httpLink)]),
 
-    cache: new InMemoryCache({
-      typePolicies: {},
-    }),
+    cache: new InMemoryCache(),
   });
 }
 export const setAuthToken = (token: string) =>
