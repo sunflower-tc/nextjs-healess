@@ -1,15 +1,19 @@
 import AdyenCheckout from '@adyen/adyen-web';
 import '@adyen/adyen-web/dist/adyen.css';
+import { useLazyQuery } from '@apollo/client';
 import { InfoOutlined } from '@mui/icons-material';
 import CircularProgress from '@mui/material/CircularProgress';
 import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { clearCart } from '@store/cart';
 import { removeCheckoutData } from '@store/checkout';
-import { getAdyenCountryCode, getAdyenLocal } from '@utils/Helper';
+import { useAppSelector } from '@store/hooks';
+import { getAdyenCountryCode, getAdyenLocal, getShippingMethodPrice } from '@utils/Helper';
+import GetCountryInfoGQL from '@voguish/module-customer/graphql/GetCountryInfo.graphql';
 import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
+import { useToken } from '@voguish/module-customer/hooks/useToken';
 import GetAdyenPayDetailGQL from '@voguish/module-quote/graphql/mutation/GetAdyenPayDetail.graphql';
-import { usePlaceOrderFromAdyen } from '@voguish/module-quote/hooks';
+import { usePlaceOrderFromAdyen, useSetShippingAddressOnCart, useSetShippingMethodOnCart } from '@voguish/module-quote/hooks';
 import { AdyenOrder } from '@voguish/module-quote/types';
 import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import { useRouter } from 'next/router';
@@ -27,10 +31,19 @@ export default function GoogleExpressPayWrappe() {
   const quote = useSelector((state: RootState) => state.cart?.quote || null);
   const { placeOrderFromAdyenHandler } = usePlaceOrderFromAdyen();
   const [getAdyenPaymentDetails] = useCustomerMutation(GetAdyenPayDetailGQL);
-
+  const token = useToken();
+  const [getCountryInfo] = useLazyQuery(GetCountryInfoGQL);
   const [errors, setAdyenError] = useState<any>();
   const [adyenPaymentDetails, setAdyenPaymentDetails] = useState<any>();
-
+  const { setShippingAddressHandler } =
+    useSetShippingAddressOnCart(() => { });
+  const { setShippingMethodsHandler } =
+    useSetShippingMethodOnCart(() => { });
+  const [allAvailableShippingOptionList, setAllAvailableShippingOptionList] = useState<any[]>([]);
+  const currency = useAppSelector(
+    (state: RootState) =>
+      state?.storeConfig?.currentCurrency?.currency_to ?? null
+  );
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -156,8 +169,223 @@ export default function GoogleExpressPayWrappe() {
       console.warn('Unexpected result format:', result);
     }
   }
+  const mapM2Address = async (address: any) => {
+    console.log('address', address);
+    if (address?.administrativeArea) {
+      try {
+        const { data } = await getCountryInfo({
+          variables: {
+            id: address.countryCode
+          },
+          context: {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          },
+        });
+        console.log('response country data', data);
+        const country = data?.country;
+        if (country?.available_regions?.length > 0) {
+          const region = country?.available_regions?.find(
+            (r: any) => r.code === address.administrativeArea
+          );
+          console.log('region', region);
+          return region;
+        }
+        return null;
+      } catch (error) {
+        console.error('Error fetching country info:', error);
+        return null;
+      }
+    }
+  };
+  const mapAddress = async (address: any) => {
+    console.log('mapAddress address', address);
+    const [firstname, ...lastname] = address.name.split(' ');
+    const regionInfo: any = await mapM2Address(address);
+    console.log('regionInfo address 2', regionInfo);
+    const shippingDetails: any = {
+      telephone:
+        typeof address.phoneNumber !== 'undefined' ? address.phoneNumber : '',
+      firstname,
+      lastname: lastname.length ? lastname.join(' ') : address.name.slice(-1),
+      street: address.address1,
+      apartment: address.address2 ?? '',
+      neighborhood: address.address3 ?? '',
+      city: address.locality,
+      region: address.administrativeArea,
+      country_code: address.countryCode.toUpperCase(),
+      postcode: address.postalCode,
+      save_in_address_book: false,
+    };
+    if (regionInfo && regionInfo?.id) {
+      shippingDetails.region_id = regionInfo.id;
+    }
+    return shippingDetails;
+  };
   const onPaymentDataChanged = async (intermediatePaymentData: any) => {
-    console.log('---onPaymentDataChanged intermediatePaymentData', intermediatePaymentData)
+    console.log('---onPaymentDataChanged intermediatePaymentData', intermediatePaymentData);
+    new Promise(async (resolve, reject) => {
+      // console.log('**** intermediatePaymentData ***:', intermediatePaymentData);
+      const { callbackTrigger, shippingAddress, shippingOptionData } =
+        intermediatePaymentData;
+      const paymentDataRequestUpdate: any = {};
+      const subTotal = quote?.prices?.subtotal_excluding_tax?.value || 0;
+      const grand_total = quote?.prices?.grand_total?.value || 0;
+
+      // If it initializes or changes the shipping address, calculate the shipping options and transaction info.
+      if (
+        callbackTrigger === 'INITIALIZE' ||
+        callbackTrigger === 'SHIPPING_ADDRESS'
+      ) {
+        console.log('*** new shippingAddress:', shippingAddress);
+        const regionInfo: any = await mapM2Address(shippingAddress);
+        const shippingDetails: any = {
+          country_code: shippingAddress.countryCode, // shippingAddress.countryCode
+          postcode: shippingAddress.postalCode,
+          street: 'guest',
+          city: shippingAddress.locality,
+          firstname: 'guest',
+          lastname: 'guest',
+          region: shippingAddress.administrativeArea,
+          telephone: '00000000',
+          save_in_address_book: false,
+        };
+        if (regionInfo && regionInfo?.id) {
+          shippingDetails.region_id = regionInfo.id;
+        }
+
+        if (quote?.id) {
+          await setShippingAddressHandler({
+            cartId: quote?.id,
+            shippingAddresses: [
+              {
+                address: shippingDetails
+              },
+            ],
+          });
+
+          const shippingMethods4Phone: any[] = [];
+          const allAvailableShippingOptions: any[] = [];
+          console.log('quoye', quote);
+          quote?.shipping_addresses[0]?.available_shipping_methods?.map(
+            // eslint-disable-next-line array-callback-return
+            (item: any) => {
+              if (item.available) {
+                allAvailableShippingOptions.push(item);
+                const label = item.price_incl_tax ? item.method_title
+                  : item.method_title;
+                shippingMethods4Phone.push({
+                  id: item.carrier_code, // don't use method_code
+                  label,
+                  description: item.carrier_title,
+                });
+              }
+            }
+          );
+          // 获取全部可用的快递列表
+          if (allAvailableShippingOptions.length === 0) {
+            reject('No available Shipping Options');
+            return;
+          }
+          setAllAvailableShippingOptionList([...allAvailableShippingOptions])
+          console.log(
+            'allAvailableShippingOptions:',
+            allAvailableShippingOptions
+          );
+          // 选择收货地址后，设置一个默认的快递方式，默认第一个快递
+          const selectedShipping = allAvailableShippingOptions[0];
+
+          await setShippingMethodsHandler({
+            cartId: quote?.id,
+            shippingMethods: [
+              {
+                carrier_code: selectedShipping.carrier_code,
+                method_code: selectedShipping.method_code
+              },
+            ],
+          });
+
+          paymentDataRequestUpdate.newShippingOptionParameters = {
+            defaultSelectedOptionId: selectedShipping.carrier_code,
+            shippingOptions: shippingMethods4Phone,
+          };
+          console.log('paymentDataRequestUpdate', paymentDataRequestUpdate)
+          console.log('qu', quote);
+          console.log('currency', currency);
+
+
+
+          const newTransactionInfo = {
+            displayItems: [
+              {
+                label: 'Subtotal',
+                type: 'SUBTOTAL',
+                price: subTotal.toString(),
+              },
+              {
+                label: 'Shipping',
+                type: 'LINE_ITEM',
+                price: getShippingMethodPrice(selectedShipping),
+                status: 'FINAL',
+              },
+            ],
+            currencyCode: currency,
+            totalPriceStatus: 'FINAL',
+            totalPrice: grand_total.toString(),
+            totalPriceLabel: 'Total',
+            countryCode: 'GB',
+          };
+          console.log('newTransactionInfo:', newTransactionInfo);
+          paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+          console.log('paymentDataRequestUpdate', paymentDataRequestUpdate)
+        }
+
+      }
+      // If SHIPPING_OPTION changes, calculate the new shipping amount.
+      if (callbackTrigger === 'SHIPPING_OPTION') {
+        const selectedShipping =
+          shippingOptionData.id === 'shipping_option_unselected'
+            ? allAvailableShippingOptionList[0]
+            : allAvailableShippingOptionList.find(
+              ({ carrier_code: id }) => id === shippingOptionData.id
+            );
+        if (quote?.id) {
+          await setShippingMethodsHandler({
+            cartId: quote?.id,
+            shippingMethods: [
+              {
+                carrier_code: selectedShipping.carrier_code,
+                method_code: selectedShipping.method_code
+              },
+            ],
+          });
+          const newTransactionInfo = {
+            displayItems: [
+              {
+                label: 'Subtotal',
+                type: 'SUBTOTAL',
+                price: subTotal.toString(),
+              },
+              {
+                label: 'Shipping',
+                type: 'LINE_ITEM',
+                price: getShippingMethodPrice(selectedShipping),
+                status: 'FINAL',
+              },
+            ],
+            currencyCode: currency,
+            totalPriceStatus: 'FINAL',
+            totalPrice: grand_total.toString(),
+            totalPriceLabel: 'Total',
+            countryCode: 'GB',
+          };
+          paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
+        }
+      }
+      console.log('paymentDataRequestUpdate', paymentDataRequestUpdate)
+      resolve(paymentDataRequestUpdate);
+    });
   }
   const onPaymentAuthorized = async (paymentData: any) => {
     console.log('---onPaymentAuthorized intermediatePaymentData', paymentData);

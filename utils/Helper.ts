@@ -9,7 +9,7 @@ import {
   QuantityPriceType,
 } from '@voguish/module-customer/Components/OrderDetail/types';
 import {
-  AvailablePaymentMethods, CartAddressInput,
+  AvailablePaymentMethods, AvailableShippingMethod, CartAddressInput,
   CartAddressInterface
 } from '@voguish/module-quote/types';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
@@ -801,7 +801,6 @@ export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMeth
     }));
 }
 
-
 export const getPaypalCurrency = (locale: string): string => {
   const normalized = (locale || '').toLowerCase().split('-')[0];
 
@@ -835,3 +834,11 @@ export const getAdyenCountryCode = (locale: string): string => {
   };
   return countryCodeMap[normalized] ?? 'GB';
 };
+
+export const getShippingMethodPrice = (shippingMethod: AvailableShippingMethod): number => {
+  const value = shippingMethod?.amount?.value;
+  const priceWithTax = shippingMethod?.price_incl_tax?.value;
+
+  return priceWithTax > 0 && priceWithTax > value ? priceWithTax : value;
+
+}
