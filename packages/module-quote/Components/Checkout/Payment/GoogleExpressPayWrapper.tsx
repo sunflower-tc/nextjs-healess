@@ -13,7 +13,7 @@ import GetCountryInfoGQL from '@voguish/module-customer/graphql/GetCountryInfo.g
 import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
 import { useToken } from '@voguish/module-customer/hooks/useToken';
 import GetAdyenPayDetailGQL from '@voguish/module-quote/graphql/mutation/GetAdyenPayDetail.graphql';
-import { usePlaceOrderFromAdyen, useSetShippingAddressOnCart, useSetShippingMethodOnCart } from '@voguish/module-quote/hooks';
+import { usePlaceOrderFromAdyen, useSetBillingAddressOnCart, useSetShippingAddressOnCart, useSetShippingMethodOnCart } from '@voguish/module-quote/hooks';
 import { AdyenOrder } from '@voguish/module-quote/types';
 import { useToast } from '@voguish/module-theme/components/toast/hooks';
 import { useRouter } from 'next/router';
@@ -35,10 +35,10 @@ export default function GoogleExpressPayWrappe() {
   const [getCountryInfo] = useLazyQuery(GetCountryInfoGQL);
   const [errors, setAdyenError] = useState<any>();
   const [adyenPaymentDetails, setAdyenPaymentDetails] = useState<any>();
-  const { setShippingAddressHandler } =
-    useSetShippingAddressOnCart(() => { });
-  const { setShippingMethodsHandler } =
-    useSetShippingMethodOnCart(() => { });
+  const { setShippingAddressHandler } = useSetShippingAddressOnCart(() => { });
+  const { setShippingMethodsHandler } = useSetShippingMethodOnCart(() => { });
+  const { setBillingAddressHandler } = useSetBillingAddressOnCart(() => { });
+
   const [allAvailableShippingOptionList, setAllAvailableShippingOptionList] = useState<any[]>([]);
   const currency = useAppSelector(
     (state: RootState) =>
@@ -92,48 +92,50 @@ export default function GoogleExpressPayWrappe() {
       });
     }
   }
-  const handlePlaceOrder = async (cardDetails: any) => {
-    console.log('----handlePlaceOrder ', cardDetails)
-    if (quote?.id) {
-      try {
-        const path = '/thank-you';
-        const stateData = JSON.parse(cardDetails);
-        const ccType = stateData.paymentMethod.brand;
-        const params = {
-          cart_id: quote.id,
-          cc_type: ccType,
-          guestEmail: quote.email,
-          code: 'adyen_cc',
-          return_url: `https://${window.location.hostname}${path}`,
-          stateData: cardDetails,
-        };
-        const { data, error } = await placeOrderFromAdyenHandler(params);
-        if (error) {
-          console.log('error placeOrderFromAdyenHandler1', error);
-        }
-        if (data?.order) {
-          order.current = data.order;
-          if (data.order?.order_number) {
-            setAdyenPaymentDetails(data.order?.adyen_payment_status)
-            handleServerResponse(data.order?.adyen_payment_status, cardComponent.current);
-          }
-        } else {
-          console.error('No order data returned from placeOrderFromAdyenHandler');
-          showToast({ message: 'Failed to place order. Please try again.', type: 'error' });
-        }
-      } catch (error: any) {
-        console.error('Error in handlePlaceOrder:', error);
-        showToast({
-          message: error?.message || 'Failed to place order. Please try again.',
-          type: 'error'
-        });
-      }
-    } else {
-      showToast({ message: 'Cart is missing. Please refresh the page.', type: 'error' });
-    }
-  }
+  // const handlePlaceOrder = async (cardDetails: any) => {
+  //   console.log('----handlePlaceOrder ', cardDetails)
+  //   if (quote?.id) {
+  //     try {
+  //       const path = '/thank-you';
+  //       const stateData = JSON.parse(cardDetails);
+  //       const ccType = stateData.paymentMethod.brand;
+  //       const params = {
+  //         cart_id: quote.id,
+  //         cc_type: ccType,
+  //         guestEmail: quote.email,
+  //         code: 'adyen_cc',
+  //         return_url: `https://${window.location.hostname}${path}`,
+  //         stateData: cardDetails,
+  //       };
+  //       const { data, error } = await placeOrderFromAdyenHandler(params);
+  //       if (error) {
+  //         console.log('error placeOrderFromAdyenHandler1', error);
+  //       }
+  //       if (data?.order) {
+  //         order.current = data.order;
+  //         if (data.order?.order_number) {
+  //           setAdyenPaymentDetails(data.order?.adyen_payment_status)
+  //           handleServerResponse(data.order?.adyen_payment_status, cardComponent.current);
+  //         }
+  //       } else {
+  //         console.error('No order data returned from placeOrderFromAdyenHandler');
+  //         showToast({ message: 'Failed to place order. Please try again.', type: 'error' });
+  //       }
+  //     } catch (error: any) {
+  //       console.error('Error in handlePlaceOrder:', error);
+  //       showToast({
+  //         message: error?.message || 'Failed to place order. Please try again.',
+  //         type: 'error'
+  //       });
+  //     }
+  //   } else {
+  //     showToast({ message: 'Cart is missing. Please refresh the page.', type: 'error' });
+  //   }
+  // }
   const onSubmit = (state: any) => {
-    handlePlaceOrder(JSON.stringify(state.data));
+    console.log('***adyen -----onSubmit----', state);
+    console.log('**** Adyen Express onSubmit state:', state);
+    // handlePlaceOrder(JSON.stringify(state.data));
   }
   // eslint-disable-next-line @typescript-eslint/no-unused-vars, no-unused-vars
   const handleServerResponse = async (result: any, component: any) => {
@@ -389,6 +391,63 @@ export default function GoogleExpressPayWrappe() {
   }
   const onPaymentAuthorized = async (paymentData: any) => {
     console.log('---onPaymentAuthorized intermediatePaymentData', paymentData);
+    new Promise(async (resolve, reject) => {
+      console.log(
+        '***[Callback] onPaymentAuthorized start **:',
+        paymentData
+      );
+      console.log('***adyen -----onPaymentAuthorized----', paymentData);
+      const { email, shippingAddress, paymentMethodData } = paymentData;
+
+      // if (!isAuthenticated.value && email) {
+      //   await attachToCart({ email, cart });
+      // }
+      console.log('onPaymentAuthorized shippingAddress', shippingAddress);
+
+      try {
+        let validAddress = null;
+        let validBillingAddress = null;
+        if (shippingAddress) {
+          validAddress = await mapAddress(shippingAddress);
+          console.log(' *** onPaymentAuthorized  validAddress', validAddress);
+          if (quote?.id) {
+            await setShippingAddressHandler({
+              cartId: quote?.id,
+              shippingAddresses: [
+                {
+                  address: validAddress
+                },
+              ],
+            });
+          }
+        }
+        if (
+          paymentMethodData &&
+          paymentMethodData.info &&
+          paymentMethodData.info.billingAddress
+        ) {
+          validBillingAddress = await mapAddress(
+            paymentMethodData.info.billingAddress
+          );
+          if (quote?.id) {
+            await setBillingAddressHandler({ cartId: quote?.id, billingAddress: validBillingAddress });
+          }
+        }
+        console.log('***[Callback] onPaymentAuthorized Done');
+        resolve({
+          transactionState: 'SUCCESS',
+        });
+      } catch (error) {
+        reject({
+          transactionState: 'ERROR',
+          error: {
+            reason: 'PAYMENT_DATA_INVALID',
+            message: error,
+            intent: 'PAYMENT_AUTHORIZATION',
+          },
+        });
+      }
+    })
   }
   const initiateCheckout = async () => {
     console.log('quote', quote)
@@ -450,8 +509,7 @@ export default function GoogleExpressPayWrappe() {
         // environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
         environment: 'live',
         showPayButton: true,
-        // clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4', //CN
-        clientKey: 'live_WNZIHOZSIFCQ7KGKH5DTJVJZTUMLNBI3', //uk
+        clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4',
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
         },
