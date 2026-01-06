@@ -40,9 +40,11 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
 
   const open = Boolean(activeSubmenu);
 
+
   const categories: Category[] = isValidObject(menuItems)
     ? Object.values(Object.values(menuItems)?.[0]?.children)
     : [];
+
 
   const isActive = (id: string) => {
     return Boolean(activeMenus?.includes(`${id}`));
@@ -52,7 +54,7 @@ export default function MegaMenu({ menuItems, activeMenus }: MegaMenuProps) {
       <div ref={anchorEl} aria-label="menu" className="hidden lg:flex ">
         <div
           aria-label="menu-panel"
-          className="flex flex-row-reverse items-center justify-between h-full gap-x-5 xl:gap-x-8 group"
+          className="flex items-center justify-between h-full gap-x-5 xl:gap-x-8 group"
         >
           {isValidArray(categories) &&
             categories.map(

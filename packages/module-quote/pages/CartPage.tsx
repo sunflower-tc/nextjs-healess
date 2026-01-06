@@ -28,6 +28,11 @@ const CartItem = dynamic(
 const AppliedCoupons = dynamic(
   () => import('@voguish/module-quote/Components/Cart/AppliedCoupons')
 );
+const GoogleExpressPayWrapper = dynamic(
+  () => import('@voguish/module-quote/Components/Checkout/Payment/GoogleExpressPayWrapper')
+);
+
+
 export function CartPage() {
   const { t } = useTranslation('common');
 
@@ -37,9 +42,9 @@ export function CartPage() {
   const quote = useSelector((state: RootState) => state?.cart?.quote || null);
   const grandTotal = quote?.prices?.grand_total?.value
     ? getFormattedPrice(
-        quote.prices.grand_total.value,
-        quote.prices.grand_total.currency
-      )
+      quote.prices.grand_total.value,
+      quote.prices.grand_total.currency
+    )
     : getFormattedPrice(0, 'USD');
   /**
    * Cart Items
@@ -140,6 +145,7 @@ export function CartPage() {
                             </Button>
                           </Link>
                         </div>
+                        <GoogleExpressPayWrapper />
                       </div>
                     </div>
                   </AccordionDetails>

@@ -68,7 +68,7 @@ export default NextAuth({
       },
     }),
   ],
-  secret: process.env.NO_SECRET,
+  secret: process.env.NEXTAUTH_SECRET,
   session: {
     maxAge:
       (await client.query({

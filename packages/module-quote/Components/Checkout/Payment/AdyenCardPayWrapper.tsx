@@ -33,6 +33,7 @@ export default function AdyenCardPayWrapper() {
 
   const router = useRouter();
   const dispatch = useDispatch();
+  console.log('quote', quote)
 
   const handleOnChange = (state: any, component: any) => {
     cardComponent.current = component;
