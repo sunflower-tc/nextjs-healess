@@ -7,8 +7,7 @@ import Stack from '@mui/material/Stack';
 import Typography from '@mui/material/Typography';
 import { clearCart } from '@store/cart';
 import { removeCheckoutData } from '@store/checkout';
-import { useAppSelector } from '@store/hooks';
-import { getAdyenCountryCode, getAdyenLocal, getShippingMethodPrice } from '@utils/Helper';
+import { getAdyenLocal, getShippingMethodPrice } from '@utils/Helper';
 import GetCountryInfoGQL from '@voguish/module-customer/graphql/GetCountryInfo.graphql';
 import { useCustomerMutation } from '@voguish/module-customer/hooks/useCustomerMutation';
 import { useToken } from '@voguish/module-customer/hooks/useToken';
@@ -40,10 +39,25 @@ export default function GoogleExpressPayWrappe() {
   const { setBillingAddressHandler } = useSetBillingAddressOnCart(() => { });
 
   const [allAvailableShippingOptionList, setAllAvailableShippingOptionList] = useState<any[]>([]);
-  const currency = useAppSelector(
-    (state: RootState) =>
-      state?.storeConfig?.currentCurrency?.currency_to ?? null
-  );
+  // const currency = useAppSelector((state: RootState) => {
+  //   const rawCurrency = state?.storeConfig?.currentCurrency;
+  //   const baseCurrency = state?.storeConfig?.base_currency_code;
+  //   console.log('rawCurrency', rawCurrency)
+  //   console.log('baseCurrency', baseCurrency)
+  //   console.log(' state?.storeConfig?', state?.storeConfig)
+  //   if (!rawCurrency) {
+  //     return baseCurrency;
+  //   }
+  //   try {
+  //     const parsed = JSON.parse(rawCurrency);
+  //     return parsed?.currency_to ?? baseCurrency;
+  //   } catch (error) {
+  //     console.warn('Failed to parse currentCurrency:', error);
+  //     return baseCurrency;
+  //   }
+  // });
+  const currency = "GBP";
+  console.log('currency--1', currency)
   const router = useRouter();
   const dispatch = useDispatch();
 
@@ -316,14 +330,12 @@ export default function GoogleExpressPayWrappe() {
           console.log('qu', quote);
           console.log('currency', currency);
 
-
-
           const newTransactionInfo = {
             displayItems: [
               {
                 label: 'Subtotal',
                 type: 'SUBTOTAL',
-                price: subTotal.toString(),
+                price: subTotal.toFixed(2).toString()
               },
               {
                 label: 'Shipping',
@@ -334,7 +346,7 @@ export default function GoogleExpressPayWrappe() {
             ],
             currencyCode: currency,
             totalPriceStatus: 'FINAL',
-            totalPrice: grand_total.toString(),
+            totalPrice: grand_total.toFixed(2).toString(),
             totalPriceLabel: 'Total',
             countryCode: 'GB',
           };
@@ -342,7 +354,6 @@ export default function GoogleExpressPayWrappe() {
           paymentDataRequestUpdate.newTransactionInfo = newTransactionInfo;
           console.log('paymentDataRequestUpdate', paymentDataRequestUpdate)
         }
-
       }
       // If SHIPPING_OPTION changes, calculate the new shipping amount.
       if (callbackTrigger === 'SHIPPING_OPTION') {
@@ -367,12 +378,12 @@ export default function GoogleExpressPayWrappe() {
               {
                 label: 'Subtotal',
                 type: 'SUBTOTAL',
-                price: subTotal.toString(),
+                price: subTotal.toFixed(2).toString(),
               },
               {
                 label: 'Shipping',
                 type: 'LINE_ITEM',
-                price: getShippingMethodPrice(selectedShipping),
+                price: getShippingMethodPrice(selectedShipping).toFixed(2).toString(),
                 status: 'FINAL',
               },
             ],
@@ -392,10 +403,7 @@ export default function GoogleExpressPayWrappe() {
   const onPaymentAuthorized = async (paymentData: any) => {
     console.log('---onPaymentAuthorized intermediatePaymentData', paymentData);
     new Promise(async (resolve, reject) => {
-      console.log(
-        '***[Callback] onPaymentAuthorized start **:',
-        paymentData
-      );
+      console.log('***[Callback] onPaymentAuthorized start **:',paymentData);
       console.log('***adyen -----onPaymentAuthorized----', paymentData);
       const { email, shippingAddress, paymentMethodData } = paymentData;
 
@@ -460,8 +468,8 @@ export default function GoogleExpressPayWrappe() {
         'SHIPPING_ADDRESS',
         'SHIPPING_OPTION',
       ],
-      environment:
-        process.env.NODE_ENV === 'development' ? 'TEST' : 'PRODUCTION',
+      environment: 'PRODUCTION',
+      // environment: process.env.NODE_ENV === 'development' ? 'TEST' : 'PRODUCTION',
       // Step 3: Set shipping configurations.
       shippingAddressRequired: true, // https://developers.google.com/pay/api/web/reference/request-objects#ShippingAddressParameters
       shippingAddressParameters: {
@@ -479,12 +487,12 @@ export default function GoogleExpressPayWrappe() {
       transactionInfo: {
         totalPriceStatus: 'ESTIMATED',
         totalPrice: quote?.prices.grand_total.value.toString(),
-        currencyCode: quote?.prices.grand_total.currency,
+        currencyCode: currency,
         // countryCode:
         //   apiState.getLocale().toUpperCase() === 'MEX'
         //     ? 'MX'
         //     : apiState.getLocale().toUpperCase() ?? 'GB',
-        countryCode: 'MEX',
+        countryCode: 'GB',
         totalPriceLabel: 'Total',
       },
       configuration: {
@@ -505,13 +513,29 @@ export default function GoogleExpressPayWrappe() {
     try {
       const configuration: any = {
         locale: locale && getAdyenLocal(locale) || 'en_US',
-        countryCode: locale && getAdyenCountryCode(locale) || 'GB',
+        countryCode: 'GB',
         // environment: process.env.NODE_ENV === 'development' ? 'test' : 'live',
         environment: 'live',
         showPayButton: true,
-        clientKey: 'live_KLPF3S66KFE7RCXIAFJGH4WYSMQYA6U4',
+        clientKey: 'live_WNZIHOZSIFCQ7KGKH5DTJVJZTUMLNBI3',
         analytics: {
           enabled: true, // Set to false to not send analytics data to Adyen.
+        },
+        paymentMethodsResponse: {
+          paymentMethods: [
+            {
+              name: 'Google Pay',
+              type: 'googlepay',
+              brand: null,
+              brands: ['amex', 'mc', 'visa'],
+              configuration: {
+                merchantId: 'BCR2DN4TWWLOTYQ2',
+                merchantName: null,
+                __typename: 'AdyenPaymentMethodsConfiguration',
+              },
+              __typename: 'AdyenPaymentMethodsArray',
+            },
+          ],
         },
         onAdditionalDetails: handleAdditionalDetails, // Pass the updated callback function here
         onChange: handleOnChange,
@@ -526,23 +550,6 @@ export default function GoogleExpressPayWrappe() {
           console.log(`--- [onPaymentCompleted result: ${result}`);
           handleServerResponse(result, component);
         },
-        paymentMethodsConfiguration: {
-          card: {
-            hasHolderName: true,
-            holderNameRequired: true,
-            billingAddressRequired: false,
-            name: 'Credit or debit card',
-            brands: ['visa', 'amex', 'diners', 'discover', 'maestro', 'mc'],
-            details: [
-              { key: 'holderName', type: 'text' },
-              { key: 'number', type: 'text' },
-              { key: 'expiryMonth', type: 'text' },
-              { key: 'expiryYear', type: 'text' },
-              { key: 'cvc', type: 'text' },
-            ],
-            validationRules: {},
-          },
-        }
       };
       const checkout: any = await AdyenCheckout(configuration);
 

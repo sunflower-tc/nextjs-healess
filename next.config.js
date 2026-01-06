@@ -15,6 +15,12 @@ const nextConfig = {
         hostname: 'cn.haitaoweb.com',
         port: '',
         pathname: '/**',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.haitaoweb.com',
+        port: '',
+        pathname: '/**',
       }
     ]
   },
