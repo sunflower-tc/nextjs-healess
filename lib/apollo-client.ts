@@ -14,8 +14,7 @@ export type ClientContext = {
   headers?: Record<string, string>;
 };
 const uri = `${process.env.MAGENTO_ENDPOINT}graphql`;
-console.log('process.env.MAGENTO_ENDPOINT', process.env.MAGENTO_ENDPOINT)
-console.log('uri', uri)
+
 export const httpLink = createHttpLink({
   uri: uri,
 });
@@ -59,7 +58,11 @@ function createApolloClient() {
 
     link: from([errorLink, storeLink.concat(httpLink)]),
 
-    cache: new InMemoryCache(),
+    cache: new InMemoryCache({
+      // Explicitly configure cache to avoid deprecated options
+      // canonizeResults is removed in Apollo Client 3.14.0
+      // Results are now canonized by default
+    }),
   });
 }
 export const setAuthToken = (token: string) =>

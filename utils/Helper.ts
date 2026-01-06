@@ -840,5 +840,4 @@ export const getShippingMethodPrice = (shippingMethod: AvailableShippingMethod):
   const priceWithTax = shippingMethod?.price_incl_tax?.value;
 
   return priceWithTax > 0 && priceWithTax > value ? priceWithTax : value;
-
 }
