@@ -9,7 +9,7 @@ import {
   QuantityPriceType,
 } from '@voguish/module-customer/Components/OrderDetail/types';
 import {
-  AvailablePaymentMethods, CartAddressInput,
+  AvailablePaymentMethods, AvailableShippingMethod, CartAddressInput,
   CartAddressInterface
 } from '@voguish/module-quote/types';
 import STORE_CONFIG_DATA_QUERY from '@voguish/module-store/graphql/StoreConfigData.graphql';
@@ -751,6 +751,19 @@ export const getUserAgent = () => {
   return terminal;
 }
 
+/**
+ * Check if the current browser is Safari
+ * @returns {boolean} true if the browser is Safari, false otherwise
+ */
+export const isSafariBrowser = (): boolean => {
+  if (typeof navigator === 'undefined') {
+    return false;
+  }
+  const userAgent = navigator.userAgent;
+  // Safari's userAgent contains "Safari" but not "Chrome" or "Chromium"
+  return /Safari/i.test(userAgent) && !/Chrome|Chromium/i.test(userAgent);
+}
+
 export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMethods[]) => {
   const titleMap: Record<string, string> = {
     adyen_cc: 'Credit / Debit Card',
@@ -788,7 +801,6 @@ export const sortPaymentOptions = (availablePaymentMethods: AvailablePaymentMeth
     }));
 }
 
-
 export const getPaypalCurrency = (locale: string): string => {
   const normalized = (locale || '').toLowerCase().split('-')[0];
 
@@ -822,3 +834,10 @@ export const getAdyenCountryCode = (locale: string): string => {
   };
   return countryCodeMap[normalized] ?? 'GB';
 };
+
+export const getShippingMethodPrice = (shippingMethod: AvailableShippingMethod): number => {
+  const value = shippingMethod?.amount?.value;
+  const priceWithTax = shippingMethod?.price_incl_tax?.value;
+
+  return priceWithTax > 0 && priceWithTax > value ? priceWithTax : value;
+}
