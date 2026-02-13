@@ -61,6 +61,7 @@ const HomeOfferSection = dynamic(
 );
 
 const HomePage = ({ pageData }: { pageData: HomePageData }) => {
+  console.log('pageData', pageData);
   const loading = false;
   const items = pageData?.getHomePageData;
 
