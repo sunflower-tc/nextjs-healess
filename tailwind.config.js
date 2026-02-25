@@ -24,7 +24,7 @@ module.exports = {
 
   theme: {
     fontFamily: {
-      Poppins: ['Poppins'],
+      Lexend: ['Lexend', 'sans-serif'],
     },
     extend: {
       colors: {

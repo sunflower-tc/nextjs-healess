@@ -148,3 +148,33 @@ export const fadeInUp = {
 export const IS_SELLER = 'yes';
 export const PAYPAL_CLIENT_ID = 'ATDZ9_ECFh-fudesZo4kz3fGTSO1pzuWCS4IjZMq4JKdRK7hQR3Rxyafx39H2fP363WtmlQNYXjUiAae';
 
+const WEB_SITE = [
+  {
+    id: 1,
+    siteValue: 'gb',
+    siteName: 'unineed international site',
+    icon: 'gb',
+    link: 'https://www.unineed.com/',
+  },
+  {
+    id: 2,
+    siteValue: 'cn',
+    siteName: 'unineed 中文网站',
+    icon: 'cn',
+    link: 'https://cn.unineed.com/',
+  },
+  {
+    id: 3,
+    siteValue: 'us',
+    siteName: 'unineed us',
+    icon: 'us',
+    link: 'https://us.unineed.com/',
+  },
+  {
+    id: 4,
+    siteValue: 'mex',
+    siteName: 'unineed mexico',
+    icon: 'mex',
+    link: 'https://mx.unineed.com/',
+  },
+];

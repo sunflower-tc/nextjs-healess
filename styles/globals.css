@@ -4,7 +4,7 @@
 
 html,
 body {
-  @apply font-Poppins !important;
+  @apply font-Lexend !important;
   scroll-behavior: smooth;
   font-size: 16px !important;
   -webkit-tap-highlight-color: transparent;

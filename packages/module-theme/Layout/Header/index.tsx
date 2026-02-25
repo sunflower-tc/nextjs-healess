@@ -9,8 +9,13 @@ import { useRouter } from 'next/router';
 import { useEffect, useRef, useState } from 'react';
 import { Burger } from './HamburgerMenu';
 import { useInfo } from './Provider/InfoProvider';
+
 const NextNProgress = dynamic(() => import('nextjs-progressbar'));
 const SideBar = dynamic(() => import('./SideBar'));
+const Search = dynamic(() => import('./Search'));
+
+
+
 const HeaderIcons = dynamic(() => import('./HeaderIcons'), {
   loading: () => (
     <div className="flex items-center w-full gap-x-2">
@@ -66,10 +71,10 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
         className="fixed top-0 z-[999] w-full bg-white"
       >
         {/* Mobile menu */}
-        <header className="w-full bg-white shadow-lg">
+        <header className="w-full bg-white">
           <nav
             aria-label="Top"
-            className="px-4 mx-auto sm:px-6 max-w-[125rem] lg:px-8"
+            className="px-[6.625rem] mx-auto sm:px-6 max-w-[90rem] lg:px-[6.625rem]"
           >
             <div className="flex items-center justify-between w-full h-16 gap-4 mx-auto -3xs:gap-1.5">
               <span className="sr-only lg:hidden">open sidebar</span>
@@ -83,22 +88,23 @@ const Header = ({ isAccountLoggedIn }: { isAccountLoggedIn: boolean }) => {
                   sortedMenu={sortedMenu}
                 />
               </div>
-              <div aria-label="voguish">
-                {baseUrl && (
-                  <Link href="/" aria-label="Go to search" passHref>
-                    <Image
-                      decoding="auto"
-                      priority={true}
-                      src={baseUrl ? `${baseUrl}media/logo/${logoUrl}` : ''}
-                      alt={storeData?.logo_alt || 'voguish'}
-                      height={28}
-                      width={88}
-                    />
-                  </Link>
-                )}
+              <div aria-label="unineed">
+                <Link href="/" aria-label="Go to search" passHref>
+                  <Image
+                    decoding="auto"
+                    priority={true}
+                    src="/assets/img/logo.svg"
+                    alt={storeData?.logo_alt || 'unineed'}
+                    height={21}
+                    width={186}
+                  />
+                </Link>
+              </div>
+              <div className="sm:hidden">
+                <Search />
               </div>
               {/* Flyout menus */}
-              <MegaMenu menuItems={sortedMenu} activeMenus={activeMenus} />
+              {/* <MegaMenu menuItems={sortedMenu} activeMenus={activeMenus} /> */}
               <div
                 aria-label="header-icons"
                 className="flex items-center rtl:mr-auto ltr:ml-auto"
