@@ -76,13 +76,13 @@ const Footer = () => {
                         />
                       </Link>
                     </div>
-                    <Typography
+                    {/* <Typography
                       variant="body1"
                       component="p"
                       className="text-sm duration-200 text-white cta hover:text-brand max-w-fit"
                     >
                       Follow US
-                    </Typography>
+                    </Typography> */}
                     <FooterIcon />
                     <Typography
                       variant="body1"

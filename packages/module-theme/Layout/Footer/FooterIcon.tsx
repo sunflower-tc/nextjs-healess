@@ -23,10 +23,6 @@ const iconComponents: Record<string, any> = {
     ssr: false,
   }),
   whatsapp_url: WhatsApp,
-  tiktok_url: dynamic(
-    () => import('@packages/module-theme/components/elements/TiktokIcon'),
-    { ssr: false }
-  ),
   threads_url: dynamic(
     () => import('@packages/module-theme/components/elements/ThreadsIcon'),
     { ssr: false }
@@ -60,6 +56,10 @@ const iconComponents: Record<string, any> = {
     () => import('@packages/module-theme/components/elements/Redbook'),
     { ssr: false }
   ),
+  tiktok_url: dynamic(
+    () => import('@packages/module-theme/components/elements/TiktokIcon'),
+    { ssr: false }
+  ),
 };
 
 const socialPlatforms = [
@@ -69,7 +69,7 @@ const socialPlatforms = [
   { key: 'linkedin_url', label: 'LinkedIn' },
   { key: 'youtube_url', label: 'YouTube', url: "https://www.youtube.com/channel/UCKUGUs1BR3dE7chEBpPK_xg" },
   { key: 'whatsapp_url', label: 'WhatsApp' },
-  { key: 'tiktok_url', label: 'TikTok', url: "https://www.tiktok.com/@unineed" },
+
   { key: 'threads_url', label: 'Threads' },
   { key: 'snapchat_url', label: 'Snapchat' },
   { key: 'telegram_url', label: 'Telegram' },
@@ -78,16 +78,17 @@ const socialPlatforms = [
   { key: 'bereal_url', label: 'BeReal' },
   { key: 'discord_url', label: 'Discord' },
   { key: 'clubhouse_url', label: 'Clubhouse' },
-  { key: 'xiaohongshu', label: "RedBook", url: "https://www.xiaohongshu.com/user/profile/5e9fa3e1000000000100ba5e" }
+  { key: 'xiaohongshu', label: "RedBook", url: "https://www.xiaohongshu.com/user/profile/5e9fa3e1000000000100ba5e" },
+  { key: 'tiktok_url', label: 'Tiktok', url: "https://www.tiktok.com/@unineed" },
+
 ];
 
 export default function FooterIcon() {
   const getUrl = (key: string) => getKeyFromStorage(STORE_CONFIG, key);
 
-  console.log('socialPlatforms', socialPlatforms)
   return (
     <ErrorBoundary>
-      <div className="flex flex-wrap justify-center gap-2 sm:gap-3 md:gap-4 lg:gap-5 xl:gap-6">
+      <div className="flex flex-wrap gap-1">
         {socialPlatforms.map(({ key, label, url, overrideKey }) => {
           const resolvedKey = overrideKey || key;
           if (!url) return null;
@@ -95,7 +96,6 @@ export default function FooterIcon() {
           const Icon =
             resolvedKey === 'twitter_url' ? XIcon : iconComponents[resolvedKey];
 
-          console.log("Icon", Icon)
           if (!Icon) return null;
 
           return (
@@ -113,10 +113,10 @@ export default function FooterIcon() {
                   text-white border-0
                   w-8 h-8 sm:w-10 sm:h-8 md:w-8 md:h-8 
                   flex items-center justify-center 
-                  min-w-0 min-h-0 p-2   transition-all
+                  min-w-0 min-h-0   transition-all
                 "
               >
-                <Icon fontSize="small" />
+                <Icon />
               </Button>
             </Link>
           );
